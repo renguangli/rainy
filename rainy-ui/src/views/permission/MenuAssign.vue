@@ -1,0 +1,117 @@
+<template>
+  <a-modal
+    title="分配菜单"
+    :width="350"
+    :visible="visible"
+    :confirmLoading="confirmLoading"
+    @ok="handleSubmit"
+    @cancel="handleCancel"
+    :destroyOnClose="true"
+  >
+    <a-spin :spinning="formLoading">
+      <a-tree
+        v-model="checkedKeys"
+        :treeData="menuTree"
+        :defaultExpandAll="false"
+        :replaceFields="replaceFields"
+        :selectedKeys="checkedKeys"
+        :checkable="true"
+        @check="handleCheck"
+      />
+    </a-spin>
+  </a-modal>
+</template>
+
+<script>
+  import { GetMenuTree } from '@/api/menu'
+  import { GetMenuIds, AssignMenu } from '@/api/role'
+  export default {
+    name: 'MenuAssign',
+    data () {
+      return {
+        visible: false,
+        confirmLoading: false,
+        formLoading: false,
+        replaceFields: { key: 'id' },
+        checkedKeys: [],
+        halfCheckedKeys: [],
+        menuTree: [],
+        record: {}
+      }
+    },
+    methods: {
+      // 打开页面初始化
+      open (record) {
+        this.record = record
+        this.visible = true
+        // 初始化菜单树
+        this.getMenuTree()
+      },
+      getMenuTree () {
+        this.formLoading = true
+        GetMenuTree().then(res => {
+          if (res.success) {
+            this.menuTree = res.data
+            this.getMenuIds()
+          } else {
+            this.$message.warning(res.message)
+          }
+        }).finally(() => {
+          this.formLoading = false
+        })
+      },
+      getMenuIds () {
+        GetMenuIds(this.record.id).then(res => {
+          if (res.success) {
+            this.checkedKeys = res.data
+          } else {
+            this.$message.warning(res.message)
+          }
+        })
+      },
+      handleCheck (checkedKeys, e) {
+        this.halfCheckedKeys = e.halfCheckedKeys
+      },
+      getRoleMenuList () {
+        const roleMenuList = []
+        for (const index in this.checkedKeys) {
+          const roleMenuRel = {
+            roleId: this.record.id,
+            menuId: this.checkedKeys[index],
+            all: true
+          }
+          roleMenuList.push(roleMenuRel)
+        }
+        for (const index in this.halfCheckedKeys) {
+          const roleMenuRel = {
+            roleId: this.record.id,
+            menuId: this.halfCheckedKeys[index],
+            all: false
+          }
+          roleMenuList.push(roleMenuRel)
+        }
+        return roleMenuList
+      },
+      handleSubmit () {
+        this.confirmLoading = true
+        AssignMenu(this.record.id, this.getRoleMenuList()).then(res => {
+          if (res.success) {
+            this.$message.info('分配成功')
+            this.handleCancel()
+          } else {
+            this.$message.error('分配失败' + res.message)
+          }
+        }).finally(() => {
+          this.confirmLoading = false
+        })
+      },
+      handleCancel () {
+        this.visible = false
+        this.formLoading = false
+        this.confirmLoading = false
+        this.checkedKeys = []
+        this.roleMenuList = []
+      }
+    }
+  }
+</script>

@@ -1,0 +1,75 @@
+package com.rainy.admin.controller;
+
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import com.rainy.admin.dto.PageInfo;
+import com.rainy.common.OperationType;
+import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
+import com.rainy.core.entity.User;
+import com.rainy.core.service.SysMonitorService;
+import com.rainy.core.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * spring-boot-example
+ *
+ * @author renguangli
+ * @date 2022/3/24 17:59
+ */
+@Api(tags = "系统监控")
+@ApiSupport(author = "renguangli@bonc.com.cn")
+@RestController
+public class SysMonitorController {
+
+    @Resource
+    private SysMonitorService sysMonitorService;
+    @Resource
+    private UserService userService;
+
+    @ApiOperation("系统监控")
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.QUERY, detail = "'查询了系统监控条数据'")
+    @GetMapping("/sys/monitor")
+    public Result sysMonitor(){
+        return Result.ok(sysMonitorService.getSysMonitor());
+    }
+
+    @ApiOperation("在线用户")
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.QUERY, detail = "'查询了在线用户第' + #page.current + '页.每页' + #page.size + '条数据'")
+    @GetMapping("/users/online")
+    public Result listOnlineUsers(PageInfo<User> page, String username, String name){
+        List<String> loginIds = StpUtil.searchSessionId(null, -1, 0);
+        List<Integer> userIds = loginIds.stream()
+                .map(val -> Integer.parseInt(StrUtil.subAfter(val, ":", true)))
+                .collect(Collectors.toList());
+        QueryWrapper<User> qw = new QueryWrapper<>();
+        qw.in(!userIds.isEmpty(), "id", userIds);
+        qw.likeRight(StrUtil.isNotBlank(username), "username", username);
+        qw.likeRight(StrUtil.isNotBlank(name), "name", name);
+        return Result.ok(userService.page(page, qw));
+    }
+
+    @ApiOperation(value = "强制下线")
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'下线了用户[' + #userId + '].'")
+    @PutMapping("/user/{userId}/kickOut")
+    public Result kickOut(@PathVariable Integer userId){
+        StpUtil.kickout(userId);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "批量强制下线")
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'批量下线了用户[' + #userIds + '].'")
+    @PutMapping("/users/kickOut")
+    public Result batchKickOut(@RequestBody List<Integer> userIds){
+        userIds.forEach(StpUtil::kickout);
+        return Result.ok();
+    }
+}

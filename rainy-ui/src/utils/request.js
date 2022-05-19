@@ -19,7 +19,7 @@ const errorHandler = (error) => {
     if (error.response.status === 401) {
       notification.error({
         message: '认证失败',
-        description: error.response.data.message
+        description: data.message
       })
       store.dispatch('Logout').then(() => {
         setTimeout(() => {
@@ -31,14 +31,14 @@ const errorHandler = (error) => {
     }
     if (error.response.status === 403) {
       notification.error({
-        message: 'Forbidden',
+        message: '权限不足',
         description: data.message
       })
     }
     if (error.response.status === 500) {
       notification.error({
         message: '操作失败',
-        description: error.response.data.message
+        description: data.message
       })
     }
   }

@@ -95,11 +95,11 @@ export default {
           dataIndex: 'username',
           width: '80px'
         }, {
-          title: '登录类型',
+          title: '类型',
           dataIndex: 'loginType',
           scopedSlots: { customRender: 'loginType' }
         }, {
-          title: '登录时间',
+          title: '时间',
           dataIndex: 'datetime'
         }, {
           title: 'ip地址',

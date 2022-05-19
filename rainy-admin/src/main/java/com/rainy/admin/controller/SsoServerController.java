@@ -4,6 +4,7 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.sso.SaSsoConsts;
 import cn.dev33.satoken.sso.SaSsoHandle;
 import cn.dev33.satoken.sso.SaSsoUtil;
+import cn.dev33.satoken.sso.exception.SaSsoException;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaFoxUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -134,8 +135,12 @@ public class SsoServerController {
             return Result.ok(redirect);
         } else {
             // 模式二或模式三
-            String redirectUrl = SaSsoUtil.buildRedirectUrl(StpUtil.getLoginId(), redirect);
-            return Result.ok(redirectUrl);
+            try {
+                String redirectUrl = SaSsoUtil.buildRedirectUrl(StpUtil.getLoginId(), redirect);
+                return Result.ok(redirectUrl);
+            } catch (SaSsoException e) {
+                throw new UnauthorizedException(e.getMessage());
+            }
         }
     }
 

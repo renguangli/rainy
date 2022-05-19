@@ -4,8 +4,18 @@ import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.util.SaFoxUtil;
+import cn.hutool.log.Log;
+import com.rainy.common.LoginType;
+import com.rainy.core.entity.LoginLog;
+import com.rainy.core.entity.User;
+import com.rainy.core.service.LoginLogService;
+import com.rainy.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,7 +25,16 @@ import java.util.Date;
  * @date 2022/3/15 17:10
  */
 @Slf4j
+@Component
 public class SaTokenListenerImpl implements SaTokenListener {
+
+    @Resource
+    private UserService userService;
+    @Resource
+    private LoginLogService loginLogService;
+    @Resource
+    private AsyncTaskExecutor asyncTaskExecutor;
+
     /**
      * 每次登录时触发
      */
@@ -29,6 +48,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doLogout(String loginType, Object loginId, String tokenValue) {
+        saveLog(loginId, LoginType.LOGOUT);
         println("账号[" + loginId + "]注销成功 (Token=" + tokenValue + ")");
     }
 
@@ -37,6 +57,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doKickout(String loginType, Object loginId, String tokenValue) {
+        saveLog(loginId, LoginType.KICK_OUT);
         println("账号[" + loginId + "]被踢下线 (Token=" + tokenValue + ")");
     }
 
@@ -45,6 +66,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doReplaced(String loginType, Object loginId, String tokenValue) {
+        saveLog(loginId, LoginType.REPLACED);
         println("账号[" + loginId + "]被顶下线 (Token=" + tokenValue + ")");
     }
 
@@ -53,6 +75,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doDisable(String loginType, Object loginId, long disableTime) {
+        saveLog(loginId, LoginType.DISABLE);
         Date date = new Date(System.currentTimeMillis() + disableTime * 1000);
         println("账号[" + loginId + "]被封禁 (解封时间: " + SaFoxUtil.formatDate(date) + ")");
     }
@@ -62,6 +85,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doUntieDisable(String loginType, Object loginId) {
+        saveLog(loginId, LoginType.UNTIE_DISABLE);
         println("账号[" + loginId + "]被解除封禁");
     }
 
@@ -70,7 +94,7 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doCreateSession(String id) {
-        println("Session[" + id + "]创建成功");
+//        println("Session[" + id + "]创建成功");
     }
 
     /**
@@ -78,13 +102,28 @@ public class SaTokenListenerImpl implements SaTokenListener {
      */
     @Override
     public void doLogoutSession(String id) {
-        println("Session[" + id + "]注销成功");
+//        println("Session[" + id + "]注销成功");
+    }
+
+    private void saveLog(Object loginId, LoginType loginType) {
+        asyncTaskExecutor.execute(() -> {
+            User user = userService.getById(loginId.toString());
+            LoginLog loginLog = new LoginLog();
+            loginLog.setDatetime(LocalDateTime.now());
+            loginLog.setLoginType(loginType.getCode());
+            loginLog.setUsername(user.getUsername());
+            loginLog.setIp(user.getLastLoginIp());
+            loginLog.setBrowser(user.getBrowser());
+            loginLog.setSuccess(true);
+            loginLog.setOs(user.getOs());
+            loginLogService.save(loginLog);
+        });
     }
 
     /**
      * 日志输出的前缀
      */
-    public static final String LOG_PREFIX = "SaLog -->: ";
+    public static final String LOG_PREFIX = "LoginLog -->: ";
 
     /**
      * 打印指定字符串
@@ -95,6 +134,5 @@ public class SaTokenListenerImpl implements SaTokenListener {
             System.out.println(LOG_PREFIX + str);
         }
     }
-
 
 }

@@ -271,6 +271,7 @@ export default {
             .catch(err => this.requestFailed(err))
             .finally(() => {
               state.loginBtn = false
+              this.$refs.verify.clickShow = false
             })
         } else {
           setTimeout(() => {
@@ -298,13 +299,13 @@ export default {
       this.isLoginError = false
     },
     requestFailed (err) {
-      this.loginFailedMessage = err.message
+      this.loginFailedMessage = err.response.data.message
       this.isLoginError = true
-      this.$notification['error']({
-        message: '登录失败',
-        description: err.message || '请求出现错误，请稍后再试',
-        duration: 4
-      })
+      // this.$notification['error']({
+      //   message: '登录失败',
+      //   description: err.message || '请求出现错误，请稍后再试',
+      //   duration: 4
+      // })
     }
   }
 }

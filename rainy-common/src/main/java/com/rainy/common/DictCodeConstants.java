@@ -14,7 +14,6 @@ public interface DictCodeConstants {
     String MENU_TYPE_BUTTON = "button";
 
     String CONFIG_CATEGORY_SA_TOKEN = "SA_TOKEN";
-
-
+    String CONFIG_CATEGORY_SSO = "SA_SSO";
 
 }

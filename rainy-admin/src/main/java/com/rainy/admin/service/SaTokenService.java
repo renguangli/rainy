@@ -9,5 +9,6 @@ package com.rainy.admin.service;
 public interface SaTokenService {
 
     void updateSaTokenConfig();
+    void updateSsoConfig();
 
 }

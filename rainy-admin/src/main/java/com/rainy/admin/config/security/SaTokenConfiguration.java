@@ -63,12 +63,6 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     @Resource
     private SaTokenService saTokenService;
 
-
-    public void configSaToken() {
-        // 初始化 sa-token 配置
-        saTokenService.updateSaTokenConfig();
-    }
-
     /**
      * 单点登录配置
      * @param sso

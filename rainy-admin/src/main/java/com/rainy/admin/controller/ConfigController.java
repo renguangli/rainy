@@ -82,6 +82,10 @@ public class ConfigController {
         if (DictCodeConstants.CONFIG_CATEGORY_SA_TOKEN.equals(config.getCategoryCode())) {
             saTokenService.updateSaTokenConfig();
         }
+        // 如果是 sa_sso 相关的配置，更新 sa_sso 配置
+        if (DictCodeConstants.CONFIG_CATEGORY_SSO.equals(config.getCategoryCode())) {
+            saTokenService.updateSsoConfig();
+        }
         return Result.ok(ret);
     }
 

@@ -102,7 +102,7 @@ export default {
         fixedHeader: defaultSettings.fixedHeader,
         fixSiderbar: defaultSettings.fixSiderbar,
         colorWeak: defaultSettings.colorWeak,
-        multiTab: defaultSettings.multiTab,
+        multiTab: this.$store.getters.multiTab,
         hideHintAlert: false,
         hideCopyButton: false
       },
@@ -166,6 +166,7 @@ export default {
       this.collapsed = val
     },
     handleMultiTabChange (checked) {
+      this.$store.commit('multi_tab', checked)
       this.handleSettingChange({ 'type': 'multiTab', 'value': checked })
     },
     handleSettingChange ({ type, value }) {

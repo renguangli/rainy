@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.core.entity.OperationLog;
 import com.rainy.core.mapper.OperationLogMapper;
 import com.rainy.core.service.OperationLogService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class OperationLogServiceImpl
         extends ServiceImpl<OperationLogMapper, OperationLog> implements OperationLogService {
+
+    @Async
+    @Override
+    public void asyncSave(OperationLog operationLog) {
+        this.save(operationLog);
+    }
+
     @Override
     public void clear() {
         this.baseMapper.clear();

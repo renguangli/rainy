@@ -10,7 +10,10 @@ import org.springframework.mail.SimpleMailMessage;
  */
 public interface MailService {
 
-    void sendText(SimpleMailMessage simpleMailMessage);
+    void asyncSendText(String to, String subject, String text);
     void sendText(String to, String subject, String text);
+    void sendText(SimpleMailMessage simpleMailMessage);
+
+    void asyncSendHtml(String to, String subject, String text);
     void sendHtml(String to, String subject, String text);
 }

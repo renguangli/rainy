@@ -28,8 +28,6 @@ import java.util.Date;
 public class TaskLogAspect {
 
     @Resource
-    private AsyncTaskExecutor asyncTaskExecutor;
-    @Resource
     private TaskLogService taskLogService;
 
     /**
@@ -49,7 +47,7 @@ public class TaskLogAspect {
             taskLog.setSuccess(false);
             taskLog.setErrorMessage(ThrowableUtils.toString(e));
         }
-        asyncTaskExecutor.execute(() -> taskLogService.save(taskLog));
+        taskLogService.asyncSave(taskLog);
         return result;
     }
 

@@ -11,6 +11,7 @@ import com.rainy.core.entity.OperationLog;
  */
 public interface OperationLogService extends IService<OperationLog> {
 
+    void asyncSave(OperationLog operationLog);
     void clear();
 
 }

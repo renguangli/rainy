@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -29,8 +28,6 @@ public class LoginLogAspect {
     // 登录日志切入点
     private static final String LOGIN_LOG_POINTCUT = "execution(public * com.rainy.admin.controller.SsoServerController.login(..))";
 
-    @Resource
-    private AsyncTaskExecutor asyncTaskExecutor;
     @Resource
     private LoginLogService loginLogService;
 
@@ -60,7 +57,7 @@ public class LoginLogAspect {
             loginLog.setErrorMessage(e.getMessage());
             throw e;
         } finally {
-            asyncTaskExecutor.execute(() -> loginLogService.save(loginLog));
+            loginLogService.asyncSave(loginLog);
         }
     }
 

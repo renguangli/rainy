@@ -11,5 +11,6 @@ import com.rainy.task.entity.TaskLog;
  */
 public interface TaskLogService extends IService<TaskLog> {
 
+    void asyncSave(TaskLog taskLog);
     boolean clear();
 }

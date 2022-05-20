@@ -4,14 +4,12 @@ import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.util.SaFoxUtil;
-import cn.hutool.log.Log;
 import com.rainy.common.LoginType;
 import com.rainy.core.entity.LoginLog;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.LoginLogService;
 import com.rainy.core.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -32,8 +30,6 @@ public class SaTokenListenerImpl implements SaTokenListener {
     private UserService userService;
     @Resource
     private LoginLogService loginLogService;
-    @Resource
-    private AsyncTaskExecutor asyncTaskExecutor;
 
     /**
      * 每次登录时触发
@@ -106,31 +102,29 @@ public class SaTokenListenerImpl implements SaTokenListener {
     }
 
     private void saveLog(Object loginId, LoginType loginType) {
-        asyncTaskExecutor.execute(() -> {
-            User user = userService.getById(loginId.toString());
-            LoginLog loginLog = new LoginLog();
-            loginLog.setDatetime(LocalDateTime.now());
-            loginLog.setLoginType(loginType.getCode());
-            loginLog.setUsername(user.getUsername());
-            loginLog.setIp(user.getLastLoginIp());
-            loginLog.setBrowser(user.getBrowser());
-            loginLog.setSuccess(true);
-            loginLog.setOs(user.getOs());
-            loginLogService.save(loginLog);
-        });
+        User user = userService.getById(loginId.toString());
+        LoginLog loginLog = new LoginLog();
+        loginLog.setDatetime(LocalDateTime.now());
+        loginLog.setLoginType(loginType.getCode());
+        loginLog.setUsername(user.getUsername());
+        loginLog.setIp(user.getLastLoginIp());
+        loginLog.setBrowser(user.getBrowser());
+        loginLog.setSuccess(true);
+        loginLog.setOs(user.getOs());
+        loginLogService.asyncSave(loginLog);
     }
 
     /**
      * 日志输出的前缀
      */
-    public static final String LOG_PREFIX = "LoginLog -->: ";
+    public static final String LOG_PREFIX = "Login-Monitor-Log -->: ";
 
     /**
      * 打印指定字符串
      * @param str 字符串
      */
     public void println(String str) {
-        if(SaManager.getConfig().getIsLog()) {
+        if (SaManager.getConfig().getIsLog()) {
             System.out.println(LOG_PREFIX + str);
         }
     }

@@ -13,6 +13,4 @@ public interface TaskStatus {
     // 暂停
     int PAUSED = 1;
 
-    int EXECUTE_SUCCESS = 0;
-    int EXECUTE_ERROR = 1;
 }

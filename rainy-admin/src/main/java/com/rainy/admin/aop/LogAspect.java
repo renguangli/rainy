@@ -17,7 +17,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -45,8 +44,6 @@ public class LogAspect {
     private final ExpressionParser expressionParser = new SpelExpressionParser();
     private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
-    @Resource
-    private AsyncTaskExecutor asyncTaskExecutor;
     @Resource
     private ObjectMapper objectMapper;
     @Resource
@@ -78,7 +75,6 @@ public class LogAspect {
             throw e;
         } finally {
             opLog.setProcessTime(System.currentTimeMillis() - startTime);
-            asyncTaskExecutor.execute(() -> {});
             this.saveLog(joinPoint, result, opLog);
         }
         return result;
@@ -119,15 +115,17 @@ public class LogAspect {
             String resultStr = objectMapper.writeValueAsString(result);
             opLog.setResult(resultStr);
         }
-        asyncTaskExecutor.execute(() -> operationLogService.save(opLog));
+        operationLogService.asyncSave(opLog);
     }
 
     private String resolveSpEL(String spELStr, Method method, Object[] args){
         int i = 0;
         EvaluationContext context = new StandardEvaluationContext();
         String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
-        for (String parameterName : parameterNames) {
-            context.setVariable(parameterName, args[i ++]);
+        if (parameterNames != null) {
+            for (String parameterName : parameterNames) {
+                context.setVariable(parameterName, args[i ++]);
+            }
         }
         if (spELStr.contains("#")) {
             return expressionParser.parseExpression(spELStr)

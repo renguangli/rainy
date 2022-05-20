@@ -11,6 +11,7 @@ import com.rainy.core.entity.LoginLog;
  */
 public interface LoginLogService extends IService<LoginLog> {
 
+    void asyncSave(LoginLog loginLog);
     void clear();
 
 }

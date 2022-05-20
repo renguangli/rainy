@@ -1,7 +1,7 @@
-package com.rainy.task.task;
+package com.rainy.task.job;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/28 16:03

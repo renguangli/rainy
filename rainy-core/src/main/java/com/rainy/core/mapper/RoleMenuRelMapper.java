@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rainy.core.entity.RoleMenuRel;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/25 10:01

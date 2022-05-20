@@ -22,12 +22,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/28 18:07
  */
-@Api(NoticeController.MODULE_NAME)
+@Api(tags = NoticeController.MODULE_NAME)
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 3)
 @RestController
 public class NoticeController {

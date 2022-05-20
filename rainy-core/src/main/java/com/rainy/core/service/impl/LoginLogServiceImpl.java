@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/3/21 11:56

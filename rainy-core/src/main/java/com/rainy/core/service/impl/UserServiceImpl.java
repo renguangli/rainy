@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/29 17:51

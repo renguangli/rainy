@@ -18,7 +18,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/22 15:10

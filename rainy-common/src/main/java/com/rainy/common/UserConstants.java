@@ -1,7 +1,7 @@
 package com.rainy.common;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/26 16:59

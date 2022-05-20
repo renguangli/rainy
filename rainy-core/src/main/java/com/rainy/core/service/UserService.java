@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainy.core.entity.User;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/29 17:50

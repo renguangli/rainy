@@ -42,7 +42,7 @@
 import { SysMonitor } from '@/api/SysMonitor'
 
 export default {
-  name: 'Dict',
+  name: 'Monitor',
   components: {},
   data () {
     return {
@@ -52,9 +52,6 @@ export default {
   },
   mounted () {
     this.sysMonitor()
-    setInterval(() => {
-      this.sysMonitor()
-    }, 5000)
   },
   methods: {
     sysMonitor () {

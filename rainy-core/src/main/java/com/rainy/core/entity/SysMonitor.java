@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * spring-boot-example
+ * 系统监控实体类
  *
  * @author renguangli
  * @date 2022/3/24 18:42

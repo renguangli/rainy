@@ -33,7 +33,7 @@ public class TaskLogAspect {
     /**
      * 定时任务执行日志
      */
-    @Around("execution(public * com.rainy.task.task..*.*(..))")
+    @Around("execution(public * com.rainy.task.job..*.*(..))")
     public Object saveTaskLog(ProceedingJoinPoint pjp) {
         TaskLog taskLog = buildTaskLog(pjp);
         long start = System.currentTimeMillis();

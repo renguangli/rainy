@@ -5,7 +5,7 @@ import org.quartz.Job;
 import org.quartz.SchedulerException;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/28 10:23

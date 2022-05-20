@@ -19,12 +19,11 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * spring-boot-example
  *
  * @author renguangli
  * @date 2022/3/28 17:30
  */
-@Api(tags = "定时任务执行日志")
+@Api(tags = "执行日志")
 @RestController
 public class TaskLogController {
 

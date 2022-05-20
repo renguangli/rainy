@@ -14,9 +14,10 @@ import com.rainy.common.Result;
 import com.rainy.common.ResultCode;
 import com.rainy.common.UserConstants;
 import com.rainy.common.exception.UnauthorizedException;
-import com.rainy.core.entity.Token;
+import com.rainy.admin.vo.Token;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ import java.util.Objects;
  * @author renguangli
  * @date 2022/5/16 17:19
  */
+@Api(tags = "单点登录")
 @RestController
 @RequestMapping("/sso")
 public class SsoServerController {

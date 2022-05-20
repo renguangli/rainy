@@ -23,12 +23,12 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/11 18:19
  */
-@Api(tags = "登录退出")
+@Api(tags = "注册账号")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 1)
 @RestController
 public class RegisterController {

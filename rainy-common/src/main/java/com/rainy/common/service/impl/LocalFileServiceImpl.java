@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/11 11:56

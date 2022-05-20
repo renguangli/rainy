@@ -6,7 +6,7 @@ import com.rainy.core.entity.Dict;
 import java.util.Map;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/21 11:56

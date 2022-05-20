@@ -23,12 +23,12 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/28 17:30
  */
-@Api(tags = "定时任务管理")
+@Api(tags = "定时任务")
 @ApiSupport(author = "renguangli@bonc.com.cn")
 @RestController
 public class TaskController {

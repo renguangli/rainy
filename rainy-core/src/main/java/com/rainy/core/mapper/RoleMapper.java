@@ -6,7 +6,7 @@ import com.rainy.core.entity.Role;
 import java.util.List;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/11 17:37

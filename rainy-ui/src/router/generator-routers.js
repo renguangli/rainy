@@ -17,23 +17,23 @@ const constantRouterComponents = {
 
   // 你需要动态引入的页面组件
   Workplace: () => import('@/views/dashboard/Workplace'),
-  Analysis: () => import('@/views/dashboard/Analysis'),
+  // Analysis: () => import('@/views/dashboard/Analysis'),
 
   // form
-  BasicForm: () => import('@/views/form/basicForm'),
-  StepForm: () => import('@/views/form/stepForm/StepForm'),
-  AdvanceForm: () => import('@/views/form/advancedForm/AdvancedForm'),
-
-  // list
-  TableList: () => import('@/views/list/TableList'),
-  StandardList: () => import('@/views/list/BasicList'),
-  CardList: () => import('@/views/list/CardList'),
-  SearchLayout: () => import('@/views/list/search/SearchLayout'),
-  SearchArticles: () => import('@/views/list/search/Article'),
-  SearchProjects: () => import('@/views/list/search/Projects'),
-  SearchApplications: () => import('@/views/list/search/Applications'),
-  ProfileBasic: () => import('@/views/profile/basic'),
-  ProfileAdvanced: () => import('@/views/profile/advanced/Advanced'),
+  // BasicForm: () => import('@/views/form/basicForm'),
+  // StepForm: () => import('@/views/form/stepForm/StepForm'),
+  // AdvanceForm: () => import('@/views/form/advancedForm/AdvancedForm'),
+  //
+  // // list
+  // TableList: () => import('@/views/list/TableList'),
+  // StandardList: () => import('@/views/list/BasicList'),
+  // CardList: () => import('@/views/list/CardList'),
+  // SearchLayout: () => import('@/views/list/search/SearchLayout'),
+  // SearchArticles: () => import('@/views/list/search/Article'),
+  // SearchProjects: () => import('@/views/list/search/Projects'),
+  // SearchApplications: () => import('@/views/list/search/Applications'),
+  // ProfileBasic: () => import('@/views/profile/basic'),
+  // ProfileAdvanced: () => import('@/views/profile/advanced/Advanced'),
 
   // result
   ResultSuccess: () => import(/* webpackChunkName: "result" */ '@/views/result/Success'),
@@ -65,18 +65,18 @@ const notFoundRouter = {
 
 // account
 const accountNav = [
-    {
-      name: 'account',
-      parentId: 0,
-      id: 10028,
-      meta: {
-        title: '用户设置',
-        icon: 'user',
-        show: false
-      },
-      redirect: '/account/center',
-      component: 'RouteView'
+  {
+    name: 'account',
+    parentId: 0,
+    id: 10028,
+    meta: {
+      title: '用户设置',
+      icon: 'user',
+      show: false
     },
+    redirect: '/account/center',
+    component: 'RouteView'
+  },
   {
     name: 'center',
     parentId: 10028,
@@ -214,9 +214,9 @@ export const generator = (routerMap, parent) => {
   return routerMap.map(item => {
     const { title, show, hideChildren, hiddenHeaderContent, target, icon, url } = item.meta || {}
     let _target = null
-      if (target === '_blank') {
-        _target = '_blank'
-      }
+    if (target === '_blank') {
+      _target = '_blank'
+    }
     const currentRouter = {
       // 如果路由设置了 path，则作为默认 path，否则 路由地址 动态拼接生成如 /dashboard/workplace
       path: encodeURI(item.url || item.path || `${(parent && parent.path) || ''}/${item.key}`),

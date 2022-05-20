@@ -7,7 +7,7 @@ import com.rainy.core.service.NoticeUserRelService;
 import org.springframework.stereotype.Service;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/28 18:04

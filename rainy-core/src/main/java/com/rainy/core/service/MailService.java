@@ -3,7 +3,7 @@ package com.rainy.core.service;
 import org.springframework.mail.SimpleMailMessage;
 
 /**
- * spring-boot-example-console
+ * rainy-console
  *
  * @author renguangli
  * @date 2022/4/22 15:10

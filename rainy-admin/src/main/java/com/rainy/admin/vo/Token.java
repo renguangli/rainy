@@ -1,11 +1,11 @@
-package com.rainy.core.entity;
+package com.rainy.admin.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * spring-boot-example
+ * token
  *
  * @author renguangli
  * @date 2022/3/29 18:37

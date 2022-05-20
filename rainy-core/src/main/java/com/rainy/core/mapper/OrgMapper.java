@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rainy.core.entity.Org;
 
 /**
- * spring-boot-example
+ * rainy
  * Created by renguangli at 2022/1/11 6:32 下午
  *
  * @author renguangli

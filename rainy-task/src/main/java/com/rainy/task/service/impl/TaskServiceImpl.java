@@ -6,7 +6,7 @@ import com.rainy.task.entity.Task;
 import com.rainy.task.mapper.TaskMapper;
 import com.rainy.task.service.JobService;
 import com.rainy.task.service.TaskService;
-import com.rainy.task.task.TaskStatus;
+import com.rainy.task.job.TaskStatus;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/28 10:24

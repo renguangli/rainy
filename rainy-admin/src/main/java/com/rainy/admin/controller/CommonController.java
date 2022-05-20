@@ -26,12 +26,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/21 17:54
  */
-@Api("通用模块")
+@Api(tags = "通用模块")
 @RestController
 public class CommonController {
 

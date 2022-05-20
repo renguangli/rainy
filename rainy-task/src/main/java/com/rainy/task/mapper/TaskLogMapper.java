@@ -5,7 +5,7 @@ import com.rainy.task.entity.TaskLog;
 import org.apache.ibatis.annotations.Update;
 
 /**
- * spring-boot-example
+ * rainy
  *
  * @author renguangli
  * @date 2022/3/28 15:29

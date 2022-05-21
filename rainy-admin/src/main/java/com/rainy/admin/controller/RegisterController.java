@@ -3,6 +3,7 @@ package com.rainy.admin.controller;
 import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.RegisterDTO;
+import com.rainy.admin.util.AssertUtils;
 import com.rainy.common.ConfigConstants;
 import com.rainy.common.Result;
 import com.rainy.common.UserConstants;
@@ -63,16 +64,13 @@ public class RegisterController {
     @ApiOperation("激活账号")
     @PostMapping("/activate/{token}")
     public Result activate(@PathVariable String token) {
-        long timeout = SaTempUtil.getTimeout(token);
-        if (timeout == -2) {
-            throw new BizException("激活失败，token 已过期");
-        }
+        AssertUtils.isValidToken(token);
+        SaTempUtil.deleteToken(token);
         int id = SaTempUtil.parseToken(token, Integer.class);
         User user = new User();
         user.setId(id);
         user.setStatus(UserConstants.STATUS_NORMAL);
         userService.updateById(user);
-        SaTempUtil.deleteToken(token);
         return Result.ok();
     }
 

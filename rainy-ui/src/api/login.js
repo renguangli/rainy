@@ -86,6 +86,16 @@ export function Register (parameter) {
   })
 }
 
+export function Activate (token) {
+  return request({
+    url: `${api.Activate}/${token}`,
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
 /**
  * get user 2step code open?
  * @param parameter {*}

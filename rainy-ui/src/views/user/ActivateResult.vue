@@ -2,11 +2,10 @@
   <a-result
     :isSuccess="true"
     :content="false"
-    :title="username"
+    :title="email"
     :sub-title="description">
 
     <template #extra>
-      <a-button size="large" type="primary">查看邮箱</a-button>
       <a-button size="large" style="margin-left: 8px" @click="goHomeHandle">返回首页</a-button>
     </template>
 
@@ -25,7 +24,7 @@ export default {
   computed: {
     username () {
       const v = this.form && this.form.username || 'xxx'
-      return `你的账户：${v} 注册成功`
+      return `你的账户：${v} 激活成功！`
     }
   },
   created () {

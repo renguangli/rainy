@@ -84,6 +84,7 @@ public class UserController {
     @ApiOperationSupport(ignoreParameters = {"user.id"})
     @PostMapping("/user")
     public Result saveUser(@RequestBody @Valid User user) {
+        userService.checkExists("username", user.getUsername(), "用户[" + user.getUsername() + "]已存在！");
         user.setStatus(UserConstants.STATUS_NORMAL);
         return Result.ok(userService.save(user));
     }

@@ -36,7 +36,7 @@
           :wrapperCol="wrapperCol"
           hasFeedback
         >
-          <a-input placeholder="请输入唯一编码" v-decorator="['code',{rules: [{required: true, min: 1, message: '请输入唯一编码！'}]}]" />
+          <a-input disabled="true" placeholder="请输入唯一编码" v-decorator="['code',{rules: [{required: true, min: 1, message: '请输入唯一编码！'}]}]" />
         </a-form-item>
         <a-form-item
           label="字典项值"

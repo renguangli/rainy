@@ -86,7 +86,7 @@
     },
     methods: {
       // 打开页面初始化
-      open (flag, record) {
+      open (flag, record, orgId) {
         this.visible = true
         this.getOrgTree()
         this.flag = flag
@@ -98,7 +98,7 @@
           this.form.getFieldDecorator('sort', { initialValue: record.sort })
         } else {
           this.form.getFieldDecorator('sort', { initialValue: 99 })
-          this.form.getFieldDecorator('parentId', { initialValue: 0 })
+          this.form.getFieldDecorator('parentId', { initialValue: orgId })
         }
       },
       handleOk () {

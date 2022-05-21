@@ -13,4 +13,6 @@ public interface UserService extends IService<User> {
 
     User register(User user);
 
+    void checkExists(String column, String value, String message);
+
 }

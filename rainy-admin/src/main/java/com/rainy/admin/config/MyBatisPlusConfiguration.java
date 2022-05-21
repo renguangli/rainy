@@ -29,7 +29,7 @@ public class MyBatisPlusConfiguration {
     private static final String DELETED_FIELD = "deleted";
     private static final String LOGIN_COUNT_FIELD = "loginCount";
 
-    private static final String DEFAULT_AVATAR = "/avatar.jpg";
+    private static final String DEFAULT_AVATAR = "/avatar/avatar.jpg";
     private static final String AVATAR_FIELD = "avatar";
 
     /**

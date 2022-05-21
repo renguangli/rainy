@@ -2,12 +2,49 @@
   <div class="account-settings-info-view">
     <a-row :gutter="16" type="flex" justify="center">
       <a-col :order="isMobile ? 2 : 1" :md="24" :lg="16">
-
-        <a-form layout="vertical">
+        <a-form class="form" layout="vertical">
           <a-form-item
             :label="$t('account.settings.basic.nickname')"
           >
             <a-input :placeholder="$t('account.settings.basic.nickname-message')" v-model="nickname" />
+          </a-form-item>
+          <a-form-item
+            label="标签"
+          >
+            <div>
+              <template v-for="(tag, index) in tags">
+                <a-tooltip v-if="tag.length > 20" :key="tag" :title="tag">
+                  <a-tag
+                    class="tagsTitle"
+                    :key="tag"
+                    :closable="index !== 0"
+                    :close="() => handleTagClose(tag)"
+                  >{{ `${tag.slice(0, 20)}...` }}</a-tag>
+                </a-tooltip>
+                <a-tag
+                  class="tagsTitle"
+                  v-else
+                  :key="tag"
+                  :closable="index !== 0"
+                  :close="() => handleTagClose(tag)"
+                >{{ tag }}</a-tag>
+              </template>
+              <a-input
+                v-if="tagInputVisible"
+                ref="tagInput"
+                type="text"
+                size="small"
+                :style="{ width: '78px' }"
+                :value="tagInputValue"
+                placeholder="enter"
+                @change="handleInputChange"
+                @blur="handleTagInputConfirm"
+                @keyup.enter="handleTagInputConfirm"
+              />
+              <a-tag class="tagsTitle" v-else @click="showTagInput" style="background: #fff; borderStyle: dashed;">
+                <a-icon type="plus"/>New Tag
+              </a-tag>
+            </div>
           </a-form-item>
           <a-form-item
             :label="$t('account.settings.basic.profile')"
@@ -19,13 +56,13 @@
             :label="$t('account.settings.basic.email')"
             :required="false"
           >
-            <a-input placeholder="email" v-model="userInfo.email"/>
+            <a-input placeholder="请输入邮箱" v-model="userInfo.email"/>
           </a-form-item>
           <a-form-item
             :label="$t('account.settings.basic.telephone')"
             :required="false"
           >
-            <a-input placeholder="email" v-model="userInfo.telephone"/>
+            <a-input placeholder="请输入手机号" v-model="userInfo.telephone"/>
           </a-form-item>
           <a-form-item>
             <a-button type="primary">{{ $t('account.settings.basic.update') }}</a-button>
@@ -59,6 +96,9 @@ export default {
   data () {
     return {
       // cropper
+      tags: ['辣~', '大长腿', '川妹子', '海纳百川'],
+      tagInputVisible: false,
+      tagInputValue: '',
       preview: {},
       option: {
         info: true,
@@ -83,6 +123,31 @@ export default {
     setAvatar (url) {
       this.$store.commit('SET_AVATAR', process.env.VUE_APP_API_BASE_URL + url)
       // this.option.img = process.env.VUE_APP_API_BASE_URL + url
+    },
+    handleTagClose (removeTag) {
+      this.tags = this.tags.filter(tag => tag !== removeTag)
+    },
+    showTagInput () {
+      this.tagInputVisible = true
+      this.$nextTick(() => {
+        this.$refs.tagInput.focus()
+      })
+    },
+    handleInputChange (e) {
+      this.tagInputValue = e.target.value
+    },
+    handleTagInputConfirm () {
+      const inputValue = this.tagInputValue
+      let tags = this.tags
+      if (inputValue && !tags.includes(inputValue)) {
+        tags = [...tags, inputValue]
+      }
+
+      Object.assign(this, {
+        tags,
+        tagInputVisible: false,
+        tagInputValue: ''
+      })
     }
   }
 }
@@ -142,5 +207,13 @@ export default {
       border-radius: 50%;
       overflow: hidden;
     }
+  }
+
+  .ant-form-item {
+    margin-bottom: 10px;
+  }
+  .tagsTitle {
+    font-weight: 500;
+    margin-bottom: 12px;
   }
 </style>

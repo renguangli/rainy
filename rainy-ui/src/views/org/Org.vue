@@ -3,6 +3,7 @@
     <a-col :md="5" :sm="24">
       <a-card :bordered="false" :loading="treeLoading">
         <a-tree
+          v-model="queryParam.orgId"
           :treeData="orgTree"
           @select="handleTreeSelect"
           :defaultExpandAll="true"
@@ -40,7 +41,7 @@
           @change="handleChange"
         >
           <template slot="operator">
-            <a-button type="primary" icon="plus" @click="$refs.editor.open(0)">新增组织</a-button>
+            <a-button type="primary" icon="plus" @click="$refs.editor.open(0, null, orgId)">新增组织</a-button>
             <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除组织吗?'" @confirm="batchDel">
               <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
 
@@ -83,6 +84,7 @@ export default {
       // 查询参数
       showPagination: true,
       queryParam: {},
+      orgId: 0,
       // 表头
       columns: [
         {
@@ -132,6 +134,7 @@ export default {
   },
   methods: {
     handleTreeSelect (id) {
+      this.orgId = id.toString()
       this.queryParam.orgId = id.toString()
       this.$refs.table.refresh()
       this.queryParam = {}

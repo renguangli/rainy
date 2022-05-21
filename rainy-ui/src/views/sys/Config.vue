@@ -86,13 +86,11 @@ export default {
       columns: [
         {
           title: '配置名称',
-          dataIndex: 'name',
-          width: '160px'
+          dataIndex: 'name'
         }, {
           title: '配置分类',
           dataIndex: 'categoryCode',
-          scopedSlots: { customRender: 'category' },
-          width: '120px'
+          scopedSlots: { customRender: 'category' }
         }, {
           title: '唯一编码',
           dataIndex: 'code'

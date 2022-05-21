@@ -33,6 +33,12 @@
         <a-tooltip title="刷新页面" >
           <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
         </a-tooltip>
+        <a-tooltip title="刷新页面" >
+          <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
+        </a-tooltip>
+        <a-tooltip title="刷新页面" >
+          <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
+        </a-tooltip>
       </div>
     </template>
 

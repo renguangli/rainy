@@ -10,7 +10,7 @@
           <div class="header">
             <a href="/">
               <img :src="logo" class="logo" alt="logo">
-              <span class="title">Ant Design</span>
+              <span class="title" v-text="title"></span>
             </a>
           </div>
           <div class="desc">
@@ -39,6 +39,7 @@
 import { deviceMixin } from '@/store/device-mixin'
 import SelectLang from '@/components/SelectLang'
 import logSvg from '@/assets/logo.svg'
+import defaultSettings from '@/config/defaultSettings'
 
 export default {
   name: 'UserLayout',
@@ -49,7 +50,8 @@ export default {
   mixins: [deviceMixin],
   data () {
     return {
-      logo: logSvg
+      logo: logSvg,
+      title: this.$store.getters.title || defaultSettings.title
     }
   },
   mounted () {

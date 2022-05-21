@@ -6,6 +6,7 @@ import com.rainy.admin.dto.RegisterDTO;
 import com.rainy.admin.util.AssertUtils;
 import com.rainy.common.ConfigConstants;
 import com.rainy.common.Result;
+import com.rainy.common.ResultCode;
 import com.rainy.common.UserConstants;
 import com.rainy.common.exception.BizException;
 import com.rainy.core.entity.User;
@@ -64,7 +65,10 @@ public class RegisterController {
     @ApiOperation("激活账号")
     @PostMapping("/activate/{token}")
     public Result activate(@PathVariable String token) {
-        AssertUtils.isValidToken(token);
+        long timeout = SaTempUtil.getTimeout(token);
+        if (timeout == -2) {
+            return Result.of(ResultCode.UNAUTHORIZED.getCode(), "token 已过期！");
+        }
         SaTempUtil.deleteToken(token);
         int id = SaTempUtil.parseToken(token, Integer.class);
         User user = new User();

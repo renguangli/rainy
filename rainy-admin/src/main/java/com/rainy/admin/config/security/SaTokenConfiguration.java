@@ -47,7 +47,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
             "/favicon.ico", "/error",
             "/swagger-resources", "/v2/api-docs", "/swagger-ui/index.html", // swagger-path
             "/**/*.html", "/**/*.js", "/**/*.css", // static resources
-            "/register", "/common/config", "/avatar/*", "/captcha/*",
+            "/register", "/activate/*", "/common/config", "/avatar/*", "/captcha/*",
             "/interface-ui/**", "/api/**", "/mail/text",
             "/sso/*"// 单点登录
     };

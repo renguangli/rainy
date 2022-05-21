@@ -25,7 +25,7 @@ export default {
     locale: true
   },
   multiTab: true,
-  title: '沙琪玛',
+  title: '门户系统',
   logo: '/logo.png',
   pwa: false,
   iconfontUrl: '',

@@ -9,6 +9,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaFoxUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.dto.LoginDTO;
+import com.rainy.admin.util.AssertUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.ResultCode;
@@ -116,7 +117,7 @@ public class SsoServerController {
     @GetMapping("/userinfo")
     public Result ssoUserinfo(Integer loginId) {
         // 校验签名
-        SaSsoUtil.checkSign(SaHolder.getRequest());
+        AssertUtils.checkSsoSign();
         return Result.ok(WebUtils.getUserinfo(loginId));
     }
 
@@ -141,7 +142,7 @@ public class SsoServerController {
                 String redirectUrl = SaSsoUtil.buildRedirectUrl(StpUtil.getLoginId(), redirect);
                 return Result.ok(redirectUrl);
             } catch (SaSsoException e) {
-                throw new UnauthorizedException(e.getMessage());
+                throw new UnauthorizedException(e.getMessage(), e);
             }
         }
     }

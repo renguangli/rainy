@@ -16,10 +16,10 @@ import java.util.List;
 public class SsoProperties {
 
     private boolean enable;
-    private String serverUrl;
     private String loginUrl;
-    private String secretKey;
+    private String serverUrl;
     private String logoutCallUrl;
+    private String secretKey;
     private List<String> skipUrls;
 
 }

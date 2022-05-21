@@ -18,4 +18,9 @@ public class UnauthorizedException extends RuntimeException{
         super(message);
     }
 
+    public UnauthorizedException(String message, Throwable e) {
+        super(message, e);
+    }
+
+
 }

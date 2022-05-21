@@ -43,14 +43,14 @@ public class SsoFilter implements Filter {
         // 1.客户端和服务端都登录了
         if (StpUtil.isLogin() && isServerLogin()) {
             chain.doFilter(request, response);
-        }  else {
-            if (StpUtil.isLogin()) {
-                // 2.客户端登录了，服务端未登录，退出客户端，防止死循环
-                StpUtil.logout();
-            }
-            // 3.跳转到认证中心
-            SaHolder.getRequest().forward(req.getContextPath() + SaSsoConsts.Api.ssoLogin);
+            return;
         }
+        // 2.客户端登录了，服务端未登录，退出客户端，防止死循环
+        if (StpUtil.isLogin()) {
+            StpUtil.logout();
+        }
+        // 3.跳转到认证中心
+        SaHolder.getRequest().forward(req.getContextPath() + SaSsoConsts.Api.ssoLogin);
     }
 
     public String getName(){

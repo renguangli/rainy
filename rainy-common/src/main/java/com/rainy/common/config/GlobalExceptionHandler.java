@@ -1,7 +1,6 @@
 package com.rainy.common.config;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.server.HttpServerResponse;
 import com.rainy.common.CharConstants;
 import com.rainy.common.Result;
 import com.rainy.common.ResultCode;

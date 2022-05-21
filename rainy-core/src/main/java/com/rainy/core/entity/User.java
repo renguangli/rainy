@@ -46,6 +46,7 @@ public class User {
     private String name;
 
     @ApiModelProperty("头像")
+    @TableField(fill = FieldFill.INSERT)
     private String avatar;
 
     @ApiModelProperty("邮箱")

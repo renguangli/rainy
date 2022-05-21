@@ -48,7 +48,7 @@
           @change="handleChange"
         >
           <template slot="operator">
-            <a-button type="primary" icon="plus" @click="$refs.editor.open(0)">新增用户</a-button>
+            <a-button type="primary" icon="plus" @click="$refs.editor.open(0, queryParam.orgId)">新增用户</a-button>
             <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除用户吗?'" @confirm="batchDel">
               <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
             </a-popconfirm>

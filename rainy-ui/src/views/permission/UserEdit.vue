@@ -141,6 +141,8 @@
           this.form.getFieldDecorator('name', { initialValue: record.name })
           this.form.getFieldDecorator('telephone', { initialValue: record.telephone })
           this.form.getFieldDecorator('email', { initialValue: record.email })
+        } else {
+          this.form.getFieldDecorator('orgId', { initialValue: record })
         }
       },
       handleOk () {
@@ -199,8 +201,6 @@
         )
       },
       add (values) {
-        // 默认头像
-        values.avatar = '/avatar.jpg'
         Add(values).then(res => {
           if (res.success) {
             this.$message.success('新增成功')

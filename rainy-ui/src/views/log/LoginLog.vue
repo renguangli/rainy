@@ -2,8 +2,8 @@
   <a-card :bordered="false">
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="6" :sm="48">
+        <a-row :gutter="24">
+          <a-col :md="6" :sm="24">
             <a-form-item label="用户名">
               <a-input v-model="queryParam.username" placeholder="请输入用户名"/>
             </a-form-item>
@@ -17,15 +17,15 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="24">
+          <a-col :md="8" :sm="24">
             <a-range-picker
               :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm:ss"
+              format="YYYY-MM-DD HH:mm"
               :placeholder="['开始时间', '结束时间']"
               @change="handleDateOk"
             />
           </a-col>
-          <a-col :md="6" :sm="24">
+          <a-col :md="4" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
               <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>

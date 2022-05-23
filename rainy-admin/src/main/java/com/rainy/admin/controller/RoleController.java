@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.common.OperationType;
+import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.Role;

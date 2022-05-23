@@ -1,6 +1,7 @@
 package com.rainy.common;
 
 
+import com.rainy.common.enums.ResultCode;
 import lombok.Data;
 
 /**

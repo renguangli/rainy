@@ -5,7 +5,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.github.xiaoymin.knife4j.core.util.StrUtil;
-import com.rainy.common.CharConstants;
+import com.rainy.common.constant.CharConstants;
 import com.rainy.core.entity.Userinfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package com.rainy.common;
+package com.rainy.common.constant;
 
 /**
  * 配置编码常量类

@@ -1,6 +1,6 @@
 package com.rainy.common.exception;
 
-import com.rainy.common.ResultCode;
+import com.rainy.common.enums.ResultCode;
 
 /**
  * 未认证异常/认证失败异常

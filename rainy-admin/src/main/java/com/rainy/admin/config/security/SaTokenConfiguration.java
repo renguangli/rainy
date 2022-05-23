@@ -9,11 +9,10 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rainy.admin.service.SaTokenService;
-import com.rainy.common.ConfigConstants;
-import com.rainy.common.DictCodeConstants;
+import com.rainy.common.constant.ConfigConstants;
+import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.Result;
-import com.rainy.common.ResultCode;
+import com.rainy.common.enums.ResultCode;
 import com.rainy.core.entity.Menu;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.MenuService;
@@ -60,8 +59,6 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     private MenuService menuService;
     @Resource
     private ConfigService configService;
-    @Resource
-    private SaTokenService saTokenService;
 
     /**
      * 单点登录配置

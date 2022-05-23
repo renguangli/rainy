@@ -3,7 +3,7 @@ package com.rainy.admin.service;
 import cn.dev33.satoken.config.SaSsoConfig;
 import cn.dev33.satoken.config.SaTokenConfig;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rainy.common.DictCodeConstants;
+import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.core.entity.Config;
 import com.rainy.core.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;

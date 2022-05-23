@@ -3,7 +3,7 @@ package com.rainy.task.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.rainy.common.OperationType;
+import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.PageInfo;

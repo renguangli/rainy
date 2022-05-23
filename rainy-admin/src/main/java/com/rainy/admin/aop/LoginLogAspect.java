@@ -2,7 +2,7 @@ package com.rainy.admin.aop;
 
 import com.rainy.admin.dto.LoginDTO;
 import com.rainy.admin.util.WebUtils;
-import com.rainy.common.LoginType;
+import com.rainy.common.enums.LoginType;
 import com.rainy.core.entity.LoginLog;
 import com.rainy.core.service.LoginLogService;
 import lombok.extern.slf4j.Slf4j;

@@ -4,7 +4,7 @@ import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.util.SaFoxUtil;
-import com.rainy.common.LoginType;
+import com.rainy.common.enums.LoginType;
 import com.rainy.core.entity.LoginLog;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.LoginLogService;

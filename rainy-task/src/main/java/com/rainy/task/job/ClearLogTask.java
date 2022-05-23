@@ -1,7 +1,7 @@
 package com.rainy.task.job;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rainy.common.ConfigConstants;
+import com.rainy.common.constant.ConfigConstants;
 import com.rainy.core.entity.LoginLog;
 import com.rainy.core.entity.OperationLog;
 import com.rainy.core.service.ConfigService;

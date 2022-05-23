@@ -1,6 +1,5 @@
 package com.rainy.admin.controller;
 
-import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.sso.SaSsoConsts;
 import cn.dev33.satoken.sso.SaSsoHandle;
 import cn.dev33.satoken.sso.SaSsoUtil;
@@ -12,8 +11,8 @@ import com.rainy.admin.dto.LoginDTO;
 import com.rainy.admin.util.AssertUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
-import com.rainy.common.ResultCode;
-import com.rainy.common.UserConstants;
+import com.rainy.common.enums.ResultCode;
+import com.rainy.common.enums.UserConstants;
 import com.rainy.common.exception.UnauthorizedException;
 import com.rainy.admin.vo.Token;
 import com.rainy.core.entity.User;

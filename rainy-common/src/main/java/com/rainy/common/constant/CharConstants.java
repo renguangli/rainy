@@ -1,4 +1,4 @@
-package com.rainy.common;
+package com.rainy.common.constant;
 
 /**
  * 常用字符常量类

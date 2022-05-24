@@ -1,7 +1,7 @@
 package com.rainy.core.service.impl;
 
-import com.rainy.common.CharConstants;
-import com.rainy.common.ConfigConstants;
+import com.rainy.common.constant.CharConstants;
+import com.rainy.common.constant.ConfigConstants;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.MailService;
 import lombok.extern.slf4j.Slf4j;

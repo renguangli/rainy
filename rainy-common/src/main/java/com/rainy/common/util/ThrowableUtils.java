@@ -1,6 +1,6 @@
 package com.rainy.common.util;
 
-import com.rainy.common.CharConstants;
+import com.rainy.common.constant.CharConstants;
 
 /**
  * 异常信息处理工具类

@@ -1,9 +1,9 @@
 package com.rainy.common.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.rainy.common.CharConstants;
+import com.rainy.common.constant.CharConstants;
 import com.rainy.common.Result;
-import com.rainy.common.ResultCode;
+import com.rainy.common.enums.ResultCode;
 import com.rainy.common.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -1,6 +1,6 @@
 package com.rainy.admin.config.security;
 
-import com.rainy.common.DictCodeConstants;
+import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.core.entity.DictItem;
 import com.rainy.core.service.DictItemService;
 import lombok.extern.slf4j.Slf4j;

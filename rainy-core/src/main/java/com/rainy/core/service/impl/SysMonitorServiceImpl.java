@@ -5,7 +5,7 @@ import cn.hutool.system.JavaInfo;
 import cn.hutool.system.JvmInfo;
 import cn.hutool.system.RuntimeInfo;
 import cn.hutool.system.SystemUtil;
-import com.rainy.common.CharConstants;
+import com.rainy.common.constant.CharConstants;
 import com.rainy.core.entity.SysMonitor;
 import com.rainy.core.service.SysMonitorService;
 import org.springframework.stereotype.Service;

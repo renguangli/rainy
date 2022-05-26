@@ -1,15 +1,16 @@
 import { axios, method } from '@/utils/request'
 
 const api = {
-  List: '/roles',
   Update: '/role',
-  BatchDel: '/roles'
+  List: '/roles',
+  BatchDel: List
 }
 
-export function GetMenuIds (roleId) {
+export function GetMenuIds (parameter) {
   return axios({
-    url: `${api.Update}/${roleId}/menuIds`,
-    method: method.GET
+    url: `${api.Update}/menuIds`,
+    method: method.GET,
+    params: parameter
   })
 }
 
@@ -65,11 +66,11 @@ export function Edit (parameter) {
   })
 }
 
-export function AssignMenu (roleId, menuIds) {
+export function AssignMenu (parameter) {
   return axios({
-    url: `${api.Update}/${roleId}/menus`,
+    url: `${api.Update}/menus`,
     method: method.POST,
-    data: menuIds,
+    data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }

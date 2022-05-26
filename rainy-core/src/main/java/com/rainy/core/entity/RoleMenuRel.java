@@ -28,8 +28,9 @@ public class RoleMenuRel {
 
     public RoleMenuRel(){}
 
-    public RoleMenuRel(Integer roleId, Integer menuId) {
+    public RoleMenuRel(Integer roleId, Integer menuId, boolean all) {
         this.roleId = roleId;
         this.menuId = menuId;
+        this.all = all;
     }
 }

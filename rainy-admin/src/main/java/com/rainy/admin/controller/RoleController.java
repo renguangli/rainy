@@ -5,11 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.admin.dto.IdNameDto;
-import com.rainy.admin.dto.IdNamesDto;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.dto.RoleDto;
 import com.rainy.admin.util.AssertUtils;
+import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -60,10 +61,11 @@ public class RoleController {
     }
 
     @ApiOperation("根据角色id查询菜单id列表")
-    @GetMapping("/role/{roleId:[0-9]+}/menuIds")
-    public Result getMenuIds(@PathVariable Integer roleId) {
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.QUERY, detail = "'查询了角色[' + #dto.name + ']拥有的菜单列表'")
+    @GetMapping("/role/menuIds")
+    public Result getMenuIds(IdNameDto dto) {
         QueryWrapper<RoleMenuRel> qw = new QueryWrapper<>();
-        qw.eq("role_id", roleId);
+        qw.eq("role_id", dto.getId());
         qw.eq("`all`", true);
         List<RoleMenuRel> list = roleMenuRelService.list(qw);
         List<Integer> menuIds = list.stream()
@@ -103,10 +105,19 @@ public class RoleController {
     }
 
     @ApiOperation("分配菜单")
-    @SysLog(module = "角色管理", operationTypeCode = OperationType.ADD, detail = "'给角色[' + #roleId + ']分配了菜单.'")
-    @PostMapping("/role/{roleId:[0-9]+}/menus")
-    public boolean assignMenus(@PathVariable Integer roleId, @RequestBody List<RoleMenuRel> roleMenuRelList) {
-        return roleService.assignMenus(roleId, roleMenuRelList);
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.ADD, detail = "'给角色[' + #dto.name + ']分配了菜单[' + #dto.names + '].'")
+    @PostMapping("/role/menus")
+    public Result assignMenus(@RequestBody IdsNamesDto dto) {
+        List<RoleMenuRel> roleMenuRels = dto.getIds().stream().
+                map((id) -> new RoleMenuRel(dto.getId(),id, true))
+                .collect(Collectors.toList());
+
+        //  半选状态菜单
+        List<RoleMenuRel> halfRoleMenuRels = dto.getHalfIds().stream().
+                map((id) -> new RoleMenuRel(dto.getId(), id, false))
+                .collect(Collectors.toList());
+        roleMenuRels.addAll(halfRoleMenuRels);
+        return Result.ok(roleService.assignMenus(dto.getId(), roleMenuRels));
     }
 
 }

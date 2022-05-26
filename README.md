@@ -1,6 +1,8 @@
 ![img.png](imgs/img.png)
 ## 项目介绍
 基于 spring-boot,mybatis-plus,sa-token,and-design-of-vue-admin 开发的一套后台管理系统
+
+演示地址：<http://172.16.22.219:8088>
 ## 核心功能
 
 - 组织架构

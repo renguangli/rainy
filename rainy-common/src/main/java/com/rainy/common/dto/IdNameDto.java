@@ -1,4 +1,4 @@
-package com.rainy.admin.dto;
+package com.rainy.common.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class IdNameDto {
     @ApiModelProperty("主键id")
     private Integer id;
 
-    @ApiModelProperty("实体名称：role(角色名称),menu(菜单名称)...")
+    @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称...,方便记录日志，调试时可不传。")
     private String name;
 
 }

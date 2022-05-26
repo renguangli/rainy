@@ -34,6 +34,7 @@
         formLoading: false,
         replaceFields: { key: 'id' },
         checkedKeys: [],
+        checkedNodes: [],
         halfCheckedKeys: [],
         menuTree: [],
         record: {}
@@ -61,7 +62,8 @@
         })
       },
       getMenuIds () {
-        GetMenuIds(this.record.id).then(res => {
+        const param = { id: this.record.id, name: this.record.name }
+        GetMenuIds(param).then(res => {
           if (res.success) {
             this.checkedKeys = res.data
           } else {
@@ -70,31 +72,49 @@
         })
       },
       handleCheck (checkedKeys, e) {
+        this.checkedNodes = e.checkedNodes
         this.halfCheckedKeys = e.halfCheckedKeys
       },
       getRoleMenuList () {
-        const roleMenuList = []
-        for (const index in this.checkedKeys) {
-          const roleMenuRel = {
-            roleId: this.record.id,
-            menuId: this.checkedKeys[index],
-            all: true
-          }
-          roleMenuList.push(roleMenuRel)
+        const param = {
+          id: this.record.id,
+          name: this.record.name,
+          ids: [],
+          halfIds: [],
+          names: []
         }
+        this.checkedNodes.forEach(node => {
+          param.ids.push(node.data.props.id)
+          param.names.push(node.data.props.name)
+        })
         for (const index in this.halfCheckedKeys) {
-          const roleMenuRel = {
-            roleId: this.record.id,
-            menuId: this.halfCheckedKeys[index],
-            all: false
-          }
-          roleMenuList.push(roleMenuRel)
+          param.halfIds.push(this.halfCheckedKeys[index])
+          // todo 查询名称
+          // param.names.push(this.halfCheckedKeys[index])
         }
-        return roleMenuList
+        return param
+        // const roleMenuList = []
+        // for (const index in this.checkedKeys) {
+        //   const roleMenuRel = {
+        //     roleId: this.record.id,
+        //     menuId: this.checkedKeys[index],
+        //     all: true
+        //   }
+        //   roleMenuList.push(roleMenuRel)
+        // }
+        // for (const index in this.halfCheckedKeys) {
+        //   const roleMenuRel = {
+        //     roleId: this.record.id,
+        //     menuId: this.halfCheckedKeys[index],
+        //     all: false
+        //   }
+        //   roleMenuList.push(roleMenuRel)
+        // }
+        // return roleMenuList
       },
       handleSubmit () {
         this.confirmLoading = true
-        AssignMenu(this.record.id, this.getRoleMenuList()).then(res => {
+        AssignMenu(this.getRoleMenuList()).then(res => {
           if (res.success) {
             this.$message.info('分配成功')
             this.handleCancel()
@@ -110,7 +130,7 @@
         this.formLoading = false
         this.confirmLoading = false
         this.checkedKeys = []
-        this.roleMenuList = []
+        this.checkedNodes = []
       }
     }
   }

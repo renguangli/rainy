@@ -3,6 +3,7 @@ package com.rainy.admin.controller;
 import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.RegisterDTO;
+import com.rainy.admin.util.AssertUtils;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.Result;
 import com.rainy.common.enums.ResultCode;

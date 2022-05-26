@@ -39,9 +39,12 @@
           <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
         </a-popconfirm>
       </template>
+      <span slot="defaultd" slot-scope="text">
+        {{ 'SYS_YES_OR_NO' | dictItemValue(text) }}
+      </span>
       <span slot="operation" slot-scope="text, record">
         <template>
-          <a @click="$refs.editor.open(1, record)">编辑</a>
+          <a-button type="link" size="small" :disabled="record.defaultd" @click="$refs.editor.open(1, record)">编辑</a-button>
           <a-divider type="vertical"/>
           <a-dropdown>
             <a class="ant-dropdown-link">
@@ -49,11 +52,11 @@
             </a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a @click="$refs.menuAssign.open(record)">分配菜单</a>
+                <a-button :disabled="record.defaultd" type="link" size="small" @click="$refs.menuAssign.open(record)">分配菜单</a-button>
               </a-menu-item>
               <a-menu-item>
-                <a-popconfirm placement="topRight" :title="'确定删除角色[' + record.name + ']吗?'" @confirm="del(record.id)">
-                  <a>删除</a>
+                <a-popconfirm :disabled="record.defaultd" placement="topRight" :title="'确定删除角色[' + record.name + ']吗?'" @confirm="del(record)">
+                  <a-button type="link" size="small" :disabled="record.defaultd">删除</a-button>
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
@@ -94,6 +97,10 @@ export default {
         }, {
           title: '描述',
           dataIndex: 'description'
+        }, {
+          title: '是否默认',
+          dataIndex: 'defaultd',
+          scopedSlots: { customRender: 'defaultd' }
         }, {
           title: '创建时间',
           dataIndex: 'createTime',
@@ -136,8 +143,9 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    del (id) {
-      Del(id).then(res => {
+    del (record) {
+      const param = { id: record.id, name: record.name }
+      Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.handleOk()
@@ -147,7 +155,16 @@ export default {
       })
     },
     batchDel () {
-      BatchDel(this.selectedRowKeys).then(res => {
+      const param = {
+        ids: [],
+        names: []
+      }
+      this.selectedRows.forEach(v => {
+        param.ids.push(v.id)
+        param.names.push(v.name)
+      })
+
+      BatchDel(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.$refs.table.clearSelected()
@@ -161,6 +178,10 @@ export default {
 }
 </script>
 <style>
+.ant-btn-link {
+  margin-right: 0;
+  padding: 0;
+}
 .table-operator {
   margin-bottom: 18px;
 }

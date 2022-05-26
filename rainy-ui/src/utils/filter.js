@@ -19,6 +19,10 @@ Vue.filter('dictItems', function (dictCode) {
     if (type === 'int') {
       value = Number(value)
     }
+    if (type === 'boolean') {
+      // value = Boolean(value) // false|true 都会转换成 true
+      value = value === 'true'
+    }
     const nameVal = { name: name, value: value }
     arr.push(nameVal)
   }

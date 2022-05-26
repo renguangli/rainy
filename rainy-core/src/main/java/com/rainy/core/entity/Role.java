@@ -34,6 +34,9 @@ public class Role {
     @ApiModelProperty("描述")
     private String description;
 
+    @ApiModelProperty("是否是默认角色")
+    private Boolean defaultd;
+
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)

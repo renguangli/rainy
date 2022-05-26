@@ -5,6 +5,13 @@ import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
+export const method = {
+  GET: 'get',
+  POST: 'post',
+  DELETE: 'delete',
+  PUT: 'put'
+}
+
 // 创建 axios 实例
 const request = axios.create({
   // API 请求的默认前缀

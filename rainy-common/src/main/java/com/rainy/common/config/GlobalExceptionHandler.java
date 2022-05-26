@@ -54,6 +54,12 @@ public class GlobalExceptionHandler {
                 StrUtil.subBefore(e.getMessage(), CharConstants.COLON, false));
     }
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public Result illegalArgumentException(IllegalArgumentException e) {
+        int code = ResultCode.BAD_REQUEST.getCode();
+        return Result.of(code, e.getMessage());
+    }
+
     /**
      * 请求方法不支持
      * @param e HttpRequestMethodNotSupportedException

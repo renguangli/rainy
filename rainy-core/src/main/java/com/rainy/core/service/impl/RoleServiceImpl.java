@@ -25,13 +25,10 @@ import java.util.List;
 public class RoleServiceImpl
         extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    private static final String CACHE_NAMES = "roles:userid:";
-
     @Resource
     private RoleMenuRelService roleMenuRelService;
     @Resource
     private UserRoleRelService userRoleRelService;
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -55,6 +52,12 @@ public class RoleServiceImpl
         qw.eq("role_id", roleId);
         roleMenuRelService.remove(qw);
         return roleMenuRelService.saveBatch(roleMenuRelList);
+    }
+
+    @Override
+    public boolean isDefault(Integer roleId) {
+        Role role = this.getById(roleId);
+        return role.getDefaultd();
     }
 
 }

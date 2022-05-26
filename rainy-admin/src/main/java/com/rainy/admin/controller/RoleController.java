@@ -5,7 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import com.rainy.admin.dto.IdNameDto;
+import com.rainy.admin.dto.IdNamesDto;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.admin.dto.RoleDto;
+import com.rainy.admin.util.AssertUtils;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -76,24 +80,25 @@ public class RoleController {
     }
 
     @ApiOperation("删除角色")
-    @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'删除了角色[' + #id + '].'")
-    @DeleteMapping("/role/{id:[0-9]+}")
-    public Result removeRoleById(@PathVariable Integer id) {
-        return Result.ok(roleService.removeById(id));
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'删除了角色[' + #dto.name + '].'")
+    @DeleteMapping("/role")
+    public Result removeById(@RequestBody IdNameDto dto) {
+        AssertUtils.isTrue(roleService.isDefault(dto.getId()), "默认角色不能删除！");
+        return Result.ok(roleService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除角色")
-    @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了角色[' + #ids + '].'")
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了角色[' + #dto.names + '].'")
     @DeleteMapping("/roles")
-    public Result removeBatchByIds(@RequestBody List<Integer> ids) {
-        return Result.ok(roleService.removeBatchByIds(ids));
+    public Result removeBatchByIds(@RequestBody IdNamesDto dto) {
+        return Result.ok(roleService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新角色")
-    @SysLog(module = "角色管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了角色[' + #role.name + '].'")
-    @ApiOperationSupport(ignoreParameters = {"createTime", "createBy", "updateTime", "updateBy"})
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了角色[' + #roleDto.name + '].'")
     @PutMapping("/role")
-    public Result updateRole(@RequestBody @Valid Role role) {
+    public Result updateRole(@RequestBody @Valid RoleDto roleDto) {
+        Role role = roleDto.convert();
         return Result.ok(roleService.updateById(role));
     }
 

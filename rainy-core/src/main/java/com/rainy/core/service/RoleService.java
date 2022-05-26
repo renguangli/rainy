@@ -17,4 +17,6 @@ public interface RoleService extends IService<Role> {
     boolean deleteById(Integer id);
 
     boolean assignMenus(Integer roleId, List<RoleMenuRel> roleMenuRelList);
+
+    boolean isDefault(Integer roleId);
 }

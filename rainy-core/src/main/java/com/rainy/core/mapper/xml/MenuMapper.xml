@@ -14,9 +14,12 @@
         select m.name
         from t_menu m
           left join t_role_menu_rel rmr on m.id = rmr.menu_id
-        where m.deleted = 0 and m.type_code = 'button' and rmr.role_id in
-        <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
-            #{roleId}
-        </foreach>
+        where m.deleted = 0 and m.type_code = 'button'
+        <if test="roleIds != null">
+            and rmr.role_id in
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
     </select>
 </mapper>

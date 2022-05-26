@@ -1,6 +1,7 @@
 package com.rainy.admin.config.security;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.rainy.common.enums.DefaultRole;
 import com.rainy.core.entity.Role;
 import com.rainy.core.mapper.MenuMapper;
 import com.rainy.core.mapper.RoleMapper;
@@ -32,8 +33,12 @@ public class StpInterfaceImpl implements StpInterface {
             return Collections.emptyList();
         }
         List<Role> roles = roleMapper.listRolesByUserId(loginId);
-        List<Integer> roleIds = roles.stream().map(Role::getId).collect(Collectors.toList());
-        return menuMapper.selectMenusByRoleIds(roleIds);
+        List<String> roleCodes = map2RoleCodes(roles);
+        // 如果是超级管理员返回所有接口权限
+        if (roleCodes.contains(DefaultRole.SUPPER_ADMIN.getName())) {
+            return menuMapper.selectMenusByRoleIds(null);
+        }
+        return menuMapper.selectMenusByRoleIds(map2RoleIds(roles));
     }
 
     @Override
@@ -42,4 +47,15 @@ public class StpInterfaceImpl implements StpInterface {
         return roles.stream().map(Role::getCode).collect(Collectors.toList());
     }
 
+    private List<String> map2RoleCodes(List<Role> roles) {
+        return roles.stream()
+                .map(Role::getCode)
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> map2RoleIds(List<Role> roles) {
+        return roles.stream()
+                .map(Role::getId)
+                .collect(Collectors.toList());
+    }
 }

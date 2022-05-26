@@ -40,6 +40,8 @@ public interface MenuService extends IService<Menu> {
      */
     List<AntdvMenu> listAntdvMenus(Integer userId);
 
+    List<Menu> listMenusByUserId(Integer userId);
+
     @Override
     boolean save(Menu menu);
 

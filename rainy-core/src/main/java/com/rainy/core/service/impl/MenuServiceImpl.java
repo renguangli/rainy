@@ -1,14 +1,21 @@
 package com.rainy.core.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rainy.core.entity.AntdvMenu;
-import com.rainy.core.entity.Menu;
-import com.rainy.core.entity.RoleMenuRel;
+import com.rainy.common.constant.ConfigConstants;
+import com.rainy.common.constant.DictCodeConstants;
+import com.rainy.common.enums.DefaultRole;
+import com.rainy.core.entity.*;
 import com.rainy.core.mapper.MenuMapper;
+import com.rainy.core.mapper.RoleMapper;
 import com.rainy.core.mapper.RoleMenuRelMapper;
+import com.rainy.core.mapper.UserRoleRelMapper;
 import com.rainy.core.service.MenuService;
+import com.rainy.core.service.UserRoleRelService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,13 +43,30 @@ public class MenuServiceImpl
 
     @Resource
     private RoleMenuRelMapper roleMenuRelMapper;
+    @Resource
+    private RoleMapper roleMapper;
 
     @Override
     public List<AntdvMenu> listAntdvMenus(Integer userId) {
-        List<Menu> menus = this.baseMapper.selectMenusByUserId(userId);
+        List<Menu> menus = this.listMenusByUserId(userId);
         return menus.stream()
                 .flatMap(this::menu2antdvMenu)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Menu> listMenusByUserId(Integer userId) {
+        List<Role> roles = roleMapper.listRolesByUserId(userId);
+        List<String> roleCodes = roles.stream()
+                .map(Role::getCode)
+                .collect(Collectors.toList());
+        // 如果是超级管理员,返回所有非按钮类型菜单
+        if (roleCodes.contains(DefaultRole.SUPPER_ADMIN.getName())) {
+            QueryWrapper<Menu> qw = new QueryWrapper<>();
+            qw.in("target", DictCodeConstants.MENU_TARGET_TYPES);
+            return this.baseMapper.selectList(qw);
+        }
+        return this.baseMapper.selectMenusByUserId(userId);
     }
 
     @Override

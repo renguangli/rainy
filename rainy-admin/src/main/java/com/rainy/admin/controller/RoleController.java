@@ -84,7 +84,7 @@ public class RoleController {
     @ApiOperation("删除角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'删除了角色[' + #dto.name + '].'")
     @DeleteMapping("/role")
-    public Result removeById(@RequestBody IdNameDto dto) {
+    public Result removeById(@RequestBody @Valid IdNameDto dto) {
         Assert.isTrue(roleService.isDefault(dto.getId()), "默认角色不能删除！");
         return Result.ok(roleService.removeById(dto.getId()));
     }
@@ -92,7 +92,7 @@ public class RoleController {
     @ApiOperation("批量删除角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了角色[' + #dto.names + '].'")
     @DeleteMapping("/roles")
-    public Result removeBatchByIds(@RequestBody IdNamesDto dto) {
+    public Result removeBatchByIds(@RequestBody @Valid IdNamesDto dto) {
         return Result.ok(roleService.removeBatchByIds(dto.getIds()));
     }
 
@@ -107,7 +107,7 @@ public class RoleController {
     @ApiOperation("分配菜单")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.ADD, detail = "'给角色[' + #dto.name + ']分配了菜单[' + #dto.names + '].'")
     @PostMapping("/role/menus")
-    public Result assignMenus(@RequestBody IdsNamesDto dto) {
+    public Result assignMenus(@RequestBody @Valid IdsNamesDto dto) {
         List<RoleMenuRel> roleMenuRels = dto.getIds().stream().
                 map((id) -> new RoleMenuRel(dto.getId(),id, true))
                 .collect(Collectors.toList());

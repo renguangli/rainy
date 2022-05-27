@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   List: '/positions',
@@ -9,7 +9,7 @@ const api = {
 export function List (parameter) {
   return axios({
     url: api.List,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
@@ -17,7 +17,7 @@ export function List (parameter) {
 export function Add (parameter) {
   return axios({
     url: api.Update,
-    method: 'POST',
+    method: method.POST,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -25,17 +25,21 @@ export function Add (parameter) {
   })
 }
 
-export function Del (id) {
+export function Del (parameter) {
   return axios({
-    url: `${api.Update}/${id}`,
-    method: 'delete'
+    url: `${api.Update}`,
+    method: method.DELETE,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 
 export function BatchDel (parameter) {
   return axios({
     url: api.BatchDel,
-    method: 'delete',
+    method: method.DELETE,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -46,7 +50,7 @@ export function BatchDel (parameter) {
 export function Edit (parameter) {
   return axios({
     url: api.Update,
-    method: 'PUT',
+    method: method.PUT,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

@@ -66,14 +66,14 @@ public class ConfigController {
     @ApiOperation("删除配置")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'删除了配置[' + #dto.name + '].'")
     @DeleteMapping("/config")
-    public Result removeConfig(@RequestBody IdNameDto dto){
+    public Result removeConfig(@RequestBody @Valid IdNameDto dto){
         return Result.ok(configService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除配置")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了配置[' + #dto.names + '].'")
     @DeleteMapping("/configs")
-    public Result batchRemoveConfig(@RequestBody IdNamesDto dto){
+    public Result batchRemoveConfig(@RequestBody @Valid IdNamesDto dto){
         return Result.ok(configService.removeBatchByIds(dto.getIds()));
     }
 

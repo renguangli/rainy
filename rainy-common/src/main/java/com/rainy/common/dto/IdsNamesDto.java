@@ -3,6 +3,8 @@ package com.rainy.common.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
@@ -16,9 +18,11 @@ import java.util.List;
 public class IdsNamesDto {
 
     @ApiModelProperty("主键id")
+    @Positive
     private Integer id;
 
     @ApiModelProperty("id列表")
+    @NotEmpty
     private List<Integer> ids;
 
     @ApiModelProperty(value = "半选id列表", notes = "分配菜单时使用,其他地方不用传")

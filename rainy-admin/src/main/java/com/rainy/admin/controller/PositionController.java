@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.common.enums.OperationType;
+import com.rainy.admin.util.Assert;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
+import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.Position;
 import com.rainy.core.service.PositionService;
 import io.swagger.annotations.Api;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * rainy
@@ -42,7 +44,7 @@ public class PositionController {
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "职位管理", operationTypeCode = OperationType.QUERY, detail = "'查询了职位列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/positions")
-    public Result listPositions(PageInfo<Position> page, String name) {
+    public Result list(PageInfo<Position> page, String name) {
         QueryWrapper<Position> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         qw.orderBy(ArrayUtil.isNotEmpty(page.getColumns()), page.isAsc(), page.getColumns());
@@ -57,29 +59,31 @@ public class PositionController {
     @SysLog(module = "职位管理", operationTypeCode = OperationType.ADD, detail = "'新增了职位[' + #position.name + '].'")
     @ApiOperationSupport(ignoreParameters = {"id", "createTime", "createBy", "updateTime", "updateBy"})
     @PostMapping("/position")
-    public Result savePosition(@RequestBody @Valid Position position) {
+    public Result save(@RequestBody @Valid Position position) {
+        boolean exists = positionService.exists("name", position.getName());
+        Assert.isTrue(exists, "岗位[" + position.getName() + "]已存在！");
         return Result.ok(positionService.save(position));
     }
 
     @ApiOperation("删除职位")
-    @SysLog(module = "职位管理", operationTypeCode = OperationType.DELETE, detail = "'删除了职位[' + #id + '].'")
-    @DeleteMapping("/position/{id:[0-9]+}")
-    public Result removePosition(@PathVariable Integer id) {
-        return Result.ok(positionService.removeById(id));
+    @SysLog(module = "职位管理", operationTypeCode = OperationType.DELETE, detail = "'删除了职位[' + #dto.name + '].'")
+    @DeleteMapping("/position")
+    public Result remove(@RequestBody @Valid IdNameDto dto) {
+        return Result.ok(positionService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除职位")
-    @SysLog(module = "职位管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了职位[' + #ids + '].'")
+    @SysLog(module = "职位管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了职位[' + #dto.names + '].'")
     @DeleteMapping("/positions")
-    public Result batchRemovePosition(@RequestBody List<Integer> ids) {
-        return Result.ok(positionService.removeBatchByIds(ids));
+    public Result batchRemove(@RequestBody @Valid IdNamesDto dto) {
+        return Result.ok(positionService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新职位")
     @SysLog(module = "职位管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了职位[' + #position.name + '].'")
     @ApiOperationSupport(ignoreParameters = {"createTime", "createBy", "updateTime", "updateBy"})
     @PutMapping("/position")
-    public Result updatePosition(@RequestBody @Valid Position position) {
+    public Result update(@RequestBody @Valid Position position) {
         return Result.ok(positionService.updateById(position));
     }
 

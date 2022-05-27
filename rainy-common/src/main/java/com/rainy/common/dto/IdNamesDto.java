@@ -3,6 +3,7 @@ package com.rainy.common.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
 public class IdNamesDto {
 
     @ApiModelProperty("主键id列表")
+    @NotEmpty
     private List<Integer> ids;
 
     @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称（list）...,方便记录日志，调试时可不传。")

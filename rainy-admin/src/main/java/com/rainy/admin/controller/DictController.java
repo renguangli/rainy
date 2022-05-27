@@ -80,14 +80,14 @@ public class DictController {
     @ApiOperation("删除字典及字典项")
     @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典[' + #dto.name + '].'")
     @DeleteMapping("/dict")
-    public Result removeDict(@RequestBody IdNameDto dto) {
+    public Result removeDict(@RequestBody @Valid IdNameDto dto) {
         return Result.ok(dictService.deleteDictAndItemsById(dto.getId()));
     }
 
     @ApiOperation("批量删除字典")
     @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典[' + #dto.names + '].'")
     @DeleteMapping("/dicts")
-    public Result batchRemoveDict(@RequestBody IdNamesDto dto) {
+    public Result batchRemoveDict(@RequestBody @Valid IdNamesDto dto) {
         return Result.ok(dictService.removeBatchByIds(dto.getIds()));
     }
 
@@ -128,14 +128,14 @@ public class DictController {
     @ApiOperation("删除字典项")
     @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典项[' + #dto.name + '].'")
     @DeleteMapping("/dict/item")
-    public Result removeDictItem(@RequestBody IdNameDto dto) {
+    public Result removeDictItem(@RequestBody @Valid IdNameDto dto) {
         return Result.ok(dictItemService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除字典项")
     @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典项[' + #dto.names + '].'")
     @DeleteMapping("/dict/items")
-    public Result batchRemoveDictItems(@RequestBody IdNamesDto dto) {
+    public Result batchRemoveDictItems(@RequestBody @Valid IdNamesDto dto) {
         return Result.ok(dictItemService.removeBatchByIds(dto.getIds()));
     }
 

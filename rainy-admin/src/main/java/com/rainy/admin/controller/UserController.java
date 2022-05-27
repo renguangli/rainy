@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.OperationType;
@@ -87,8 +87,8 @@ public class UserController {
     public Result saveUser(@RequestBody @Valid User user) {
         // 校验用户是否存在
         boolean exists = userService.exists("username", user.getUsername());
-        Assert.isTrue(exists, "用户[" + user.getUsername() + "]已存在！");
-        Assert.isContains(user.getPassword(), user.getUsername(), "密码不能等于或包含用户名");
+        ValidateUtils.isTrue(exists, "用户[" + user.getUsername() + "]已存在！");
+        ValidateUtils.isContains(user.getPassword(), user.getUsername(), "密码不能等于或包含用户名");
         user.setStatus(UserConstants.STATUS_NORMAL);
         return Result.ok(userService.save(user));
     }
@@ -120,7 +120,7 @@ public class UserController {
     public Result resetPassword(@PathVariable Integer id){
         User user = userService.getById(id);
         // 校验用户是否存在
-        Assert.isNull(user, "用户[" + id + "]不存在.");
+        ValidateUtils.isNull(user, "用户[" + id + "]不存在.");
         String resetPassword = configService.get(ConfigConstants.RESET_PASSWORD);
         boolean flag = userService.updateById(new User(id, resetPassword));
         return Result.ok(flag);

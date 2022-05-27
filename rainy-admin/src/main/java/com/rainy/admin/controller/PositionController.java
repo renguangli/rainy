@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
@@ -61,7 +61,7 @@ public class PositionController {
     @PostMapping("/position")
     public Result save(@RequestBody @Valid Position position) {
         boolean exists = positionService.exists("name", position.getName());
-        Assert.isTrue(exists, "岗位[" + position.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "岗位[" + position.getName() + "]已存在！");
         return Result.ok(positionService.save(position));
     }
 

@@ -8,7 +8,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaFoxUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.dto.LoginDTO;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.enums.ResultCode;
@@ -116,7 +116,7 @@ public class SsoServerController {
     @GetMapping("/userinfo")
     public Result ssoUserinfo(Integer loginId) {
         // 校验签名
-        Assert.checkSsoSign();
+        ValidateUtils.checkSsoSign();
         return Result.ok(WebUtils.getUserinfo(loginId));
     }
 

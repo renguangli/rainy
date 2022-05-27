@@ -6,7 +6,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.service.SaTokenService;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.DictCodeConstants;
@@ -59,7 +59,7 @@ public class ConfigController {
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
     public Result saveConfig(@Valid @RequestBody Config config){
         boolean codeExists = configService.exists("code", config.getCode());
-        Assert.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
         return Result.ok(configService.save(config));
     }
 

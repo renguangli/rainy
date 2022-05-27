@@ -4,12 +4,8 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.sso.SaSsoUtil;
 import cn.dev33.satoken.sso.exception.SaSsoException;
 import cn.dev33.satoken.temp.SaTempUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rainy.common.exception.BizException;
 import com.rainy.common.exception.NotExistsException;
 import com.rainy.common.exception.UnauthorizedException;
-
-import java.util.regex.Pattern;
 
 /**
  * rainy
@@ -17,7 +13,7 @@ import java.util.regex.Pattern;
  * @author renguangli
  * @date 2022/5/21 16:01
  */
-public class Assert {
+public class ValidateUtils {
 
     public static void isContains(String str1, String str2, String message) {
         if (str1 == null || str2 == null ) {
@@ -55,4 +51,9 @@ public class Assert {
         }
     }
 
+    public static void isGtZero(long count, String message) {
+        if (count > 0) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

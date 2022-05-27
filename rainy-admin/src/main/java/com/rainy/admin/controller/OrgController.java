@@ -1,10 +1,19 @@
 package com.rainy.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.conditions.ChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -69,28 +78,32 @@ public class OrgController {
     @SysLog(module = "组织管理", operationTypeCode = OperationType.ADD, detail = "'新增了组织[' + #org.name + '].'")
     @ApiOperationSupport(ignoreParameters = {"org.id", "org.children"})
     @PostMapping("/org")
-    public Result addOrg(@RequestBody @Valid Org org) {
+    public Result save(@RequestBody @Valid Org org) {
         return Result.ok(orgService.save(org));
     }
 
     @ApiOperation("删除组织")
-    @SysLog(module = "组织管理", operationTypeCode = OperationType.DELETE, detail = "'删除了组织[' + #id + '].'")
-    @DeleteMapping("/org/{id:[0-9]+}")
-    public Result removeOrg(@PathVariable Integer id) {
-        return Result.ok(orgService.removeById(id));
+    @SysLog(module = "组织管理", operationTypeCode = OperationType.DELETE, detail = "'删除了组织[' + #dto.name + '].'")
+    @DeleteMapping("/org")
+    public Result remove(@RequestBody @Valid IdNameDto dto) {
+        QueryWrapper<Org> qw = new QueryWrapper<>();
+        qw.eq("parent_id", dto.getId());
+        long count = orgService.count(qw);
+        ValidateUtils.isGtZero(count, "该组织下有子组织，请先删除子组织!");
+        return Result.ok(orgService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除组织")
-    @SysLog(module = "组织管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了组织[' + #ids + '].'")
+    @SysLog(module = "组织管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了组织[' + #dto.names + '].'")
     @DeleteMapping("/orgs")
-    public Result batchRemoveOrg(@RequestBody List<Integer> ids) {
-        return Result.ok(orgService.removeBatchByIds(ids));
+    public Result batchRemove(@RequestBody IdNamesDto dto) {
+        return Result.ok(orgService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新组织")
     @SysLog(module = "组织管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了组织[' + #org.name + '].'")
     @PutMapping("/org")
-    public Result updateOrg(@RequestBody @Valid Org org) {
+    public Result update(@RequestBody @Valid Org org) {
         return Result.ok(orgService.updateById(org));
     }
 

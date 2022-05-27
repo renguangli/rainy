@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
@@ -20,14 +20,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import net.hasor.core.ID;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.Positive;
-import java.util.List;
 
 /**
  * rainy
@@ -73,7 +70,7 @@ public class DictController {
     @PostMapping("/dict")
     public Result saveDict(@RequestBody @Valid Dict dict) {
         boolean codeExists = dictService.exists("code", dict.getCode());
-        Assert.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
         return Result.ok(dictService.save(dict));
     }
 

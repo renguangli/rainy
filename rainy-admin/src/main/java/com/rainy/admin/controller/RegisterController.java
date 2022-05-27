@@ -3,7 +3,7 @@ package com.rainy.admin.controller;
 import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.RegisterDTO;
-import com.rainy.admin.util.Assert;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.Result;
 import com.rainy.common.enums.UserConstants;
@@ -44,7 +44,7 @@ public class RegisterController {
     public Result register(@Valid @RequestBody RegisterDTO registerDTO) {
         // 校验邮箱是否被注册
         boolean exists = userService.exists("email", registerDTO.getEmail());
-        Assert.isTrue(exists, "邮箱[" + registerDTO.getEmail() + "]已被注册！");
+        ValidateUtils.isTrue(exists, "邮箱[" + registerDTO.getEmail() + "]已被注册！");
         User user = userService.register(registerDTO.convert());
         // 发送激活账号邮件
         String subject = configService.get(ConfigConstants.ACTIVATE_ACCOUNT_MAIL_TITLE);
@@ -63,7 +63,7 @@ public class RegisterController {
     @PostMapping("/activate/{token}")
     public Result activate(@PathVariable String token) {
         // 校验token是否过期
-        Assert.isValidTempToken(token, "账号激活失败，token 已过期,请重新注册！");
+        ValidateUtils.isValidTempToken(token, "账号激活失败，token 已过期,请重新注册！");
         SaTempUtil.deleteToken(token);
         int id = SaTempUtil.parseToken(token, Integer.class);
         User user = new User();

@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.admin.util.Assert;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -17,6 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import net.hasor.core.ID;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -68,21 +72,23 @@ public class DictController {
     @SysLog(module = "字典管理", operationTypeCode = OperationType.ADD, detail = "'新增了字典[' + #dict.name + '].'")
     @PostMapping("/dict")
     public Result saveDict(@RequestBody @Valid Dict dict) {
+        boolean codeExists = dictService.exists("code", dict.getCode());
+        Assert.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
         return Result.ok(dictService.save(dict));
     }
 
     @ApiOperation("删除字典及字典项")
-    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典[' + #id + '].'")
-    @DeleteMapping("/dict/{id:[0-9]+}")
-    public Result removeDict(@PathVariable Integer id) {
-        return Result.ok(dictService.deleteDictAndItemsById(id));
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典[' + #dto.name + '].'")
+    @DeleteMapping("/dict")
+    public Result removeDict(@RequestBody IdNameDto dto) {
+        return Result.ok(dictService.deleteDictAndItemsById(dto.getId()));
     }
 
     @ApiOperation("批量删除字典")
-    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典[' + #ids + '].'")
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典[' + #dto.names + '].'")
     @DeleteMapping("/dicts")
-    public boolean batchRemoveDict(@RequestBody List<Integer> ids) {
-        return dictService.removeBatchByIds(ids);
+    public Result batchRemoveDict(@RequestBody IdNamesDto dto) {
+        return Result.ok(dictService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("修改字典")
@@ -120,17 +126,17 @@ public class DictController {
     }
 
     @ApiOperation("删除字典项")
-    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典项[' + #id + '].'")
-    @DeleteMapping("/dict/item/{id}")
-    public Result removeDictItem(@PathVariable @Positive Integer id) {
-        return Result.ok(dictItemService.removeById(id));
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'删除了字典项[' + #dto.name + '].'")
+    @DeleteMapping("/dict/item")
+    public Result removeDictItem(@RequestBody IdNameDto dto) {
+        return Result.ok(dictItemService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除字典项")
-    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典项[' + #ids + '].'")
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了字典项[' + #dto.names + '].'")
     @DeleteMapping("/dict/items")
-    public Result batchRemoveDictItems(@RequestBody List<Integer> ids) {
-        return Result.ok(dictItemService.removeBatchByIds(ids));
+    public Result batchRemoveDictItems(@RequestBody IdNamesDto dto) {
+        return Result.ok(dictItemService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("修改字典项")

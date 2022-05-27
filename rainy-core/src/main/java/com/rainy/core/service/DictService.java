@@ -15,4 +15,6 @@ public interface DictService extends IService<Dict> {
 
     Map<String, Map<String, Object>> getDictTree() ;
     boolean deleteDictAndItemsById(Integer id) ;
+
+    boolean exists(String column, String value);
 }

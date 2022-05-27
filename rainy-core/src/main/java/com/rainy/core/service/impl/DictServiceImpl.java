@@ -77,4 +77,12 @@ public class DictServiceImpl
         return true;
     }
 
+    @Override
+    public boolean exists(String column, String value) {
+        QueryWrapper<Dict> qw = new QueryWrapper<>();
+        qw.eq(column, value);
+        Dict dict = this.getOne(qw);
+        return dict != null;
+    }
+
 }

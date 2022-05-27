@@ -68,7 +68,7 @@
               <a @click="$refs.editor.open(1, record)">编辑</a>
             </a-menu-item>
             <a-menu-item>
-              <a-popconfirm placement="topRight" :title="'确定删除本字典[' + [record.name] + ']以及字典项吗?'" @confirm="del(record.id)">
+              <a-popconfirm placement="topRight" :title="'确定删除本字典[' + [record.name] + ']以及字典项吗?'" @confirm="del(record)">
                 <a>删除</a>
               </a-popconfirm>
             </a-menu-item>
@@ -160,8 +160,9 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    del (id) {
-      Del(id).then(res => {
+    del (record) {
+      const param = { id: record.id, name: record.name }
+      Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.handleOk()
@@ -171,7 +172,15 @@ export default {
       })
     },
     batchDel () {
-      BatchDel(this.selectedRowKeys).then(res => {
+      const param = {
+        ids: [],
+        names: []
+      }
+      this.selectedRows.forEach(record => {
+        param.ids.push(record.id)
+        param.names.push(record.name)
+      })
+      BatchDel(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.$refs.table.clearSelected()

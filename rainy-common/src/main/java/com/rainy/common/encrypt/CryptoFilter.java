@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * 对请求参数，相应结果做解密，加密处理
  */
-@Component
-@WebFilter(urlPatterns = "/*", filterName = "cryptoFilter")
+//@Component
+//@WebFilter(urlPatterns = "/*", filterName = "cryptoFilter")
 public class CryptoFilter implements Filter {
 
     @Override

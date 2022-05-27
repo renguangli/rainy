@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.admin.util.AssertUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.OperationType;
@@ -115,9 +116,8 @@ public class UserController {
     @PutMapping("/user/{id:[0-9]+}/password/reset")
     public Result resetPassword(@PathVariable Integer id){
         User user = userService.getById(id);
-        if (user == null) {
-            throw new RuntimeException("user[id:" + id + "] not exists.");
-        }
+        // 校验用户是否存在
+        AssertUtils.isNull(user, "用户[" + id + "]不存在.");
         String resetPassword = configService.get(ConfigConstants.RESET_PASSWORD);
         boolean flag = userService.updateById(new User(id, resetPassword));
         return Result.ok(flag);

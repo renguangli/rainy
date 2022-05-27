@@ -12,11 +12,11 @@ public enum ResultCode {
     SUCCESS(200, "success"),
     BAD_REQUEST(400, "Bad Request."),
 
-    UNAUTHORIZED(401, "Unauthorized."),
-    ACCOUNT_EXPIRED(401, "账号已过期!"),
+    UNAUTHORIZED(401, "未认证！"),
+    ACCOUNT_NOT_ACTIVATE(401, "账号未激活!"),
+    ACCOUNT_EXPIRED(401, "账号已过期！"),
     PASSWORD_EXPIRED(401, "密码已过期!"),
-    ACCOUNT_PASSWORD_NOT_MATCH(401, "账号与密码不匹配!"),
-    ACCOUNT_NOT_ACTIVATE(401, "您的账号未激活!"),
+    ACCOUNT_PASSWORD_NOT_MATCH(401, "请输入正确的用户名与密码!"),
 
     UNAUTHORIZED2(402, "Secondary authentication failed."),
     FORBIDDEN(403, "Forbidden."),

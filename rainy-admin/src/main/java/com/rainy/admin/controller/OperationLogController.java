@@ -34,7 +34,6 @@ public class OperationLogController {
     @Resource
     private OperationLogService operationLogService;
 
-
     @ApiOperation("操作日志列表(分页)")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "操作日志", operationTypeCode = OperationType.QUERY, detail = "'查询了操作日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)

@@ -35,9 +35,6 @@ import javax.validation.Valid;
 public class RegisterController {
 
     @Resource
-    private AsyncTaskExecutor asyncTaskExecutor;
-
-    @Resource
     private UserService userService;
     @Resource
     private ConfigService configService;
@@ -57,7 +54,7 @@ public class RegisterController {
         addr = addr + token;
         String replace = content.replace("${addr}", addr);
         // 异步发送邮件
-        asyncTaskExecutor.execute(() -> mailService.sendHtml(registerDTO.getEmail(), subject, replace));
+        mailService.asyncSendHtml(registerDTO.getEmail(), subject, replace);
         return Result.ok();
     }
 

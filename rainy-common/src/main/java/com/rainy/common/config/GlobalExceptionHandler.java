@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.rainy.common.constant.CharConstants;
 import com.rainy.common.Result;
 import com.rainy.common.enums.ResultCode;
+import com.rainy.common.exception.NotExistsException;
 import com.rainy.common.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler {
     public Result illegalArgumentException(IllegalArgumentException e) {
         int code = ResultCode.BAD_REQUEST.getCode();
         return Result.of(code, e.getMessage());
+    }
+
+    @ExceptionHandler(value = NotExistsException.class)
+    public Result notExistsException(NotExistsException e) {
+        return Result.of(ResultCode.BAD_REQUEST.getCode(), e.getMessage());
     }
 
     /**

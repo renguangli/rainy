@@ -34,7 +34,6 @@ public class LoginLogController {
     @Resource
     private LoginLogService loginLogService;
 
-
     @ApiOperation("登录日志列表(分页)")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "登录日志", operationTypeCode = OperationType.QUERY, detail = "'查询了登录日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)

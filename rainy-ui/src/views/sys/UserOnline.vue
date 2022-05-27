@@ -41,7 +41,7 @@
         </a-popconfirm>
       </template>
       <span slot="operation" slot-scope="text, record">
-        <a-popconfirm placement="topRight" :title="'确定下线用户[' + record.name + ']吗?'" @confirm="kickOut(record.id)">
+        <a-popconfirm placement="topRight" :title="'确定下线用户[' + record.name + ']吗?'" @confirm="kickOut(record)">
           <a>下线</a>
         </a-popconfirm>
       </span>
@@ -113,8 +113,9 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    kickOut (id) {
-      KickOut(id).then(res => {
+    kickOut (record) {
+      const param = { id: record.id, name: record.username }
+      KickOut(param).then(res => {
         if (res.success) {
           this.$message.success('下线成功')
           this.handleOk()
@@ -124,7 +125,15 @@ export default {
       })
     },
     batchKickOut () {
-      BatchKickOut(this.selectedRowKeys).then(res => {
+      const param = {
+        ids: [],
+        names: []
+      }
+      this.selectedRows.forEach(record => {
+        param.ids.push(record.id)
+        param.names.push(record.username)
+      })
+      BatchKickOut(param).then(res => {
         if (res.success) {
           this.$message.success('下线成功')
           this.handleOk()

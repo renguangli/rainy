@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -16,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,18 +61,18 @@ public class SysMonitorController {
     }
 
     @ApiOperation(value = "强制下线")
-    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'下线了用户[' + #userId + '].'")
-    @PutMapping("/user/{userId}/kickOut")
-    public Result kickOut(@PathVariable Integer userId){
-        StpUtil.kickout(userId);
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'下线了用户[' + #dto.name + '].'")
+    @PutMapping("/user/kickOut")
+    public Result kickOut(@RequestBody @Valid IdNameDto dto){
+        StpUtil.kickout(dto.getId());
         return Result.ok();
     }
 
     @ApiOperation(value = "批量强制下线")
-    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'批量下线了用户[' + #userIds + '].'")
+    @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'批量下线了用户[' + #dto.names + '].'")
     @PutMapping("/users/kickOut")
-    public Result batchKickOut(@RequestBody List<Integer> userIds){
-        userIds.forEach(StpUtil::kickout);
+    public Result batchKickOut(@RequestBody @Valid IdNamesDto dto){
+        dto.getIds().forEach(StpUtil::kickout);
         return Result.ok();
     }
 }

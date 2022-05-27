@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   SysMonitor: '/sys/monitor',
@@ -10,29 +10,32 @@ const api = {
 export function SysMonitor () {
   return axios({
     url: api.SysMonitor,
-    method: 'get'
+    method: method.GET
   })
 }
 
 export function OnlineUser (parameter) {
   return axios({
     url: api.UserOnline,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
 
-export function KickOut (userId) {
+export function KickOut (parameter) {
   return axios({
-    url: `${api.KickOut}/${userId}/kickOut`,
-    method: 'put'
+    url: `${api.KickOut}/kickOut`,
+    method: method.PUT,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
-
 export function BatchKickOut (parameter) {
   return axios({
     url: api.BatchKickOut,
-    method: 'put',
+    method: method.PUT,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

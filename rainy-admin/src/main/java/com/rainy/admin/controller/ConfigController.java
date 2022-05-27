@@ -6,10 +6,13 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.service.SaTokenService;
-import com.rainy.common.constant.DictCodeConstants;
-import com.rainy.common.enums.OperationType;
+import com.rainy.admin.util.Assert;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.constant.DictCodeConstants;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
+import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.Config;
 import com.rainy.core.service.ConfigService;
 import io.swagger.annotations.Api;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * rainy
@@ -56,21 +58,23 @@ public class ConfigController {
     @PostMapping("/config")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
     public Result saveConfig(@Valid @RequestBody Config config){
+        boolean codeExists = configService.exists("code", config.getCode());
+        Assert.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
         return Result.ok(configService.save(config));
     }
 
     @ApiOperation("删除配置")
-    @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'删除了配置[' + #id + '].'")
-    @DeleteMapping("/config/{id:[0-9]+}")
-    public Result removeConfig(@PathVariable Integer id){
-        return Result.ok(configService.removeById(id));
+    @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'删除了配置[' + #dto.name + '].'")
+    @DeleteMapping("/config")
+    public Result removeConfig(@RequestBody IdNameDto dto){
+        return Result.ok(configService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除配置")
-    @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了配置[' + #ids + '].'")
+    @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了配置[' + #dto.names + '].'")
     @DeleteMapping("/configs")
-    public Result batchRemoveConfig(@RequestBody List<Integer> ids){
-        return Result.ok(configService.removeBatchByIds(ids));
+    public Result batchRemoveConfig(@RequestBody IdNamesDto dto){
+        return Result.ok(configService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新配置")

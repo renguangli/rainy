@@ -16,4 +16,6 @@ public interface ConfigService extends IService<Config> {
     boolean getAsBoolean(String code);
     boolean update(Config config);
 
+    boolean exists(String column, String value);
+
 }

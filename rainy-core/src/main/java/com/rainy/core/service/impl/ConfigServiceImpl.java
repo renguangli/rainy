@@ -50,4 +50,12 @@ public class ConfigServiceImpl
         return this.baseMapper.updateById(config) > 0;
     }
 
+    @Override
+    public boolean exists(String column, String value) {
+        QueryWrapper<Config> qw = new QueryWrapper<>();
+        qw.eq(column, value);
+        Config config = this.baseMapper.selectOne(qw);
+        return config != null;
+    }
+
 }

@@ -9,7 +9,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.dto.RoleDto;
-import com.rainy.admin.util.AssertUtils;
+import com.rainy.admin.util.Assert;
 import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
@@ -85,7 +85,7 @@ public class RoleController {
     @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'删除了角色[' + #dto.name + '].'")
     @DeleteMapping("/role")
     public Result removeById(@RequestBody IdNameDto dto) {
-        AssertUtils.isTrue(roleService.isDefault(dto.getId()), "默认角色不能删除！");
+        Assert.isTrue(roleService.isDefault(dto.getId()), "默认角色不能删除！");
         return Result.ok(roleService.removeById(dto.getId()));
     }
 

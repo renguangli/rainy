@@ -85,7 +85,10 @@ public class UserController {
     @ApiOperationSupport(ignoreParameters = {"user.id"})
     @PostMapping("/user")
     public Result saveUser(@RequestBody @Valid User user) {
-        userService.checkExists("username", user.getUsername(), "用户[" + user.getUsername() + "]已存在！");
+        // 校验用户是否存在
+        boolean exists = userService.exists("username", user.getUsername());
+        AssertUtils.isTrue(exists, "用户[" + user.getUsername() + "]已存在！");
+        AssertUtils.isContains(user.getPassword(), user.getUsername(), "密码不能等于或包含用户名");
         user.setStatus(UserConstants.STATUS_NORMAL);
         return Result.ok(userService.save(user));
     }

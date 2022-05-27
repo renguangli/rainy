@@ -23,6 +23,15 @@ public class AssertUtils {
     public static final String PASSWORD_REGEX = "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_]+$)(?![a-z0-9]+$)(?![a-z\\W_]+$)(?![0-9\\W_]+$)[a-zA-Z0-9\\W_]{8,20}$";
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
+    public static void isContains(String str1, String str2, String message) {
+        if (str1 == null || str2 == null ) {
+            return;
+        }
+        if (str1.contains(str2)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     public static void isNull(Object obj, String message) {
         if (obj == null) {
             throw new NotExistsException(message);
@@ -43,16 +52,10 @@ public class AssertUtils {
         }
     }
 
-    public static void isValidToken(String token){
+    public static void isValidTempToken(String token, String message){
         long timeout = SaTempUtil.getTimeout(token);
         if (timeout == -2) {
-            throw new BizException("账号激活失败，token 已过期！");
-        }
-    }
-
-    public static void checkPassword(String password){
-        if (!PASSWORD_PATTERN.matcher(password).matches()) {
-            throw new BizException("密码至少包含大写字母、小写字母、数字或特殊符号中的任意三种!");
+            throw new UnauthorizedException(message);
         }
     }
 

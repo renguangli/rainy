@@ -33,8 +33,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User register(User user) {
-        // 校验邮箱是否被注册
-        this.checkExists("email", user.getEmail(), "邮箱[" + user.getEmail() + "]已被注册！");
         // 给用户随机一个名字
         user.setName(UUID.fastUUID().toString(true).substring(8));
         user.setOrgId(1); // 给用户一个默认组织
@@ -48,12 +46,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public void checkExists(String column, String value, String message){
+    public boolean exists(String column, String value){
         QueryWrapper<User> qw = new QueryWrapper<>();
         qw.eq(column, value);
-        User one = getOne(qw);
-        if (one != null) {
-            throw new BizException(ResultCode.BAD_REQUEST.getCode(), message);
-        }
+        return getOne(qw) != null;
     }
 }

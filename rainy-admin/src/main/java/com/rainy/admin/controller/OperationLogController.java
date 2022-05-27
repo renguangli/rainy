@@ -38,9 +38,7 @@ public class OperationLogController {
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "操作日志", operationTypeCode = OperationType.QUERY, detail = "'查询了操作日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
     @GetMapping("/operationLogs")
-    public Result listOperationLogs(PageInfo<OperationLog> page,
-                                                    String username,
-                                                    String operationTypeCode,
+    public Result list(PageInfo<OperationLog> page, String username,String operationTypeCode,
                                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime startTime,
                                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime endTime){
         QueryWrapper<OperationLog> qw = new QueryWrapper<>();
@@ -57,21 +55,21 @@ public class OperationLogController {
     @ApiOperation("删除操作日志")
     @SysLog(module = "操作日志", operationTypeCode = OperationType.DELETE, detail = "'删除了操作日志[' + #id + '].'")
     @DeleteMapping("/operationLog/{id:[0-9]+}")
-    public Result removeOperationLog(@PathVariable Integer id){
+    public Result remove(@PathVariable Integer id){
         return Result.ok(operationLogService.removeById(id));
     }
 
     @ApiOperation("批量删除操作日志")
     @SysLog(module = "操作日志", operationTypeCode = OperationType.DELETE, detail = "'批量删除了操作日志[' + #ids + '].'")
     @DeleteMapping("/operationLogs")
-    public Result batchRemoveOperationLog(@RequestBody List<Integer> ids){
+    public Result batch(@RequestBody List<Integer> ids){
         return Result.ok(operationLogService.removeBatchByIds(ids));
     }
 
     @ApiOperation("清空操作日志")
     @SysLog(module = "操作日志", operationTypeCode = OperationType.DELETE, detail = "清空了操作日志.")
     @DeleteMapping("/operationLogs/clear")
-    public Result clearOperationLog(){
+    public Result clear(){
         operationLogService.clear();
         return Result.ok();
     }

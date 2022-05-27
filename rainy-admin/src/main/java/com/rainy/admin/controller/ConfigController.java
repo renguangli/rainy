@@ -42,7 +42,7 @@ public class ConfigController {
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "配置管理", operationTypeCode = OperationType.QUERY, detail = "'查询了配置列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/configs")
-    public Result listConfigs(PageInfo<Config> page, String name, String code, String categoryCode){
+    public Result list(PageInfo<Config> page, String name, String code, String categoryCode){
         QueryWrapper<Config> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         qw.likeRight(StrUtil.isNotBlank(code), "code", code);
@@ -57,7 +57,7 @@ public class ConfigController {
     @ApiOperation("新增配置")
     @PostMapping("/config")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
-    public Result saveConfig(@Valid @RequestBody Config config){
+    public Result save(@Valid @RequestBody Config config){
         boolean codeExists = configService.exists("code", config.getCode());
         ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
         return Result.ok(configService.save(config));
@@ -66,21 +66,21 @@ public class ConfigController {
     @ApiOperation("删除配置")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'删除了配置[' + #dto.name + '].'")
     @DeleteMapping("/config")
-    public Result removeConfig(@RequestBody @Valid IdNameDto dto){
+    public Result remove(@RequestBody @Valid IdNameDto dto){
         return Result.ok(configService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除配置")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了配置[' + #dto.names + '].'")
     @DeleteMapping("/configs")
-    public Result batchRemoveConfig(@RequestBody @Valid IdNamesDto dto){
+    public Result batchRemove(@RequestBody @Valid IdNamesDto dto){
         return Result.ok(configService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新配置")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了配置[' + #config.name + '].'")
     @PutMapping("/config")
-    public Result updateConfig(@Valid @RequestBody Config config){
+    public Result update(@Valid @RequestBody Config config){
         boolean ret = configService.update(config);
         // 如果是 sa_token 相关的配置，更新 sa_token 配置
         if (DictCodeConstants.CONFIG_CATEGORY_SA_TOKEN.equals(config.getCategoryCode())) {

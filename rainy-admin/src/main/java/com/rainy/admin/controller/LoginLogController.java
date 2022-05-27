@@ -38,9 +38,7 @@ public class LoginLogController {
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "登录日志", operationTypeCode = OperationType.QUERY, detail = "'查询了登录日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
     @GetMapping("/loginLogs")
-    public Result listOperationLogs(PageInfo<LoginLog> page,
-                                                    String username,
-                                                    Integer loginType,
+    public Result list(PageInfo<LoginLog> page,String username,Integer loginType,
                                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime startTime,
                                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime endTime){
         QueryWrapper<LoginLog> qw = new QueryWrapper<>();
@@ -57,21 +55,21 @@ public class LoginLogController {
     @ApiOperation("删除登录日志")
     @SysLog(module = "登录日志", operationTypeCode = OperationType.DELETE, detail = "'删除了登录日志[' + #id + '].'")
     @DeleteMapping("/loginLog/{id:[0-9]+}")
-    public Result removeOperationLog(@PathVariable Integer id){
+    public Result remove(@PathVariable Integer id){
         return Result.ok(loginLogService.removeById(id));
     }
 
     @ApiOperation("批量删除登录日志")
     @SysLog(module = "登录日志", operationTypeCode = OperationType.DELETE, detail = "'批量删除了登录日志[' + #ids + '].'")
     @DeleteMapping("/loginLogs")
-    public Result batchRemoveOperationLog(@RequestBody List<Integer> ids){
+    public Result batchRemove(@RequestBody List<Integer> ids){
         return Result.ok(loginLogService.removeBatchByIds(ids));
     }
 
     @ApiOperation("清空登录日志")
     @SysLog(module = "登录日志", operationTypeCode = OperationType.DELETE, detail = "清空了登录日志.")
     @DeleteMapping("/loginLogs/clear")
-    public Result clearOperationLog(){
+    public Result clear(){
         loginLogService.clear();
         return Result.ok();
     }

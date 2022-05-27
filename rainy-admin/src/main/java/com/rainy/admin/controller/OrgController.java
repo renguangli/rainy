@@ -52,14 +52,14 @@ public class OrgController {
         return Result.ok(orgService.getOrgTree());
     }
 
-    @ApiOperation("组织列表(分页）")
+    @ApiOperation("组织列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "组织管理", operationTypeCode = OperationType.QUERY, detail = "'查询了组织列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "组织结构名称")
     })
     @GetMapping("/orgs")
-    public Result listOrgs(PageInfo<Org> page, String name, Integer orgId) {
+    public Result list(PageInfo<Org> page, String name, Integer orgId) {
         if (orgId != null) {
             List<Org> orgList = orgService.listOrgsById(orgId);
             page.setRecords(orgList);

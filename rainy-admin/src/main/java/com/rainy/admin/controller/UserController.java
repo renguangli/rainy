@@ -62,10 +62,10 @@ public class UserController {
             @ApiImplicitParam(name = "username", value = "用户名"),
             @ApiImplicitParam(name = "name", value = "用户名称")
     })
-    @ApiOperation("用户列表(分页)")
+    @ApiOperation("用户列表")
     @SysLog(module = "用户管理", operationTypeCode = OperationType.QUERY, detail = "'查询了用户列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/users")
-    public Result pageUsers(PageInfo<User> page, @ApiIgnore User user) {
+    public Result list(PageInfo<User> page, @ApiIgnore User user) {
         QueryWrapper<User> qw = new QueryWrapper<>();
         if (user.getOrgId() != null) {
             List<Integer> orgIds = orgService.listOrgIdsById(user.getOrgId());
@@ -84,7 +84,7 @@ public class UserController {
     @SysLog(module = "用户管理", operationTypeCode = OperationType.ADD, detail = "'新增了用户[' + #user.username + '].'")
     @ApiOperationSupport(ignoreParameters = {"user.id"})
     @PostMapping("/user")
-    public Result saveUser(@RequestBody @Valid User user) {
+    public Result save(@RequestBody @Valid User user) {
         // 校验用户是否存在
         boolean exists = userService.exists("username", user.getUsername());
         ValidateUtils.isTrue(exists, "用户[" + user.getUsername() + "]已存在！");
@@ -96,21 +96,21 @@ public class UserController {
     @ApiOperation("删除用户")
     @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'删除了用户[' + #id + '].'")
     @DeleteMapping("/user/{id:[0-9]+}")
-    public Result removeUser(@PathVariable Integer id) {
+    public Result remove(@PathVariable Integer id) {
         return Result.ok(userService.removeById(id));
     }
 
     @ApiOperation("批量删除用户")
     @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了用户[' + #ids + '].'")
     @DeleteMapping("/users")
-    public Result batchRemoveUser(@RequestBody List<Integer> ids) {
+    public Result batchRemove(@RequestBody List<Integer> ids) {
         return Result.ok(userService.removeBatchByIds(ids));
     }
 
     @ApiOperation("更新用户")
     @SysLog(module = "用户管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了用户[' + #user.name + '].'")
     @PutMapping("/user")
-    public Result updateUser(@RequestBody @Valid User user) {
+    public Result update(@RequestBody @Valid User user) {
         return Result.ok(userService.updateById(user));
     }
 
@@ -129,7 +129,7 @@ public class UserController {
     @ApiOperation(value = "根据用户id查询拥有的角色id列表")
     @SysLog(module = "用户管理", operationTypeCode = OperationType.QUERY, detail = "'查询了用户[' + #userId + ']拥有的角色列表'")
     @GetMapping("/user/{userId:[0-9]+}/roleIds")
-    public Result getRoleIds(@PathVariable Integer userId){
+    public Result listRoleIds(@PathVariable Integer userId){
         QueryWrapper<UserRoleRel> qw = new QueryWrapper<>();
         qw.eq("user_id", userId);
         List<Integer> roleIds = roleRelService.list(qw).stream()

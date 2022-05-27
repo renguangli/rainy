@@ -48,7 +48,7 @@ public class RoleController {
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "角色管理", operationTypeCode = OperationType.QUERY, detail = "'查询了角色列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/roles")
-    public Result listRoles(PageInfo<Role> page, String name, String code) {
+    public Result list(PageInfo<Role> page, String name, String code) {
         QueryWrapper<Role> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         qw.likeRight(StrUtil.isNotBlank(code), "code", code);
@@ -63,7 +63,7 @@ public class RoleController {
     @ApiOperation("根据角色id查询菜单id列表")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.QUERY, detail = "'查询了角色[' + #dto.name + ']拥有的菜单列表'")
     @GetMapping("/role/menuIds")
-    public Result getMenuIds(IdNameDto dto) {
+    public Result listMenuIds(IdNameDto dto) {
         QueryWrapper<RoleMenuRel> qw = new QueryWrapper<>();
         qw.eq("role_id", dto.getId());
         qw.eq("`all`", true);
@@ -77,14 +77,14 @@ public class RoleController {
     @ApiOperation("添加角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.ADD, detail = "'新增了角色[' + #role.name + '].'")
     @PostMapping("/role")
-    public Result saveRole(@RequestBody @Valid Role role) {
+    public Result save(@RequestBody @Valid Role role) {
         return Result.ok(roleService.save(role));
     }
 
     @ApiOperation("删除角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'删除了角色[' + #dto.name + '].'")
     @DeleteMapping("/role")
-    public Result removeById(@RequestBody @Valid IdNameDto dto) {
+    public Result remove(@RequestBody @Valid IdNameDto dto) {
         ValidateUtils.isTrue(roleService.isDefault(dto.getId()), "默认角色不能删除！");
         return Result.ok(roleService.removeById(dto.getId()));
     }
@@ -92,14 +92,14 @@ public class RoleController {
     @ApiOperation("批量删除角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了角色[' + #dto.names + '].'")
     @DeleteMapping("/roles")
-    public Result removeBatchByIds(@RequestBody @Valid IdNamesDto dto) {
+    public Result removeBatch(@RequestBody @Valid IdNamesDto dto) {
         return Result.ok(roleService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新角色")
     @SysLog(module = "角色管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了角色[' + #roleDto.name + '].'")
     @PutMapping("/role")
-    public Result updateRole(@RequestBody @Valid RoleDto roleDto) {
+    public Result update(@RequestBody @Valid RoleDto roleDto) {
         Role role = roleDto.convert();
         return Result.ok(roleService.updateById(role));
     }

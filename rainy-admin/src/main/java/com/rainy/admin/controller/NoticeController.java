@@ -44,7 +44,7 @@ public class NoticeController {
             @ApiImplicitParam(name = "title", value = "公告标题")
     })
     @GetMapping("/notices")
-    public Result listAnnouncements(PageInfo<Notice> page, String title){
+    public Result list(PageInfo<Notice> page, String title){
         QueryWrapper<Notice> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(title), "title", title);
         if (page.isPaged()) {
@@ -57,7 +57,7 @@ public class NoticeController {
     @ApiOperation("新增公告")
     @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.ADD, detail = "'新增了公告[' + #notice.title + '].'")
     @PostMapping("/notice")
-    public Result addNotice(@RequestBody @Valid Notice notice) {
+    public Result save(@RequestBody @Valid Notice notice) {
         Integer userId = WebUtils.getLoginIdAsInt();
         notice.setUserId(userId);
         return Result.ok(noticeService.save(notice));
@@ -66,21 +66,21 @@ public class NoticeController {
     @ApiOperation("删除公告")
     @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'删除了公告[' + #id + '].'")
     @DeleteMapping("/notice/{id:[0-9]+}")
-    public Result delNotice(@PathVariable Integer id) {
+    public Result remove(@PathVariable Integer id) {
         return Result.ok(noticeService.removeById(id));
     }
 
     @ApiOperation("批量删除公告")
     @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'批量删除了公告[' + #ids + '].'")
     @DeleteMapping("/notices")
-    public Result batchDelNotice(@RequestBody List<Integer> ids) {
+    public Result batchDel(@RequestBody List<Integer> ids) {
         return Result.ok(noticeService.removeBatchByIds(ids));
     }
 
     @ApiOperation("更新公告")
     @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.UPDATE, detail = "'更新了公告[' + #notice.title + '].'")
     @PutMapping("/notice")
-    public Result updateNotice(@RequestBody @Valid Notice notice) {
+    public Result update(@RequestBody @Valid Notice notice) {
         return Result.ok(noticeService.updateById(notice));
     }
 

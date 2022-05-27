@@ -77,7 +77,7 @@ public class CommonController {
 
     @ApiOperation("头像地址")
     @GetMapping("/avatar/{filename}")
-    public void avatar(@PathVariable String filename, HttpServletResponse response) throws IOException {
+    public void getAvatar(@PathVariable String filename, HttpServletResponse response) throws IOException {
         String uploadPath = configService.get(ConfigConstants.AVATAR_UPLOAD_PATH);
         byte[] bytes = FileUtil.readBytes(uploadPath + File.separator + filename);
         response.getOutputStream().write(bytes);

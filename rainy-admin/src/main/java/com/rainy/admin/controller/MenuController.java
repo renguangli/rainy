@@ -66,7 +66,7 @@ public class MenuController {
     @SysLog(module = "菜单管理", operationTypeCode = OperationType.ADD, detail = "'新增了菜单[' + #menu.name + '].'")
     @ApiOperationSupport(ignoreParameters = {"menu.children", "menu.id"})
     @PostMapping("/menu")
-    public Result saveMenu(@RequestBody @Valid Menu menu){
+    public Result save(@RequestBody @Valid Menu menu){
         return Result.ok(menuService.save(menu));
     }
 
@@ -74,14 +74,14 @@ public class MenuController {
     @SysLog(module = "菜单管理", operationTypeCode = OperationType.DELETE, detail = "'删除了菜单[' + #id + '].'")
     @ApiOperationSupport(ignoreParameters = {"menu.children"})
     @DeleteMapping("/menu/{id:[0-9]+}")
-    public Result removeMenu(@PathVariable Integer id){
+    public Result remove(@PathVariable Integer id){
         return Result.ok(menuService.deleteById(id));
     }
 
     @ApiOperation("更新菜单")
     @SysLog(module = "菜单管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了菜单[' + #menu.name + '].'")
     @PutMapping("/menu")
-    public Result updateMenu(@RequestBody @Valid Menu menu){
+    public Result update(@RequestBody @Valid Menu menu){
         return Result.ok(menuService.updateById(menu));
     }
 

@@ -110,7 +110,8 @@ export default {
           dataIndex: 'cron'
         }, {
           title: 'class类名',
-          dataIndex: 'className'
+          dataIndex: 'className',
+          ellipsis: true
         }, {
           title: '任务状态',
           dataIndex: 'status',
@@ -119,7 +120,7 @@ export default {
         }, {
           title: '描述',
           dataIndex: 'description',
-          checked: false
+          ellipsis: true
         }, {
           title: '创建时间',
           dataIndex: 'createTime',

@@ -115,7 +115,8 @@ export default {
           scopedSlots: { customRender: 'type' }
         }, {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          ellipsis: true
         }, {
           title: '创建时间',
           dataIndex: 'createTime',

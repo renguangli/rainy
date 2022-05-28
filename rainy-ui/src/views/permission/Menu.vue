@@ -116,7 +116,8 @@ export default {
           checked: false
         }, {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          ellipsis: true
         }, {
           title: '排序',
           dataIndex: 'sort'

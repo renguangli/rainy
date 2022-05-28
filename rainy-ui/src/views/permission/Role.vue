@@ -96,7 +96,8 @@ export default {
           dataIndex: 'code'
         }, {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          ellipsis: true
         }, {
           title: '是否默认',
           dataIndex: 'defaultd',

@@ -96,14 +96,16 @@ export default {
           dataIndex: 'code'
         }, {
           title: '值',
-          dataIndex: 'value'
+          dataIndex: 'value',
+          ellipsis: true
         }, {
           title: '数据类型',
           dataIndex: 'dataType',
           scopedSlots: { customRender: 'dataType' }
         }, {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          ellipsis: true
         }, {
           title: '创建时间',
           dataIndex: 'createTime',

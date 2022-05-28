@@ -116,7 +116,8 @@ export default {
           dataIndex: 'datetime'
         }, {
           title: '下一次执行时间',
-          dataIndex: 'nextDatetime'
+          dataIndex: 'nextDatetime',
+          checked: false
         }, {
           title: '执行时长(毫秒)',
           dataIndex: 'processTime'

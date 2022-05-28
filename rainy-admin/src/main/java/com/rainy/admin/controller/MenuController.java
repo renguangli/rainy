@@ -2,6 +2,7 @@ package com.rainy.admin.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
@@ -67,6 +68,8 @@ public class MenuController {
     @ApiOperationSupport(ignoreParameters = {"menu.children", "menu.id"})
     @PostMapping("/menu")
     public Result save(@RequestBody @Valid Menu menu){
+        boolean exists = menuService.exists("name", menu.getName());
+        ValidateUtils.isTrue(exists, "菜单[" + menu.getName() + "]已存在！");
         return Result.ok(menuService.save(menu));
     }
 

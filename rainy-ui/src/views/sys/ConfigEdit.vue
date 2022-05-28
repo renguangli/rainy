@@ -47,7 +47,7 @@
           :wrapperCol="wrapperCol"
           hasFeedback
         >
-          <a-select placeholder="请选择数据类型" v-decorator="['dataType',{rules: [{required: true, min: 1, message: '请选择数据类型！'}]}]">
+          <a-select @change="handleSelect" placeholder="请选择数据类型" v-decorator="['dataType',{rules: [{required: true, min: 1, message: '请选择数据类型！'}]}]">
             <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_DATA_TYPE')" :value="item.value">
               {{ item.name }}
             </a-select-option>
@@ -59,7 +59,15 @@
           :wrapperCol="wrapperCol"
           hasFeedback
         >
-          <a-input placeholder="请输入值" v-decorator="['value',{rules: [{required: true, min: 1, message: '请输入值！'}]}]" />
+          <a-input-number v-if="dataType === 'int'" style="width: 100%" v-decorator="['value', {rules: [{required: true, message: '请输入值！'}]}]" :min="1" :max="86400" />
+          <a-input v-if="dataType === 'string'" placeholder="请输入值" v-decorator="['value',{rules: [{required: true, min: 1, message: '请输入值！'}]}]" />
+          <a-radio-group v-if="dataType === 'boolean'" v-decorator="['value', {rules: [{ required: true, message: '请选择！' }]}]">
+            <a-radio
+              v-for="(item) in $options.filters.dictItems('SYS_YES_OR_NO')"
+              :key="item.name"
+              :value="item.value"
+            >{{ item.name }}&nbsp;&nbsp;&nbsp</a-radio>
+          </a-radio-group>
         </a-form-item>
         <a-form-item
           label="描述"
@@ -92,6 +100,7 @@
         formLoading: false,
         confirmLoading: false,
         form: this.$form.createForm(this),
+        dataType: 'string',
         flag: 0
       }
     },
@@ -109,9 +118,15 @@
           this.form.getFieldDecorator('categoryCode', { initialValue: record.categoryCode })
           this.form.getFieldDecorator('code', { initialValue: record.code })
           this.form.getFieldDecorator('dataType', { initialValue: record.dataType })
+          this.dataType = record.dataType
           this.form.getFieldDecorator('value', { initialValue: record.value })
           this.form.getFieldDecorator('description', { initialValue: record.description })
+        } else {
+          this.form.getFieldDecorator('dataType', { initialValue: this.dataType })
         }
+      },
+      handleSelect (val) {
+        this.dataType = val
       },
       handleOk () {
         const { form: { validateFields } } = this
@@ -132,6 +147,7 @@
         this.form.resetFields()
         this.confirmLoading = false
         this.visible = false
+        this.dataType = 'string'
       },
       add (values) {
         Add(values).then(res => {

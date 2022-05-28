@@ -80,7 +80,8 @@ export default {
           width: '140px'
         }, {
           title: '公告内容',
-          dataIndex: 'content'
+          dataIndex: 'content',
+          ellipsis: true
         }, {
           title: '发布时间',
           dataIndex: 'datetime',

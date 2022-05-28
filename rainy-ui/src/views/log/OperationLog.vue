@@ -97,24 +97,29 @@ export default {
       columns: [
         {
           title: '系统模块',
-          dataIndex: 'module'
+          dataIndex: 'module',
+          width: 90
         }, {
           title: '操作类型',
           dataIndex: 'operationTypeCode',
-          scopedSlots: { customRender: 'operationTypeCode' }
+          scopedSlots: { customRender: 'operationTypeCode' },
+          width: 90
         }, {
           title: '操作人',
-          dataIndex: 'username'
+          dataIndex: 'username',
+          width: 90
         }, {
           title: '操作时间',
-          dataIndex: 'datetime'
+          dataIndex: 'datetime',
+          width: 180
         }, {
           title: '详情',
           dataIndex: 'detail'
         }, {
           title: '是否成功',
           dataIndex: 'success',
-          scopedSlots: { customRender: 'success' }
+          scopedSlots: { customRender: 'success' },
+          width: 90
         }, {
           title: '操作',
           scopedSlots: { customRender: 'operation' },

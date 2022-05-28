@@ -8,6 +8,9 @@ import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.constant.ConfigConstants;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
+import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.enums.UserConstants;
@@ -94,17 +97,17 @@ public class UserController {
     }
 
     @ApiOperation("删除用户")
-    @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'删除了用户[' + #id + '].'")
-    @DeleteMapping("/user/{id:[0-9]+}")
-    public Result remove(@PathVariable Integer id) {
-        return Result.ok(userService.removeById(id));
+    @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'删除了用户[' + #dto.name + '].'")
+    @DeleteMapping("/user")
+    public Result remove(@RequestBody @Valid IdNameDto dto) {
+        return Result.ok(userService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除用户")
-    @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了用户[' + #ids + '].'")
+    @SysLog(module = "用户管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了用户[' + #dto.names + '].'")
     @DeleteMapping("/users")
-    public Result batchRemove(@RequestBody List<Integer> ids) {
-        return Result.ok(userService.removeBatchByIds(ids));
+    public Result batchRemove(@RequestBody @Valid IdNamesDto dto) {
+        return Result.ok(userService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新用户")
@@ -115,9 +118,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "重置密码")
-    @SysLog(module = "用户管理", operationTypeCode = OperationType.UPDATE, detail = "'重置了用户[' + #id + ']的密码.'")
-    @PutMapping("/user/{id:[0-9]+}/password/reset")
-    public Result resetPassword(@PathVariable Integer id){
+    @SysLog(module = "用户管理", operationTypeCode = OperationType.UPDATE, detail = "'重置了用户[' + #dto.name + ']的密码.'")
+    @PutMapping("/user/password")
+    public Result resetPassword(@RequestBody @Valid IdNameDto dto){
+        Integer id = dto.getId();
         User user = userService.getById(id);
         // 校验用户是否存在
         ValidateUtils.isNull(user, "用户[" + id + "]不存在.");
@@ -139,10 +143,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "分配角色")
-    @SysLog(module = "用户管理", operationTypeCode = OperationType.ADD, detail = "'给用户[' + #userId + ']分配了角色[' + #roleIds + '].'")
-    @PostMapping("/user/{userId:[0-9]+}/roles")
-    public Result assignRoles(@PathVariable Integer userId, @RequestBody Integer[] roleIds){
-        return Result.ok(userRoleRelService.assignRoles(userId, roleIds));
+    @SysLog(module = "用户管理", operationTypeCode = OperationType.ADD, detail = "'给用户[' + #dto.name + ']分配了角色[' + #dto.names + '].'")
+    @PostMapping("/user/roles")
+    public Result assignRoles(@RequestBody @Valid IdsNamesDto dto){
+        return Result.ok(userRoleRelService.assignRoles(dto.getId(), dto.getIds()));
     }
 
 }

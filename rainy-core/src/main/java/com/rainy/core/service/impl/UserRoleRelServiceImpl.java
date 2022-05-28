@@ -25,11 +25,11 @@ public class UserRoleRelServiceImpl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean assignRoles(Integer userId, Integer[] roleIds) {
+    public boolean assignRoles(Integer userId, List<Integer> roleIds) {
         QueryWrapper<UserRoleRel> qw = new QueryWrapper<>();
         qw.eq("user_id", userId);
         this.baseMapper.delete(qw);
-        List<UserRoleRel> userRoleRelList = Stream.of(roleIds)
+        List<UserRoleRel> userRoleRelList = roleIds.stream()
                 .flatMap((Function<Integer, Stream<UserRoleRel>>) roleId -> Stream.of(new UserRoleRel(userId, roleId)))
                 .collect(Collectors.toList());
         return this.saveBatch(userRoleRelList);

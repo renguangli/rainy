@@ -164,7 +164,6 @@ export default {
         param.ids.push(v.id)
         param.names.push(v.name)
       })
-
       BatchDel(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')

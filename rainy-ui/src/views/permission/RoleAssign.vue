@@ -56,6 +56,7 @@
           })
         },
         selectedRowKeys: [],
+        selectedRows: [],
         record: {}
       }
     },
@@ -66,8 +67,9 @@
         this.visible = true
         this.getRoleIds()
       },
-      handleChange (selectedRowKeys) {
+      handleChange (selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
+        this.selectedRows = selectedRows
       },
       getRoleIds () {
         GetRoleIds(this.record.id).then(res => {
@@ -76,7 +78,17 @@
       },
       handleOk () {
         this.confirmLoading = true
-        AssignRoles(this.record.id, this.selectedRowKeys).then(res => {
+        const param = {
+          id: this.record.id,
+          name: this.record.username,
+          ids: [],
+          names: []
+        }
+        this.selectedRows.forEach(v => {
+          param.ids.push(v.id)
+          param.names.push(v.name)
+        })
+        AssignRoles(param).then(res => {
           if (res.success) {
             this.$message.success('分配成功')
             this.handleCancel()

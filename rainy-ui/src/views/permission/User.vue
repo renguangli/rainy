@@ -66,12 +66,12 @@
                     <a @click="$refs.roleAssign.open(record)">分配角色</a>
                   </a-menu-item>
                   <a-menu-item>
-                    <a-popconfirm placement="topRight" :title="'确定重置用户[' + record.name + ']的密码吗?'" @confirm="resetPassword(record.id)">
+                    <a-popconfirm placement="topRight" :title="'确定重置用户[' + record.name + ']的密码吗?'" @confirm="resetPassword(record)">
                       <a>重置密码</a>
                     </a-popconfirm>
                   </a-menu-item>
                   <a-menu-item>
-                    <a-popconfirm placement="topRight" :title="'确定删除用户[' + record.name + ']吗?'" @confirm="del(record.id)">
+                    <a-popconfirm placement="topRight" :title="'确定删除用户[' + record.name + ']吗?'" @confirm="del(record)">
                       <a>删除</a>
                     </a-popconfirm>
                   </a-menu-item>
@@ -175,9 +175,6 @@ export default {
       this.selectedRows = selectedRows
     },
     handleTreeSelect (selectedKeys, node, extra) {
-      console.log('orgId', selectedKeys)
-      console.log('node', node.node.$children)
-      console.log('extra', extra)
       // 值必须是 string
       this.queryParam.orgId = selectedKeys.toString()
       this.$refs.table.refresh()
@@ -197,8 +194,9 @@ export default {
         this.treeLoading = false
       })
     },
-    del (id) {
-      Del(id).then(res => {
+    del (record) {
+      const param = { id: record.id, name: record.username }
+      Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.handleOk()
@@ -209,7 +207,15 @@ export default {
       })
     },
     batchDel () {
-      BatchDel(this.selectedRowKeys).then(res => {
+      const param = {
+        ids: [],
+        names: []
+      }
+      this.selectedRows.forEach(v => {
+        param.ids.push(v.id)
+        param.names.push(v.username)
+      })
+      BatchDel(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.handleOk()
@@ -218,8 +224,9 @@ export default {
         }
       })
     },
-    resetPassword (id) {
-      ResetPassword(id).then(res => {
+    resetPassword (record) {
+      const param = { id: record.id, name: record.username }
+      ResetPassword(param).then(res => {
         if (res.success) {
           this.$message.success('重置成功')
           this.handleOk()

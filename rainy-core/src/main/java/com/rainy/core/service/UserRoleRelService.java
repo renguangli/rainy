@@ -3,6 +3,8 @@ package com.rainy.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainy.core.entity.UserRoleRel;
 
+import java.util.List;
+
 /**
  * rainy
  *
@@ -11,5 +13,5 @@ import com.rainy.core.entity.UserRoleRel;
  */
 public interface UserRoleRelService extends IService<UserRoleRel> {
 
-    public boolean assignRoles(Integer userId, Integer[] roleIds);
+    public boolean assignRoles(Integer userId, List<Integer> roleIds);
 }

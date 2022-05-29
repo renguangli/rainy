@@ -33,4 +33,6 @@ public interface ConfigConstants {
     /** 日志保留天数 */
     String LOG_RETENTION_DAYS = "LOG_RETENTION_DAYS";
 
+    String SM4_KEY = "sm4_key";
+
 }

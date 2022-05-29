@@ -16,6 +16,7 @@ export function reqCheck (data) {
   return axios({
     url: '/captcha/check',
     method: 'post',
-    data
+    data: data,
+    header
   })
 }

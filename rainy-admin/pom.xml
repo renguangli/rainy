@@ -31,6 +31,12 @@
             <artifactId>rainy-dataway</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.renguangli.rainy</groupId>
+            <artifactId>rainy-api-crypto</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.github.anji-plus</groupId>
             <artifactId>captcha-spring-boot-starter</artifactId>

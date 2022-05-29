@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rainy.common.util.DateUtils;
+import com.rainy.mybatis.annotation.Decrypt;
+import com.rainy.mybatis.annotation.Encrypt;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +47,8 @@ public class User {
     @NotBlank
     @Size(min = 8, max = 20)
     @Pattern(regexp = PASSWORD_REGEX, message = "密码至少包含大写字母、小写字母、数字或特殊符号中的任意三种!")
+    @Encrypt
+    @Decrypt
     private String password;
 
     @ApiModelProperty("名字")

@@ -72,7 +72,6 @@ public class SsoServerController {
         if (user.getPasswordExpiredTime() != null && user.getPasswordExpiredTime().isAfter(now)) {
             throw new UnauthorizedException(ResultCode.PASSWORD_EXPIRED);
         }
-
         // 登录
         StpUtil.login(user.getId());
 

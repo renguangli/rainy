@@ -6,7 +6,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.service.SaTokenService;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.DictCodeConstants;
@@ -82,6 +82,10 @@ public class ConfigController {
     @SysLog(module = "配置管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了配置[' + #config.name + '].'")
     @PutMapping("/config")
     public Result update(@Valid @RequestBody Config config){
+        boolean nameExists = configService.exists(config.getId(),"name", config.getName());
+        ValidateUtils.isTrue(nameExists, "配置编码[" + config.getName() + "]已存在！");
+        boolean codeExists = configService.exists(config.getId(),"code", config.getCode());
+        ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
         boolean ret = configService.update(config);
         // 如果是 sa_token 相关的配置，更新 sa_token 配置
         if (DictCodeConstants.CONFIG_CATEGORY_SA_TOKEN.equals(config.getCategoryCode())) {

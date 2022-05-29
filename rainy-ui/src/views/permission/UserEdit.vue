@@ -20,7 +20,7 @@
           :wrapperCol="wrapperCol"
           hasFeedback
         >
-          <a-input placeholder="请输入用户名" v-decorator="['username',{rules: [{required: true, min: 1, message: '请输入用户名！'}]}]" />
+          <a-input :disabled="flag !== 0" placeholder="请输入用户名" v-decorator="['username',{rules: [{required: true, min: 1, message: '请输入用户名！'}]}]" />
         </a-form-item>
         <a-form-item
           label="密码"

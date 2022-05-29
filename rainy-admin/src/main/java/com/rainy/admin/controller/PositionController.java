@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
@@ -84,6 +84,8 @@ public class PositionController {
     @ApiOperationSupport(ignoreParameters = {"createTime", "createBy", "updateTime", "updateBy"})
     @PutMapping("/position")
     public Result update(@RequestBody @Valid Position position) {
+        boolean exists = positionService.exists(position.getId(), "name", position.getName());
+        ValidateUtils.isTrue(exists, "岗位[" + position.getName() + "]已存在！");
         return Result.ok(positionService.updateById(position));
     }
 

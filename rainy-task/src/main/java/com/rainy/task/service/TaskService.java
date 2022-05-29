@@ -21,4 +21,8 @@ public interface TaskService extends IService<Task> {
 
     void pauseTask(Integer id) throws SchedulerException;
     void resumeTask(Integer id) throws SchedulerException;
+
+    boolean exists(String column, String value);
+
+    boolean exists(Integer id, String column, String value);
 }

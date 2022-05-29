@@ -21,7 +21,14 @@ public class PositionServiceImpl
     public boolean exists(String column, String value) {
         QueryWrapper<Position> qw = new QueryWrapper<>();
         qw.eq(column, value);
-        Position position = this.getOne(qw);
-        return position != null;
+        return this.baseMapper.exists(qw);
+    }
+
+    @Override
+    public boolean exists(Integer id, String column, String value) {
+        QueryWrapper<Position> qw = new QueryWrapper<>();
+        qw.ne("id", id);
+        qw.eq(column, value);
+        return this.baseMapper.exists(qw);
     }
 }

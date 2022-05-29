@@ -2,7 +2,7 @@ package com.rainy.admin.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -85,6 +85,8 @@ public class MenuController {
     @SysLog(module = "菜单管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了菜单[' + #menu.name + '].'")
     @PutMapping("/menu")
     public Result update(@RequestBody @Valid Menu menu){
+        boolean exists = menuService.exists(menu.getId(), "name", menu.getName());
+        ValidateUtils.isTrue(exists, "菜单[" + menu.getName() + "]已存在！");
         return Result.ok(menuService.updateById(menu));
     }
 

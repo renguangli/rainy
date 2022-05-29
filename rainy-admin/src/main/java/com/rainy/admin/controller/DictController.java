@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
@@ -93,6 +93,10 @@ public class DictController {
     @SysLog(module = "字典管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了字典[' + #dict.name + '].'")
     @PutMapping("/dict")
     public Result updateDict(@RequestBody @Valid Dict dict) {
+        boolean nameExists = dictService.exists(dict.getId(),"name", dict.getName());
+        ValidateUtils.isTrue(nameExists, "字典[" + dict.getName() + "]已存在！");
+        boolean codeExists = dictService.exists(dict.getId(), "code", dict.getCode());
+        ValidateUtils.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
         return Result.ok(dictService.updateById(dict));
     }
 

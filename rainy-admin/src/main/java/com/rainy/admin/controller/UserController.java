@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.admin.dto.UserUpdateDto;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
@@ -107,10 +108,10 @@ public class UserController {
     }
 
     @ApiOperation("更新用户")
-    @SysLog(module = "用户管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了用户[' + #user.name + '].'")
+    @SysLog(module = "用户管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了用户[' + #dto.name + '].'")
     @PutMapping("/user")
-    public Result update(@RequestBody @Valid User user) {
-        return Result.ok(userService.updateById(user));
+    public Result update(@RequestBody @Valid UserUpdateDto dto) {
+        return Result.ok(userService.updateById(dto.convertFor()));
     }
 
     @ApiOperation(value = "重置密码")

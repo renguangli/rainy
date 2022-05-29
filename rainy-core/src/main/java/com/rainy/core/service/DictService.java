@@ -17,4 +17,5 @@ public interface DictService extends IService<Dict> {
     boolean deleteDictAndItemsById(Integer id) ;
 
     boolean exists(String column, String value);
+    boolean exists(Integer id, String column, String value);
 }

@@ -72,8 +72,15 @@ public class OrgServiceImpl
     public boolean exists(String column, String value) {
         QueryWrapper<Org> qw = new QueryWrapper<>();
         qw.eq(column, value);
-        Org org = getOne(qw);
-        return org != null;
+        return this.baseMapper.exists(qw);
+    }
+
+    @Override
+    public boolean exists(Integer id, String column, String value) {
+        QueryWrapper<Org> qw = new QueryWrapper<>();
+        qw.ne("id", id);
+        qw.eq(column, value);
+        return this.baseMapper.exists(qw);
     }
 
     /**

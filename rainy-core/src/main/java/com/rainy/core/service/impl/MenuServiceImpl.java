@@ -120,6 +120,14 @@ public class MenuServiceImpl
     }
 
     @Override
+    public boolean exists(Integer id, String column, String value) {
+        QueryWrapper<Menu> qw = new QueryWrapper<>();
+        qw.ne("id", id);
+        qw.eq(column, value);
+        return this.baseMapper.exists(qw);
+    }
+
+    @Override
     public List<Menu> listMenusById(Integer id) {
         List<Menu> menus = new ArrayList<>();
         // 找出等于id的根节点

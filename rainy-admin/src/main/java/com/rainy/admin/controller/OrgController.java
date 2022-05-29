@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
@@ -71,6 +71,8 @@ public class OrgController {
     @ApiOperationSupport(ignoreParameters = {"org.id", "org.children"})
     @PostMapping("/org")
     public Result save(@RequestBody @Valid Org org) {
+        boolean exists = orgService.exists("name", org.getName());
+        ValidateUtils.isTrue(exists, "岗位[" + org.getName() + "]已存在！");
         return Result.ok(orgService.save(org));
     }
 
@@ -96,6 +98,8 @@ public class OrgController {
     @SysLog(module = "组织管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了组织[' + #org.name + '].'")
     @PutMapping("/org")
     public Result update(@RequestBody @Valid Org org) {
+        boolean exists = orgService.exists(org.getId(), "name", org.getName());
+        ValidateUtils.isTrue(exists, "岗位[" + org.getName() + "]已存在！");
         return Result.ok(orgService.updateById(org));
     }
 

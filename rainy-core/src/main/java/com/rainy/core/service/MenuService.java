@@ -53,4 +53,6 @@ public interface MenuService extends IService<Menu> {
     boolean exists(String column, String value);
 
     List<Menu> listMenusById(Integer id);
+
+    boolean exists(Integer id, String column, String value);
 }

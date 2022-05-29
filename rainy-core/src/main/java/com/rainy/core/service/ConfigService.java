@@ -17,5 +17,6 @@ public interface ConfigService extends IService<Config> {
     boolean update(Config config);
 
     boolean exists(String column, String value);
+    boolean exists(Integer id, String column, String value);
 
 }

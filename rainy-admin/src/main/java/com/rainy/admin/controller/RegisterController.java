@@ -3,7 +3,8 @@ package com.rainy.admin.controller;
 import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.RegisterDTO;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.admin.util.SaTokenUtils;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.common.Result;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.UserConstants;
@@ -61,7 +62,7 @@ public class RegisterController {
     @PostMapping("/activate/{token}")
     public Result activate(@PathVariable String token) {
         // 校验token是否过期
-        ValidateUtils.isValidTempToken(token, "账号激活失败，token 已过期,请重新注册！");
+        SaTokenUtils.isValidTempToken(token, "账号激活失败，token 已过期,请重新注册！");
         SaTempUtil.deleteToken(token);
         int id = SaTempUtil.parseToken(token, Integer.class);
         User user = new User();

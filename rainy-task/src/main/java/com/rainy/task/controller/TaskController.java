@@ -1,5 +1,6 @@
 package com.rainy.task.controller;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -7,6 +8,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.PageInfo;
 import com.rainy.task.entity.Task;
 import com.rainy.task.service.TaskService;
@@ -16,6 +18,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -60,7 +63,8 @@ public class TaskController {
     @ApiOperationSupport(ignoreParameters = {"task.id", "task.createTime", "task.updateTime"})
     @PostMapping("/task")
     public Result saveTask(@RequestBody @Valid Task task) throws SchedulerException {
-        // todo 任务名称不能相同
+        boolean exists = taskService.exists("name", task.getName());
+        ValidateUtils.isTrue(exists, "任务[{" + task.getName() + "}]已存在！");
         return Result.ok(taskService.addTask(task));
     }
 
@@ -83,6 +87,8 @@ public class TaskController {
     @ApiOperationSupport(ignoreParameters = {"task.createTime", "task.updateTime"})
     @PutMapping("/task")
     public Result updateTask(@RequestBody @Valid Task task) throws SchedulerException {
+        boolean exists = taskService.exists(task.getId(), "name", task.getName());
+        ValidateUtils.isTrue(exists, "任务[" + task.getName() + "]已存在！");
         return Result.ok(taskService.updateTaskById(task));
     }
 

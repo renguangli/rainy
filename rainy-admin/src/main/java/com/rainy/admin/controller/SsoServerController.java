@@ -8,7 +8,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaFoxUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.dto.LoginDTO;
-import com.rainy.admin.util.ValidateUtils;
+import com.rainy.admin.util.SaTokenUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.admin.vo.Token;
 import com.rainy.common.Result;
@@ -56,7 +56,6 @@ public class SsoServerController {
             qw.eq("email", loginDTO.getEmail());
             user = userService.getOne(qw);
         }
-        // todo 密码加密？
         if (user == null || !Objects.equals(user.getPassword(), loginDTO.getPassword())) {
             throw new UnauthorizedException(ResultCode.ACCOUNT_PASSWORD_NOT_MATCH);
         }
@@ -116,7 +115,7 @@ public class SsoServerController {
     @GetMapping("/userinfo")
     public Result ssoUserinfo(Integer loginId) {
         // 校验签名
-        ValidateUtils.checkSsoSign();
+        SaTokenUtils.checkSsoSign();
         return Result.ok(WebUtils.getUserinfo(loginId));
     }
 

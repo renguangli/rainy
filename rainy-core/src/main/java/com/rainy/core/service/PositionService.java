@@ -12,4 +12,5 @@ import com.rainy.core.entity.Position;
 public interface PositionService extends IService<Position> {
 
     boolean exists(String column, String value);
+    boolean exists(Integer id, String column, String value);
 }

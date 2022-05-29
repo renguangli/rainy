@@ -63,7 +63,7 @@ public class RoleServiceImpl
     public boolean exists(String column, String value) {
         QueryWrapper<Role> qw = new QueryWrapper<>();
         qw.eq(column, value);
-        return this.count(qw) > 0;
+        return this.baseMapper.exists(qw);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class RoleServiceImpl
         QueryWrapper<Role> qw = new QueryWrapper<>();
         qw.ne("id", id);
         qw.eq(column, value);
-        return this.count(qw) > 0;
+        return this.baseMapper.exists(qw);
     }
 
 }

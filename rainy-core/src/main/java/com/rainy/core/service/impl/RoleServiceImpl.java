@@ -66,4 +66,12 @@ public class RoleServiceImpl
         return this.count(qw) > 0;
     }
 
+    @Override
+    public boolean exists(Integer id, String column, String value) {
+        QueryWrapper<Role> qw = new QueryWrapper<>();
+        qw.ne("id", id);
+        qw.eq(column, value);
+        return this.count(qw) > 0;
+    }
+
 }

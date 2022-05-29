@@ -99,10 +99,13 @@ public class RoleController {
     }
 
     @ApiOperation("更新角色")
-    @SysLog(module = "角色管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了角色[' + #roleDto.name + '].'")
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.UPDATE, detail = "'更新了角色[' + #role.name + '].'")
     @PutMapping("/role")
-    public Result update(@RequestBody @Valid RoleDto roleDto) {
-        Role role = roleDto.convert();
+    public Result update(@RequestBody @Valid Role role) {
+        boolean nameExists = roleService.exists(role.getId(), "name", role.getName());
+        ValidateUtils.isTrue(nameExists, "角色[" + role.getName() + "]已存在！");
+        boolean codeExists = roleService.exists(role.getId(), "code", role.getCode());
+        ValidateUtils.isTrue(codeExists, "角色编码[" + role.getCode() + "]已存在！");
         return Result.ok(roleService.updateById(role));
     }
 

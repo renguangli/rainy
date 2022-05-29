@@ -2,7 +2,6 @@ package com.rainy.core.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.core.entity.LoginLog;
-import com.rainy.core.entity.OperationLog;
 import com.rainy.core.mapper.LoginLogMapper;
 import com.rainy.core.service.LoginLogService;
 import org.springframework.scheduling.annotation.Async;

@@ -11,12 +11,6 @@ public interface ConfigConstants {
     /** 是否是演示环境 */
     String IS_DEMO_DEV = "IS_DEMO_DEV";
 
-    /** 系统名称 */
-    String SYS_TITLE = "SYS_TITLE";
-    /**  系统 logo */
-    String SYS_LOGO = "SYS_LOGO";
-    /** 是否开启验证码 */
-    String CAPTCHA_ENABLE = "CAPTCHA_ENABLE";
     /** 头像上传路径 */
     String AVATAR_UPLOAD_PATH = "AVATAR_UPLOAD_PATH";
     /** 重置密码 */

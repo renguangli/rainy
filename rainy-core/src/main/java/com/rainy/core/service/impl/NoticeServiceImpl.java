@@ -6,10 +6,10 @@ import com.rainy.core.entity.NoticeUserRel;
 import com.rainy.core.mapper.NoticeMapper;
 import com.rainy.core.service.NoticeService;
 import com.rainy.core.service.NoticeUserRelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +20,10 @@ import java.util.List;
  * @date 2022/4/28 18:04
  */
 @Service
+@RequiredArgsConstructor
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
 
-    @Resource
-    private NoticeUserRelService noticeUserRelService;
+    private final NoticeUserRelService noticeUserRelService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

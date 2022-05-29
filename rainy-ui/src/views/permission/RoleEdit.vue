@@ -92,7 +92,7 @@
           this.form.getFieldDecorator('description', { initialValue: record.description })
           this.form.getFieldDecorator('defaultd', { initialValue: record.defaultd })
         } else {
-          this.form.getFieldDecorator('defaultd', { initialValue: false })
+          this.form.getFieldDecorator('defaultd', { initialValue: 'false' })
         }
       },
       handleOk () {

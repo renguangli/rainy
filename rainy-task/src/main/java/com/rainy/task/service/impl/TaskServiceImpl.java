@@ -3,15 +3,15 @@ package com.rainy.task.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.exception.NotExistsException;
 import com.rainy.task.entity.Task;
+import com.rainy.task.job.TaskStatus;
 import com.rainy.task.mapper.TaskMapper;
 import com.rainy.task.service.JobService;
 import com.rainy.task.service.TaskService;
-import com.rainy.task.job.TaskStatus;
+import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,10 +22,10 @@ import java.util.List;
  * @date 2022/3/28 10:24
  */
 @Service
+@RequiredArgsConstructor
 public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService {
 
-    @Resource
-    private JobService jobService;
+    private final JobService jobService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

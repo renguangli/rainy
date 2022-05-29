@@ -19,4 +19,5 @@ public interface RoleService extends IService<Role> {
     boolean assignMenus(Integer roleId, List<RoleMenuRel> roleMenuRelList);
 
     boolean isDefault(Integer roleId);
+    boolean exists(String column, String value);
 }

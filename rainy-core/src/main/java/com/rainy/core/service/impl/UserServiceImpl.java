@@ -3,18 +3,15 @@ package com.rainy.core.service.impl;
 import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rainy.common.enums.ResultCode;
 import com.rainy.common.enums.UserConstants;
-import com.rainy.common.exception.BizException;
 import com.rainy.core.entity.User;
 import com.rainy.core.entity.UserRoleRel;
 import com.rainy.core.mapper.UserMapper;
 import com.rainy.core.mapper.UserRoleRelMapper;
 import com.rainy.core.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * rainy
@@ -23,12 +20,11 @@ import javax.annotation.Resource;
  * @date 2022/3/29 17:51
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Resource
-    private UserRoleRelMapper userRoleRelMapper;
-    @Resource
-    private UserMapper userMapper;
+    private final UserRoleRelMapper userRoleRelMapper;
+    private final UserMapper userMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)

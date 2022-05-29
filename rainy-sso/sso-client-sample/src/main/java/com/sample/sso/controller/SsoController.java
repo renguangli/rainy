@@ -7,12 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rainy.sso.SsoUtils;
 import com.rainy.sso.Userinfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * rainy-admin
@@ -21,10 +20,10 @@ import javax.annotation.Resource;
  * @date 2022/5/16 17:19
  */
 @RestController
+@RequiredArgsConstructor
 public class SsoController {
 
-    @Resource
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
     @Value("${sso.enable}")
     private boolean enable;
 

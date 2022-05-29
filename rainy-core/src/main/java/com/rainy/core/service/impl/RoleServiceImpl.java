@@ -9,10 +9,10 @@ import com.rainy.core.mapper.RoleMapper;
 import com.rainy.core.service.RoleMenuRelService;
 import com.rainy.core.service.RoleService;
 import com.rainy.core.service.UserRoleRelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,13 +22,12 @@ import java.util.List;
  * @date 2022/3/14 13:33
  */
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl
         extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    @Resource
-    private RoleMenuRelService roleMenuRelService;
-    @Resource
-    private UserRoleRelService userRoleRelService;
+    private final RoleMenuRelService roleMenuRelService;
+    private final UserRoleRelService userRoleRelService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -58,6 +57,13 @@ public class RoleServiceImpl
     public boolean isDefault(Integer roleId) {
         Role role = this.getById(roleId);
         return role.getDefaultd();
+    }
+
+    @Override
+    public boolean exists(String column, String value) {
+        QueryWrapper<Role> qw = new QueryWrapper<>();
+        qw.eq(column, value);
+        return this.count(qw) > 0;
     }
 
 }

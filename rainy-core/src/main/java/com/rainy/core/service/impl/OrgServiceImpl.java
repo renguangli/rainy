@@ -3,7 +3,6 @@ package com.rainy.core.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.core.entity.Org;
-import com.rainy.core.entity.Role;
 import com.rainy.core.mapper.OrgMapper;
 import com.rainy.core.service.OrgService;
 import org.springframework.stereotype.Service;

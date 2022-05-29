@@ -3,13 +3,14 @@ package com.rainy.admin.aop;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rainy.admin.util.WebUtils;
+import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.annotation.SysLog;
 import com.rainy.common.util.ThrowableUtils;
 import com.rainy.core.entity.OperationLog;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.OperationLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,7 +24,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 
@@ -36,6 +36,7 @@ import java.time.LocalDateTime;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class LogAspect {
 
     // 操作日志切入点
@@ -44,12 +45,9 @@ public class LogAspect {
     private final ExpressionParser expressionParser = new SpelExpressionParser();
     private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
-    @Resource
-    private ObjectMapper objectMapper;
-    @Resource
-    private OperationLogService operationLogService;
-    @Resource
-    private ConfigService configService;
+    private final ObjectMapper objectMapper;
+    private final OperationLogService operationLogService;
+    private final ConfigService configService;
 
     /**
      * 打印方法执行时常

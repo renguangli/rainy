@@ -5,13 +5,13 @@ import com.rainy.admin.util.WebUtils;
 import com.rainy.common.enums.LoginType;
 import com.rainy.core.entity.LoginLog;
 import com.rainy.core.service.LoginLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -23,13 +23,13 @@ import java.time.LocalDateTime;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class LoginLogAspect {
 
     // 登录日志切入点
     private static final String LOGIN_LOG_POINTCUT = "execution(public * com.rainy.admin.controller.SsoServerController.login(..))";
 
-    @Resource
-    private LoginLogService loginLogService;
+    private final LoginLogService loginLogService;
 
     /**
      * 打印方法执行时常

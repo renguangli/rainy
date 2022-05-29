@@ -3,26 +3,30 @@ package com.rainy.admin.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.UUID;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.util.WebUtils;
-import com.rainy.common.constant.ConfigConstants;
-import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.constant.ConfigConstants;
+import com.rainy.common.constant.DictCodeConstants;
+import com.rainy.common.enums.OperationType;
 import com.rainy.common.service.FileService;
+import com.rainy.core.entity.Config;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.DictService;
 import com.rainy.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,30 +37,31 @@ import java.util.Map;
  */
 @Api(tags = "通用模块")
 @RestController
+@RequiredArgsConstructor
 public class CommonController {
 
     private static final String AVATAR_PATH_PREFIX = "/avatar/";
 
-    @Resource
-    private DictService dictService;
-    @Resource
-    private ConfigService configService;
-    @Resource
-    private UserService userService;
-    @Resource
-    private FileService fileService;
+    private final DictService dictService;
+    private final ConfigService configService;
+    private final UserService userService;
+    private final FileService fileService;
 
     @ApiOperation("全局配置")
     @GetMapping("/common/config")
     public Result configs() {
-        Map<String, Object> config = new HashMap<>();
+        Map<String, Object> data = new HashMap<>();
+        // 字典树
         Map<String, Map<String, Object>> dictTree = dictService.getDictTree();
-        config.put("dictTree", dictTree);
-        config.put("title", configService.get(ConfigConstants.SYS_TITLE));
-        config.put("logo", configService.get(ConfigConstants.SYS_LOGO));
-        // 是否开启验证码
-        config.put("captchaEnable", configService.get(ConfigConstants.CAPTCHA_ENABLE));
-        return Result.ok(config);
+        data.put("dictTree", dictTree);
+        // 系统配置
+        Map<String, Object> config = new HashMap<>();
+        QueryWrapper<Config> qw = new QueryWrapper<>();
+        qw.eq("category_code", DictCodeConstants.CONFIG_CATEGORY_FRONT);
+        List<Map<String, Object>> configs = configService.listMaps(qw);
+        configs.forEach(v -> {config.put(v.get("code").toString(), v.get("value"));});
+        data.put("config", config);
+        return Result.ok(data);
     }
 
     @ApiOperation("上传头像")

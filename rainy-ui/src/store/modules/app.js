@@ -17,6 +17,7 @@ import {
   DICT_TREE,
   TITLE,
   LOGO,
+  SYS_DESCRIPTION,
   CAPTCHA_ENABLE
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
@@ -100,6 +101,9 @@ const app = {
     [LOGO]: (state, logo) => {
       state.logo = logo
     },
+    [SYS_DESCRIPTION]: (state, sysDesciption) => {
+      state.sys_desciption = sysDesciption
+    },
     [CAPTCHA_ENABLE]: (state, captchaEnable) => {
       state.captchaEnable = captchaEnable
     }
@@ -120,9 +124,10 @@ const app = {
         FrontConfig().then(response => {
           const data = response.data
           commit(DICT_TREE, data.dictTree)
-          commit(TITLE, data.title)
-          commit(LOGO, data.logo)
-          commit(CAPTCHA_ENABLE, data.captchaEnable)
+          commit(TITLE, data.config.SYS_TITLE)
+          commit(LOGO, data.config.SYS_LOGO)
+          commit(SYS_DESCRIPTION, data.config.SYS_DESCRIPTION)
+          commit(CAPTCHA_ENABLE, data.config.CAPTCHA_ENABLE)
           resolve(data)
         }).catch(error => {
           reject(error)

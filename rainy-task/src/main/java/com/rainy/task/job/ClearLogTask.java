@@ -7,9 +7,9 @@ import com.rainy.core.entity.OperationLog;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.LoginLogService;
 import com.rainy.core.service.OperationLogService;
+import lombok.RequiredArgsConstructor;
 import org.quartz.*;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -20,14 +20,12 @@ import java.time.LocalDateTime;
  */
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution
+@RequiredArgsConstructor
 public class ClearLogTask implements Job {
 
-    @Resource
-    private ConfigService configService;
-    @Resource
-    private LoginLogService loginLogService;
-    @Resource
-    private OperationLogService operationLogService;
+    private final ConfigService configService;
+    private final LoginLogService loginLogService;
+    private final OperationLogService operationLogService;
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {

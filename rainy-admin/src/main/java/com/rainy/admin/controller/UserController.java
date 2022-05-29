@@ -7,14 +7,14 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
+import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.Result;
 import com.rainy.common.enums.UserConstants;
-import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.User;
 import com.rainy.core.entity.UserRoleRel;
 import com.rainy.core.service.ConfigService;
@@ -25,10 +25,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,18 +42,14 @@ import java.util.stream.Collectors;
 @Api(tags = "用户管理")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 2)
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
-    @Resource
-    private OrgService orgService;
-    @Resource
-    private UserRoleRelService userRoleRelService;
-    @Resource
-    private UserService userService;
-    @Resource
-    private UserRoleRelService roleRelService;
-    @Resource
-    private ConfigService configService;
+    private final OrgService orgService;
+    private final UserRoleRelService userRoleRelService;
+    private final UserService userService;
+    private final UserRoleRelService roleRelService;
+    private final ConfigService configService;
 
     @ApiOperation("获取当前登录用户信息")
     @GetMapping("/userinfo")

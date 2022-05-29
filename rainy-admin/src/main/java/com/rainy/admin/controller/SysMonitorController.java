@@ -5,19 +5,22 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
+import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.Result;
-import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.SysMonitorService;
 import com.rainy.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +34,11 @@ import java.util.stream.Collectors;
 @Api(tags = "系统监控")
 @ApiSupport(author = "renguangli@bonc.com.cn")
 @RestController
+@RequiredArgsConstructor
 public class SysMonitorController {
 
-    @Resource
-    private SysMonitorService sysMonitorService;
-    @Resource
-    private UserService userService;
+    private final SysMonitorService sysMonitorService;
+    private final UserService userService;
 
     @ApiOperation("系统监控")
     @SysLog(module = "系统监控", operationTypeCode = OperationType.QUERY, detail = "'查询了系统监控条数据'")

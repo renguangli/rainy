@@ -1,28 +1,25 @@
 package com.rainy.core.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.DefaultRole;
-import com.rainy.core.entity.*;
+import com.rainy.core.entity.AntdvMenu;
+import com.rainy.core.entity.Menu;
+import com.rainy.core.entity.Role;
+import com.rainy.core.entity.RoleMenuRel;
 import com.rainy.core.mapper.MenuMapper;
 import com.rainy.core.mapper.RoleMapper;
 import com.rainy.core.mapper.RoleMenuRelMapper;
-import com.rainy.core.mapper.UserRoleRelMapper;
 import com.rainy.core.service.MenuService;
-import com.rainy.core.service.UserRoleRelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,13 +35,12 @@ import java.util.stream.Stream;
  * @since JDK1.8
  */
 @Service
+@RequiredArgsConstructor
 public class MenuServiceImpl
         extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
-    @Resource
-    private RoleMenuRelMapper roleMenuRelMapper;
-    @Resource
-    private RoleMapper roleMapper;
+    private final RoleMenuRelMapper roleMenuRelMapper;
+    private final RoleMapper roleMapper;
 
     @Override
     public List<AntdvMenu> listAntdvMenus(Integer userId) {

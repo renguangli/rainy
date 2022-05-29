@@ -7,10 +7,10 @@ import com.rainy.core.entity.DictItem;
 import com.rainy.core.mapper.DictItemMapper;
 import com.rainy.core.mapper.DictMapper;
 import com.rainy.core.service.DictService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
  * @date 2022/3/21 11:56
  */
 @Service
+@RequiredArgsConstructor
 public class DictServiceImpl
         extends ServiceImpl<DictMapper, Dict> implements DictService {
 
-    @Resource
-    private DictItemMapper dictItemMapper;
+    private final DictItemMapper dictItemMapper;
 
     @Override
     public Map<String, Map<String, Object>> getDictTree() {

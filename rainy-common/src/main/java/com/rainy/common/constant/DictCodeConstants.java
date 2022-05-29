@@ -1,7 +1,5 @@
 package com.rainy.common.constant;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * 字典编码常量类
  *
@@ -20,5 +18,6 @@ public interface DictCodeConstants {
 
     String CONFIG_CATEGORY_SA_TOKEN = "SA_TOKEN";
     String CONFIG_CATEGORY_SSO = "SA_SSO";
+    String CONFIG_CATEGORY_FRONT = "front";
 
 }

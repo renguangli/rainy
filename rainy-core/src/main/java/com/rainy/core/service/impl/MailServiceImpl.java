@@ -4,6 +4,7 @@ import com.rainy.common.constant.CharConstants;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.MailService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,7 +13,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
@@ -25,10 +25,10 @@ import java.util.Date;
  */
 @Slf4j
 @Service("mailService")
+@RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
 
-    @Resource
-    private ConfigService configService;
+    private final ConfigService configService;
 
     @Async
     @Override

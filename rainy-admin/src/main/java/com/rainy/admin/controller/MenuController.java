@@ -4,18 +4,18 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
-import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.Menu;
 import com.rainy.core.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -28,10 +28,10 @@ import javax.validation.Valid;
 @Api(tags = "菜单管理")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 6)
 @RestController
+@RequiredArgsConstructor
 public class MenuController {
 
-    @Resource
-    private MenuService menuService;
+    private final MenuService menuService;
 
     @ApiOperation("antdv菜单列表")
     @GetMapping("/menus/antdv")

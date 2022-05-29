@@ -7,11 +7,11 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.Result;
-import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.Dict;
 import com.rainy.core.entity.DictItem;
 import com.rainy.core.service.DictItemService;
@@ -20,10 +20,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -35,12 +35,11 @@ import javax.validation.Valid;
 @Api(tags = "字典管理")
 @ApiSupport(author = "renguangli@bonc.com.cn")
 @RestController
+@RequiredArgsConstructor
 public class DictController {
 
-    @Resource
-    private DictService dictService;
-    @Resource
-    private DictItemService dictItemService;
+    private final DictService dictService;
+    private final DictItemService dictItemService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "category_code", value = "分类编码"),
@@ -69,6 +68,8 @@ public class DictController {
     @SysLog(module = "字典管理", operationTypeCode = OperationType.ADD, detail = "'新增了字典[' + #dict.name + '].'")
     @PostMapping("/dict")
     public Result saveDict(@RequestBody @Valid Dict dict) {
+        boolean nameExists = dictService.exists("name", dict.getName());
+        ValidateUtils.isTrue(nameExists, "字典[" + dict.getName() + "]已存在！");
         boolean codeExists = dictService.exists("code", dict.getCode());
         ValidateUtils.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
         return Result.ok(dictService.save(dict));

@@ -17,9 +17,9 @@ import com.rainy.core.entity.Config;
 import com.rainy.core.service.ConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -31,12 +31,11 @@ import javax.validation.Valid;
 @Api(tags = "配置管理")
 @ApiSupport(author = "renguangli@bonc.com.cn")
 @RestController
+@RequiredArgsConstructor
 public class ConfigController {
 
-    @Resource
-    private ConfigService configService;
-    @Resource
-    private SaTokenService saTokenService;
+    private final ConfigService configService;
+    private final SaTokenService saTokenService;
 
     @ApiOperation("配置列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
@@ -58,6 +57,8 @@ public class ConfigController {
     @PostMapping("/config")
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
     public Result save(@Valid @RequestBody Config config){
+        boolean nameExists = configService.exists("name", config.getName());
+        ValidateUtils.isTrue(nameExists, "配置编码[" + config.getName() + "]已存在！");
         boolean codeExists = configService.exists("code", config.getCode());
         ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
         return Result.ok(configService.save(config));

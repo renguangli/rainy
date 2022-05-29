@@ -3,12 +3,9 @@ package com.rainy.task.service.impl;
 import com.rainy.common.exception.NotExistsException;
 import com.rainy.task.entity.Task;
 import com.rainy.task.service.JobService;
+import lombok.RequiredArgsConstructor;
 import org.quartz.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * rainy
@@ -17,12 +14,10 @@ import javax.annotation.Resource;
  * @date 2022/3/28 10:24
  */
 @Service
+@RequiredArgsConstructor
 public class JobServiceImpl implements JobService {
 
-    private static final Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
-
-    @Resource
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
 
     /**
      *

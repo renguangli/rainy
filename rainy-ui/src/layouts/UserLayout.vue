@@ -14,7 +14,8 @@
             </a>
           </div>
           <div class="desc">
-            {{ $t('layouts.userLayout.title') }}
+            {{ $store.getters.sysDescription }}
+            <!-- {{ $t('layouts.userLayout.title') }} -->
           </div>
         </div>
 

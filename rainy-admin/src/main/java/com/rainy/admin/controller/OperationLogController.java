@@ -5,18 +5,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
-import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.DateUtils;
 import com.rainy.core.entity.OperationLog;
 import com.rainy.core.service.OperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,10 +29,10 @@ import java.util.List;
 @Api(tags = "操作日志")
 @ApiSupport(author = "renguangli@bonc.com.cn")
 @RestController
+@RequiredArgsConstructor
 public class OperationLogController {
 
-    @Resource
-    private OperationLogService operationLogService;
+    private final OperationLogService operationLogService;
 
     @ApiOperation("操作日志列表(分页)")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})

@@ -1,32 +1,25 @@
 package com.rainy.admin.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.conditions.ChainWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
-import com.baomidou.mybatisplus.extension.toolkit.ChainWrappers;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.util.ValidateUtils;
+import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.Result;
-import com.rainy.common.annotation.SysLog;
 import com.rainy.core.entity.Org;
 import com.rainy.core.service.OrgService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.validation.annotation.Validated;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -38,12 +31,11 @@ import java.util.List;
  */
 @Api(tags = "组织管理")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 3)
-@Validated
 @RestController
+@RequiredArgsConstructor
 public class OrgController {
 
-    @Resource
-    private OrgService orgService;
+    private final OrgService orgService;
 
     @ApiOperation("组织结构树")
     @SysLog(module = "组织管理", operationTypeCode = OperationType.QUERY, detail = "'查询了组织结构树'")

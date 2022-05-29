@@ -3,6 +3,7 @@ package com.rainy.sso;
 import cn.dev33.satoken.config.SaSsoConfig;
 import cn.dev33.satoken.sso.SaSsoConsts;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,8 +16,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
-
 /**
  * sso 客户端自动配置类
  *
@@ -28,12 +27,12 @@ import javax.annotation.Resource;
 @ComponentScan({"com.rainy.sso"})
 @ConditionalOnProperty(value = "sso.enable", havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(SsoProperties.class)
+@RequiredArgsConstructor
 public class SsoAutoConfiguration {
 
     private static final String USERINFO_URL = "/sso/userinfo";
 
-    @Resource
-    private SsoProperties ssoProperties;
+    private final SsoProperties ssoProperties;
 
     @Autowired(required = false)
     public void configSso(@NonNull SaSsoConfig cfg){

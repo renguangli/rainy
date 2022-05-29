@@ -15,6 +15,7 @@ export const APP_LANGUAGE = 'app_language'
 export const DICT_TREE = 'dict_tree'
 export const TITLE = 'title'
 export const LOGO = 'logo'
+export const SYS_DESCRIPTION = 'sys_description'
 export const CAPTCHA_ENABLE = 'captchaEnable'
 
 export const CONTENT_WIDTH_TYPE = {

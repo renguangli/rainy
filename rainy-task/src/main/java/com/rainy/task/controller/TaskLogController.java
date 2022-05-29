@@ -3,9 +3,9 @@ package com.rainy.task.controller;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
-import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.PageInfo;
 import com.rainy.task.entity.TaskLog;
 import com.rainy.task.service.TaskLogService;
@@ -13,9 +13,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,10 +25,10 @@ import java.util.List;
  */
 @Api(tags = "执行日志")
 @RestController
+@RequiredArgsConstructor
 public class TaskLogController {
 
-    @Resource
-    private TaskLogService taskLogService;
+    private final TaskLogService taskLogService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "任务名称"),

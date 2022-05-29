@@ -10,18 +10,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.dto.LoginDTO;
 import com.rainy.admin.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
+import com.rainy.admin.vo.Token;
 import com.rainy.common.Result;
 import com.rainy.common.enums.ResultCode;
 import com.rainy.common.enums.UserConstants;
 import com.rainy.common.exception.UnauthorizedException;
-import com.rainy.admin.vo.Token;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -35,10 +35,10 @@ import java.util.Objects;
 @Api(tags = "单点登录")
 @RestController
 @RequestMapping("/sso")
+@RequiredArgsConstructor
 public class SsoServerController {
 
-    @Resource
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * 重写 sso 登录逻辑

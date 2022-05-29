@@ -54,8 +54,7 @@ public class ConfigServiceImpl
     public boolean exists(String column, String value) {
         QueryWrapper<Config> qw = new QueryWrapper<>();
         qw.eq(column, value);
-        Config config = this.baseMapper.selectOne(qw);
-        return config != null;
+        return this.count(qw) > 0;
     }
 
 }

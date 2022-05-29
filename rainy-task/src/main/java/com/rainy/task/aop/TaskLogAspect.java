@@ -3,16 +3,15 @@ package com.rainy.task.aop;
 import com.rainy.common.util.ThrowableUtils;
 import com.rainy.task.entity.TaskLog;
 import com.rainy.task.service.TaskLogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -25,10 +24,10 @@ import java.util.Date;
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class TaskLogAspect {
 
-    @Resource
-    private TaskLogService taskLogService;
+    private final TaskLogService taskLogService;
 
     /**
      * 定时任务执行日志

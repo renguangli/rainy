@@ -1,8 +1,8 @@
 package com.rainy.common.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.rainy.common.constant.CharConstants;
 import com.rainy.common.Result;
+import com.rainy.common.constant.CharConstants;
 import com.rainy.common.enums.ResultCode;
 import com.rainy.common.exception.NotExistsException;
 import com.rainy.common.exception.UnauthorizedException;

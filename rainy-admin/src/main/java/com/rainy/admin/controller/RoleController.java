@@ -5,24 +5,24 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.common.dto.IdNameDto;
-import com.rainy.common.dto.IdNamesDto;
 import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.dto.RoleDto;
 import com.rainy.admin.util.ValidateUtils;
-import com.rainy.common.dto.IdsNamesDto;
-import com.rainy.common.enums.OperationType;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
+import com.rainy.common.dto.IdsNamesDto;
+import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.Role;
 import com.rainy.core.entity.RoleMenuRel;
 import com.rainy.core.service.RoleMenuRelService;
 import com.rainy.core.service.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,13 +36,11 @@ import java.util.stream.Collectors;
 @Api(tags = "角色管理")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 4)
 @RestController
+@RequiredArgsConstructor
 public class RoleController {
 
-    @Resource
-    private RoleService roleService;
-
-    @Resource
-    private RoleMenuRelService roleMenuRelService;
+    private final RoleService roleService;
+    private final RoleMenuRelService roleMenuRelService;
 
     @ApiOperation("角色列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
@@ -78,6 +76,10 @@ public class RoleController {
     @SysLog(module = "角色管理", operationTypeCode = OperationType.ADD, detail = "'新增了角色[' + #role.name + '].'")
     @PostMapping("/role")
     public Result save(@RequestBody @Valid Role role) {
+        boolean nameExists = roleService.exists("name", role.getName());
+        ValidateUtils.isTrue(nameExists, "角色[" + role.getName() + "]已存在！");
+        boolean codeExists = roleService.exists("code", role.getCode());
+        ValidateUtils.isTrue(codeExists, "角色编码[" + role.getCode() + "]已存在！");
         return Result.ok(roleService.save(role));
     }
 

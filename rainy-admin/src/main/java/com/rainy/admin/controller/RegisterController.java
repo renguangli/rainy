@@ -4,8 +4,8 @@ import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.dto.RegisterDTO;
 import com.rainy.admin.util.ValidateUtils;
-import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.Result;
+import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.UserConstants;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.ConfigService;
@@ -13,12 +13,12 @@ import com.rainy.core.service.MailService;
 import com.rainy.core.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -30,14 +30,12 @@ import javax.validation.Valid;
 @Api(tags = "注册账号")
 @ApiSupport(author = "renguangli@bonc.com.cn", order = 1)
 @RestController
+@RequiredArgsConstructor
 public class RegisterController {
 
-    @Resource
-    private UserService userService;
-    @Resource
-    private ConfigService configService;
-    @Resource
-    private MailService mailService;
+    private final UserService userService;
+    private final ConfigService configService;
+    private final MailService mailService;
 
     @ApiOperation("注册账号")
     @PostMapping("/register")

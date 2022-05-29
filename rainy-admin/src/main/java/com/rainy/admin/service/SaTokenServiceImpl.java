@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.core.entity.Config;
 import com.rainy.core.service.ConfigService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,14 +22,12 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SaTokenServiceImpl implements SaTokenService {
 
-    @Resource
-    private ConfigService configService;
-    @Resource
-    private SaTokenConfig saTokenConfig;
-    @Resource
-    private SaSsoConfig ssoConfig;
+    private final ConfigService configService;
+    private final SaTokenConfig saTokenConfig;
+    private final SaSsoConfig ssoConfig;
 
     @Override
     @PostConstruct
@@ -37,7 +35,6 @@ public class SaTokenServiceImpl implements SaTokenService {
         List<Config> configs = this.listConfigsByCategoryCode(DictCodeConstants.CONFIG_CATEGORY_SA_TOKEN);
         this.updateConfig(saTokenConfig, configs);
     }
-
 
     @Override
     @PostConstruct

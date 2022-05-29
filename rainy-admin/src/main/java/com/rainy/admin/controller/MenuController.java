@@ -2,11 +2,11 @@ package com.rainy.admin.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.common.util.ValidateUtils;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.Menu;
 import com.rainy.core.service.MenuService;
 import io.swagger.annotations.Api;

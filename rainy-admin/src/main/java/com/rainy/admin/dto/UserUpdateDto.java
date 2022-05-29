@@ -1,9 +1,5 @@
 package com.rainy.admin.dto;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.rainy.core.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

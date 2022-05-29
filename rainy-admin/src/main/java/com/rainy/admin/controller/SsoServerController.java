@@ -45,7 +45,7 @@ public class SsoServerController {
      */
     @ApiOperation("登录")
     @PostMapping("/login")
-    public Result login(@Valid @RequestBody LoginDTO loginDTO) {
+    public Result login(@RequestBody @Valid LoginDTO loginDTO) {
         QueryWrapper<User> qw = new QueryWrapper<>();
         User user = null;
         if (UserConstants.LOGIN_TYPE_USERNAME == loginDTO.getLoginType()) {

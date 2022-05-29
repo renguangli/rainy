@@ -3,6 +3,8 @@ package com.rainy.admin.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * rainy
  *
@@ -13,6 +15,7 @@ import lombok.Data;
 public class LoginDTO {
 
     @ApiModelProperty("登录类型")
+    @NotNull
     private Integer loginType;
 
     @ApiModelProperty("用户名")

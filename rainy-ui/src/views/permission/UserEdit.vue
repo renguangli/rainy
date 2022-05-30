@@ -82,7 +82,7 @@
           :wrapperCol="wrapperCol"
           hasFeedback
         >
-          <a-input placeholder="请输入手机号" v-decorator="['telephone',{rules: [{required: true, min: 1, message: '请输入手机号！'}]}]" />
+          <a-input placeholder="请输入手机号" v-decorator="['telephone',{rules: [{required: true, pattern: '^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\\d{8}$', message: '手机号格式不正确！'}]}]" />
         </a-form-item>
         <a-form-item
           label="邮箱"

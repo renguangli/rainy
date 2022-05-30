@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   user: '/user',
@@ -12,41 +12,41 @@ const api = {
 export default api
 
 export function getUserList (parameter) {
-  return request({
+  return axios({
     url: api.user,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
 
 export function getRoleList (parameter) {
-  return request({
+  return axios({
     url: api.role,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
 
 export function getServiceList (parameter) {
-  return request({
+  return axios({
     url: api.service,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
 
 export function getPermissions (parameter) {
-  return request({
+  return axios({
     url: api.permissionNoPager,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
 
 export function getOrgTree (parameter) {
-  return request({
+  return axios({
     url: api.orgTree,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
@@ -54,17 +54,17 @@ export function getOrgTree (parameter) {
 // id == 0 add     post
 // id != 0 update  put
 export function saveService (parameter) {
-  return request({
+  return axios({
     url: api.service,
-    method: parameter.id === 0 ? 'post' : 'put',
+    method: parameter.id === 0 ? method.GET : method.PUT,
     data: parameter
   })
 }
 
 export function saveSub (sub) {
-  return request({
+  return axios({
     url: '/sub',
-    method: sub.id === 0 ? 'post' : 'put',
+    method: sub.id === 0 ? method.POST : method.PUT,
     data: sub
   })
 }

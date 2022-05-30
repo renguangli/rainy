@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   Menus: '/menus/antdv',
@@ -10,7 +10,7 @@ const api = {
 export function GetMenuTree (parameter) {
   return axios({
     url: api.MenuTree,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
@@ -18,7 +18,7 @@ export function GetMenuTree (parameter) {
 export function List (parameter) {
   return axios({
     url: api.MenuList,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
@@ -26,7 +26,7 @@ export function List (parameter) {
 export function Add (parameter) {
   return axios({
     url: api.Update,
-    method: 'POST',
+    method: method.POST,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -37,14 +37,14 @@ export function Add (parameter) {
 export function Del (id) {
   return axios({
     url: `${api.Update}/${id}`,
-    method: 'delete'
+    method: method.DELETE
   })
 }
 
 export function Edit (parameter) {
   return axios({
     url: api.Update,
-    method: 'PUT',
+    method: method.PUT,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

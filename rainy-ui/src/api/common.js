@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   // 字典
@@ -9,14 +9,14 @@ const api = {
 export function FrontConfig () {
   return axios({
     url: api.FrontConfig,
-    method: 'GET'
+    method: method.GET
   })
 }
 
 export function AvatarUpload (parameter) {
   return axios({
     url: api.AvatarUpload,
-    method: 'POST',
+    method: method.POST,
     data: parameter,
     headers: { contentType: false, processData: false, headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
   })

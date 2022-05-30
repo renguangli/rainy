@@ -1,4 +1,4 @@
-import { axios } from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const api = {
   List: '/operationLogs',
@@ -10,7 +10,7 @@ const api = {
 export function List (parameter) {
   return axios({
     url: api.List,
-    method: 'get',
+    method: method.GET,
     params: parameter
   })
 }
@@ -18,14 +18,14 @@ export function List (parameter) {
 export function Del (id) {
   return axios({
     url: `${api.Update}/${id}`,
-    method: 'delete'
+    method: method.DELETE
   })
 }
 
 export function BatchDel (parameter) {
   return axios({
     url: api.BatchDel,
-    method: 'delete',
+    method: method.DELETE,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -36,7 +36,7 @@ export function BatchDel (parameter) {
 export function Clear () {
   return axios({
     url: api.Clear,
-    method: 'delete',
+    method: method.DELETE,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }

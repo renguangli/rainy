@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import { axios, method } from '@/utils/request'
 
 const userApi = {
   Login: '/auth/login',
@@ -36,39 +36,39 @@ const api = {
  * @returns {*}
  */
 export function login (parameter) {
-  return request({
+  return axios({
     url: api.Login,
-    method: 'post',
+    method: method.POST,
     data: parameter
   })
 }
 
 export function getSmsCaptcha (parameter) {
-  return request({
+  return axios({
     url: userApi.SendSms,
-    method: 'post',
+    method: method.POST,
     data: parameter
   })
 }
 
 export function getInfo () {
-  return request({
+  return axios({
     url: api.UserInfo,
-    method: 'get'
+    method: method.GET
   })
 }
 
 export function getCurrentUserNav () {
-  return request({
+  return axios({
     url: userApi.UserMenu,
-    method: 'get'
+    method: method.GET
   })
 }
 
 export function logout () {
-  return request({
+  return axios({
     url: api.Logout,
-    method: 'post',
+    method: method.POST,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
@@ -76,9 +76,9 @@ export function logout () {
 }
 
 export function Register (parameter) {
-  return request({
+  return axios({
     url: api.Register,
-    method: 'post',
+    method: method.POST,
     data: parameter,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -87,9 +87,9 @@ export function Register (parameter) {
 }
 
 export function Activate (token) {
-  return request({
+  return axios({
     url: `${api.Activate}/${token}`,
-    method: 'post',
+    method: method.POST,
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
@@ -101,9 +101,9 @@ export function Activate (token) {
  * @param parameter {*}
  */
 export function get2step (parameter) {
-  return request({
+  return axios({
     url: userApi.twoStepCode,
-    method: 'post',
+    method: method.POST,
     data: parameter
   })
 }

@@ -20,7 +20,7 @@
           <a-col :md="6" :sm="24">
             <a-range-picker
               :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm:ss"
+              format="YYYY-MM-DD HH:mm"
               :placeholder="['开始时间', '结束时间']"
               @change="handleDateOk"
             />

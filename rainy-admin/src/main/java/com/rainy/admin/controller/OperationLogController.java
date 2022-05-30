@@ -34,9 +34,9 @@ public class OperationLogController {
 
     private final OperationLogService operationLogService;
 
-    @ApiOperation("操作日志列表(分页)")
+    @ApiOperation("操作日志列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
-    @SysLog(module = "操作日志", operationTypeCode = OperationType.QUERY, detail = "'查询了操作日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
+//    @SysLog(module = "操作日志", operationTypeCode = OperationType.QUERY, detail = "'查询了操作日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
     @GetMapping("/operationLogs")
     public Result list(PageInfo<OperationLog> page, String username,String operationTypeCode,
                                                     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM) LocalDateTime startTime,

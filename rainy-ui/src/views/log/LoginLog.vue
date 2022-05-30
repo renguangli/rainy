@@ -17,7 +17,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="6" :sm="24">
             <a-range-picker
               :show-time="{ format: 'HH:mm' }"
               format="YYYY-MM-DD HH:mm"
@@ -25,7 +25,7 @@
               @change="handleDateOk"
             />
           </a-col>
-          <a-col :md="4" :sm="24">
+          <a-col :md="6" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
               <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>

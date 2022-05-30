@@ -2,8 +2,8 @@
   <a-card :bordered="false">
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="6" :sm="48">
+        <a-row :gutter="24">
+          <a-col :md="6" :sm="24">
             <a-form-item label="操作人">
               <a-input v-model="queryParam.username" placeholder="请输入操作人"/>
             </a-form-item>

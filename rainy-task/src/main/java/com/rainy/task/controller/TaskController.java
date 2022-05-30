@@ -103,7 +103,7 @@ public class TaskController {
     @ApiOperation("恢复任务")
     @SysLog(module = "定时任务管理", operationTypeCode = OperationType.UPDATE, detail = "'恢复了任务[' + #dto.name + '].'")
     @PutMapping("/task/resume")
-    public Result resumeTask(@PathVariable @Valid IdNameDto dto) throws SchedulerException {
+    public Result resumeTask(@RequestBody @Valid IdNameDto dto) throws SchedulerException {
         taskService.resumeTask(dto.getId());
         return Result.ok();
     }

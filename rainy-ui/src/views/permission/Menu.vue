@@ -60,7 +60,7 @@
         <template>
           <a @click="$refs.editor.open(1, record)">编辑</a>
           <a-divider type="vertical"/>
-          <a-popconfirm placement="topRight" :title="'确定删除菜单[' + record.name +']与下级菜单吗？'" @confirm="del(record.id)">
+          <a-popconfirm placement="topRight" :title="'确定删除菜单[' + record.name +']与下级菜单吗？'" @confirm="del(record)">
             <a>删除</a>
           </a-popconfirm>
         </template>
@@ -163,8 +163,9 @@ export default {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
-    del (id) {
-      Del(id).then(res => {
+    del (record) {
+      const param = { id: record.id, name: record.name }
+      Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
           this.handleOk()

@@ -5,6 +5,8 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.Menu;
@@ -74,11 +76,13 @@ public class MenuController {
     }
 
     @ApiOperation("删除菜单")
-    @SysLog(module = "菜单管理", operationTypeCode = OperationType.DELETE, detail = "'删除了菜单[' + #id + '].'")
+    @SysLog(module = "菜单管理", operationTypeCode = OperationType.DELETE, detail = "'删除了菜单[' + #dto.name + '].'")
     @ApiOperationSupport(ignoreParameters = {"menu.children"})
-    @DeleteMapping("/menu/{id:[0-9]+}")
-    public Result remove(@PathVariable Integer id){
-        return Result.ok(menuService.deleteById(id));
+    @DeleteMapping("/menu")
+    public Result remove(@RequestBody IdNameDto dto){
+        boolean exists = menuService.exists("parent_id", dto.getId().toString());
+        ValidateUtils.isTrue(exists, "该菜单下有子菜单，请先删除子菜单!");
+        return Result.ok(menuService.deleteById(dto.getId()));
     }
 
     @ApiOperation("更新菜单")

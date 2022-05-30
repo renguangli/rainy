@@ -80,10 +80,8 @@ public class OrgController {
     @SysLog(module = "组织管理", operationTypeCode = OperationType.DELETE, detail = "'删除了组织[' + #dto.name + '].'")
     @DeleteMapping("/org")
     public Result remove(@RequestBody @Valid IdNameDto dto) {
-        QueryWrapper<Org> qw = new QueryWrapper<>();
-        qw.eq("parent_id", dto.getId());
-        long count = orgService.count(qw);
-        ValidateUtils.isGtZero(count, "该组织下有子组织，请先删除子组织!");
+        boolean exists = orgService.exists("parent_id", dto.getId().toString());
+        ValidateUtils.isTrue(exists, "该组织下有子组织，请先删除子组织!");
         return Result.ok(orgService.removeById(dto.getId()));
     }
 

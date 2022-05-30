@@ -34,10 +34,14 @@ export function Add (parameter) {
   })
 }
 
-export function Del (id) {
+export function Del (parameter) {
   return axios({
-    url: `${api.Update}/${id}`,
-    method: method.DELETE
+    url: api.Update,
+    method: method.DELETE,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 

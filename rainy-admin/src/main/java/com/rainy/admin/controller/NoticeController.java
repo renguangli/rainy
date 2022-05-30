@@ -8,6 +8,8 @@ import com.rainy.admin.dto.PageInfo;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.core.entity.Notice;
 import com.rainy.core.service.NoticeService;
@@ -64,17 +66,17 @@ public class NoticeController {
     }
 
     @ApiOperation("删除公告")
-    @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'删除了公告[' + #id + '].'")
-    @DeleteMapping("/notice/{id:[0-9]+}")
-    public Result remove(@PathVariable Integer id) {
-        return Result.ok(noticeService.removeById(id));
+    @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'删除了公告[' + #dto.name + '].'")
+    @DeleteMapping("/notice")
+    public Result remove(@RequestBody @Valid IdNameDto dto) {
+        return Result.ok(noticeService.removeById(dto.getId()));
     }
 
     @ApiOperation("批量删除公告")
-    @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'批量删除了公告[' + #ids + '].'")
+    @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.DELETE, detail = "'批量删除了公告[' + #dto.names + '].'")
     @DeleteMapping("/notices")
-    public Result batchDel(@RequestBody List<Integer> ids) {
-        return Result.ok(noticeService.removeBatchByIds(ids));
+    public Result batchDel(@RequestBody @Valid IdNamesDto dto) {
+        return Result.ok(noticeService.removeBatchByIds(dto.getIds()));
     }
 
     @ApiOperation("更新公告")

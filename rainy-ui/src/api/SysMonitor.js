@@ -3,7 +3,7 @@ import { axios, method } from '@/utils/request'
 const api = {
   SysMonitor: '/sys/monitor',
   UserOnline: '/users/online',
-  KickOut: '/user',
+  KickOut: '/user/kickOut',
   BatchKickOut: '/users/kickOut'
 }
 
@@ -24,7 +24,7 @@ export function OnlineUser (parameter) {
 
 export function KickOut (parameter) {
   return axios({
-    url: `${api.KickOut}/kickOut`,
+    url: api.KickOut,
     method: method.PUT,
     data: parameter,
     headers: {

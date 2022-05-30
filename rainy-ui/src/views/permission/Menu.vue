@@ -60,7 +60,7 @@
         <template>
           <a @click="$refs.editor.open(1, record)">编辑</a>
           <a-divider type="vertical"/>
-          <a-popconfirm placement="topRight" :title="'确定删除菜单[' + record.name +']与下级菜单吗？'" @confirm="del(record)">
+          <a-popconfirm placement="topRight" :title="'确定删除菜单[' + record.name +']吗？'" @confirm="del(record)">
             <a>删除</a>
           </a-popconfirm>
         </template>

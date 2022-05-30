@@ -102,14 +102,12 @@ public class MenuServiceImpl
     @Override
     @Transactional(noRollbackFor = Exception.class)
     public boolean deleteById(Integer id) {
+        // 删除角色菜单关联
         QueryWrapper<RoleMenuRel> qw = new QueryWrapper<>();
         qw.eq("menu_id", id);
         roleMenuRelMapper.delete(qw);
-        // 找出子节点id列表
-        List<Integer> ids = this.listMenusById(id).stream()
-                .map(Menu::getId)
-                .collect(Collectors.toList());
-        return this.baseMapper.deleteBatchIds(ids) > 0;
+        // 删除菜单
+        return this.baseMapper.deleteById(id) > 0;
     }
 
     @Override

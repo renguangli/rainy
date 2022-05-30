@@ -47,7 +47,12 @@
         {{ 'SYS_TASK_GROUP' | dictItemValue(text) }}
       </span>
       <span slot="status" slot-scope="text">
-        <a-badge :color="text === 0 ? 'green' : 'red'"/>
+        <a-tag v-if="text === 0" color="#2db7f5">
+          {{ 'SYS_TASK_STATUS' | dictItemValue(text) }}
+        </a-tag>
+        <a-tag v-if="text === 1" color="#f50">
+          {{ 'SYS_TASK_STATUS' | dictItemValue(text) }}
+        </a-tag>
       </span>
       <span slot="operation" slot-scope="text, record">
         <router-link :to="{path:'/task/log',query:{name:record.name,group:record.group}}">

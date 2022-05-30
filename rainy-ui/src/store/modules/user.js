@@ -57,7 +57,8 @@ const user = {
         getInfo().then(res => {
           const result = res.data
           commit('SET_NAME', { name: result.name, welcome: welcome() })
-          commit('SET_AVATAR', process.env.VUE_APP_API_BASE_URL + result.avatar)
+          const avatar = result.avatar === '/avatar.jpg' ? result.avatar : (process.env.VUE_APP_API_BASE_URL + result.avatar)
+          commit('SET_AVATAR', avatar)
           commit('SET_ROLES', result.roles)
           commit('SET_INFO', result)
           resolve(res)

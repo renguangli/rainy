@@ -6,6 +6,8 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.dto.IdNameDto;
+import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.PageInfo;
@@ -67,17 +69,17 @@ public class TaskController {
     }
 
     @ApiOperation("删除任务")
-    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.DELETE, detail = "'删除了任务[' + #id + '].'")
-    @DeleteMapping("/task/{id:[0-9]+}")
-    public Result removeTask(@PathVariable Integer id) throws SchedulerException {
-        return Result.ok(taskService.removeTaskById(id));
+    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.DELETE, detail = "'删除了任务[' + #dto.name + '].'")
+    @DeleteMapping("/task")
+    public Result removeTask(@RequestBody @Valid IdNameDto dto) throws SchedulerException {
+        return Result.ok(taskService.removeTaskById(dto.getId()));
     }
 
     @ApiOperation("批量删除任务")
-    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了任务[' + #ids + '].'")
+    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.DELETE, detail = "'批量删除了任务[' + #dto.names + '].'")
     @DeleteMapping("/tasks")
-    public Result removeTask(@RequestBody @NotEmpty List<Integer> ids) throws SchedulerException {
-        return Result.ok(taskService.batchRemoveTaskById(ids));
+    public Result removeTask(@RequestBody @Valid IdNamesDto dto) throws SchedulerException {
+        return Result.ok(taskService.batchRemoveTaskById(dto.getIds()));
     }
 
     @ApiOperation("更新任务")
@@ -91,18 +93,18 @@ public class TaskController {
     }
 
     @ApiOperation("暂停任务")
-    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.UPDATE, detail = "'暂停了任务[' + #id + '].'")
-    @PutMapping("/task/{id}/pause")
-    public Result pauseTask(@PathVariable Integer id) throws SchedulerException {
-        taskService.pauseTask(id);
+    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.UPDATE, detail = "'暂停了任务[' + #dto.name + '].'")
+    @PutMapping("/task/pause")
+    public Result pauseTask(@RequestBody @Valid IdNameDto dto) throws SchedulerException {
+        taskService.pauseTask(dto.getId());
         return Result.ok();
     }
 
     @ApiOperation("恢复任务")
-    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.UPDATE, detail = "'恢复了任务[' + #id + '].'")
-    @PutMapping("/task/{id}/resume")
-    public Result resumeTask(@PathVariable Integer id) throws SchedulerException {
-        taskService.resumeTask(id);
+    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.UPDATE, detail = "'恢复了任务[' + #dto.name + '].'")
+    @PutMapping("/task/resume")
+    public Result resumeTask(@PathVariable @Valid IdNameDto dto) throws SchedulerException {
+        taskService.resumeTask(dto.getId());
         return Result.ok();
     }
 

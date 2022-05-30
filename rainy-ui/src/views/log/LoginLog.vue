@@ -116,12 +116,11 @@ export default {
           scopedSlots: { customRender: 'success' }
         }, {
           title: '错误详情',
-          dataIndex: 'errorMessage',
-          checked: false
+          dataIndex: 'errorMessage'
         }, {
           title: '操作',
           scopedSlots: { customRender: 'operation' },
-          width: '150px'
+          width: '40'
         }
       ],
       // 加载数据方法 必须为 Promise 对象

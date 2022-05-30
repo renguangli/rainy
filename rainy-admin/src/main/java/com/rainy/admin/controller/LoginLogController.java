@@ -39,8 +39,8 @@ public class LoginLogController {
     @SysLog(module = "登录日志", operationTypeCode = OperationType.QUERY, detail = "'查询了登录日志第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
     @GetMapping("/loginLogs")
     public Result list(PageInfo<LoginLog> page,String username,Integer loginType,
-                                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime startTime,
-                                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS) LocalDateTime endTime){
+                                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM) LocalDateTime startTime,
+                                                    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM) LocalDateTime endTime){
         QueryWrapper<LoginLog> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(username), "username", username);
         qw.eq(loginType != null, "login_type", loginType);

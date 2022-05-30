@@ -129,7 +129,7 @@ export default {
       this.selectedRows = selectedRows
     },
     del (record) {
-      const param = { id: record.id, name: record.name }
+      const param = { id: record.id, name: record.title }
       Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')
@@ -146,7 +146,7 @@ export default {
       }
       this.selectedRows.forEach(record => {
         param.ids.push(record.id)
-        param.names.push(record.name)
+        param.names.push(record.title)
       })
       BatchDel(param).then(res => {
         if (res.success) {

@@ -27,7 +27,7 @@ export function Add (parameter) {
 
 export function Del (parameter) {
   return axios({
-    url: `${api.Update}/${id}`,
+    url: `${api.Update}`,
     method: method.DELETE,
     data: parameter,
     headers: {

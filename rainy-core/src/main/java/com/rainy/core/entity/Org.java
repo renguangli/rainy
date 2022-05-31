@@ -36,6 +36,7 @@ public class Org {
     @NotNull
     @Positive
     @ApiModelProperty("排序")
+    @OrderBy
     private Integer sort;
 
     @Size(max = 128)

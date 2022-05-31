@@ -71,6 +71,7 @@ public class Menu {
     @Positive
     @ApiModelProperty("排序")
     @TableField("sort")
+    @OrderBy(asc = true)
     private Integer sort;
 
     @ApiModelProperty("target")

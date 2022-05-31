@@ -45,7 +45,6 @@ public class OperationLogController {
         qw.likeRight(StrUtil.isNotBlank(username), "username", username);
         qw.eq(StrUtil.isNotBlank(operationTypeCode), "operation_type_code", operationTypeCode);
         qw.between(startTime != null && endTime != null, "datetime", startTime, endTime);
-        qw.orderByDesc("datetime");
         if (page.isPaged()) {
             return Result.ok(operationLogService.page(page, qw));
         }

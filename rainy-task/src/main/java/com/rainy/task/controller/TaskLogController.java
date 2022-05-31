@@ -44,7 +44,6 @@ public class TaskLogController {
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         qw.eq(StrUtil.isNotBlank(group), "`group`", group);
         qw.eq(success != null, "success", success);
-        qw.orderByDesc("datetime");
         if (page.isPaged()) {
             return Result.ok(taskLogService.page(page, qw));
         }

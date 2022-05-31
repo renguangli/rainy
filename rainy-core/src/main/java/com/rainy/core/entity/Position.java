@@ -35,6 +35,7 @@ public class Position {
     @Positive
     @NotNull
     @ApiModelProperty("排序")
+    @OrderBy(asc = true)
     private Integer sort;
 
     @ApiModelProperty("创建时间")

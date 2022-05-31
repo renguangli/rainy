@@ -1,6 +1,7 @@
 package com.rainy.core.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,6 +30,7 @@ public class OperationLog {
     private String operationTypeCode;
     private String username;
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
+    @OrderBy(asc = false)
     private LocalDateTime datetime;
     private String detail;
 

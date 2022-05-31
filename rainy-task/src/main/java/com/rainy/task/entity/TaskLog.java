@@ -1,9 +1,6 @@
 package com.rainy.task.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rainy.common.util.DateUtils;
 import lombok.Data;
@@ -29,6 +26,7 @@ public class TaskLog {
     private String className;
     private String method;
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
+    @OrderBy(asc = false)
     private LocalDateTime datetime;
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
     private Date nextDatetime;

@@ -45,7 +45,6 @@ public class LoginLogController {
         qw.likeRight(StrUtil.isNotBlank(username), "username", username);
         qw.eq(loginType != null, "login_type", loginType);
         qw.between(startTime != null && endTime != null, "datetime", startTime, endTime);
-        qw.orderByDesc("datetime");
         if (page.isPaged()) {
             return Result.ok(loginLogService.page(page, qw));
         }

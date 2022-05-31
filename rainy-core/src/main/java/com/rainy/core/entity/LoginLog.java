@@ -1,6 +1,7 @@
 package com.rainy.core.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,6 +30,7 @@ public class LoginLog {
     private int loginType;
     @ApiModelProperty("登录时间")
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
+    @OrderBy(asc = false)
     private LocalDateTime datetime;
     @ApiModelProperty("浏览器")
     private String browser;

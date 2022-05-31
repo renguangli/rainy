@@ -40,6 +40,7 @@ public class DictItem {
     private String description;
 
     @ApiModelProperty("排序")
+    @OrderBy(asc = true)
     private Integer sort;
 
     @ApiModelProperty("创建时间")

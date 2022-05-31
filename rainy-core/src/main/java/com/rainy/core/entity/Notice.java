@@ -28,6 +28,7 @@ public class Notice {
 
     @ApiModelProperty("发布时间")
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
+    @OrderBy(asc = false)
     private LocalDateTime datetime;
 
     @ApiModelProperty("标题")

@@ -43,7 +43,7 @@ public class TaskController {
             @ApiImplicitParam(name = "name", value = "任务名称"),
             @ApiImplicitParam(name = "group", value = "任务分组")
     })
-    @ApiOperation("任务列表(分页)")
+    @ApiOperation("任务列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "定时任务管理", operationTypeCode = OperationType.QUERY, detail = "'查询了任务列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/tasks")

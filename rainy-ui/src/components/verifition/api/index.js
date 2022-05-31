@@ -8,6 +8,9 @@ export function reqGet (data) {
     url: '/captcha/get',
     method: method.POST,
     data: data,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }
 
@@ -17,6 +20,8 @@ export function reqCheck (data) {
     url: '/captcha/check',
     method: method.POST,
     data: data,
-    header
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
   })
 }

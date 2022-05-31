@@ -56,6 +56,7 @@ public class SsoServerController {
             qw.eq("email", loginDTO.getEmail());
             user = userService.getOne(qw);
         }
+        // 用户不存在或者密码不正确
         if (user == null || !Objects.equals(user.getPassword(), loginDTO.getPassword())) {
             throw new UnauthorizedException(ResultCode.ACCOUNT_PASSWORD_NOT_MATCH);
         }

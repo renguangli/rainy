@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 
 /**
@@ -17,7 +18,7 @@ import javax.validation.constraints.Positive;
 public class IdNameDto {
 
     @ApiModelProperty("主键id")
-    @Positive
+    @PositiveOrZero
     private Integer id;
 
     @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称...,方便记录日志，调试时可不传。")

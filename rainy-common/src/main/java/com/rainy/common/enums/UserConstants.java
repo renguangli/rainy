@@ -13,9 +13,9 @@ public interface UserConstants {
     /** 正常 */
     int STATUS_NORMAL = 1;
 
-    /** 登录类型：用户名密码 */
-    int LOGIN_TYPE_USERNAME = 1;
     /** 登录类型：邮箱 */
     int LOGIN_TYPE_EMAIL = 0;
+    /** 登录类型：用户名密码 */
+    int LOGIN_TYPE_USERNAME = 1;
 
 }

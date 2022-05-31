@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
 public class IdsNamesDto {
 
     @ApiModelProperty("主键id")
-    @Positive
+    @PositiveOrZero
     private Integer id;
 
     @ApiModelProperty("id列表")

@@ -12,5 +12,6 @@ public interface OperationType {
     String DELETE = "delete";
     String UPDATE = "update";
     String QUERY = "query";
+    String EXPORT = "export";
 
 }

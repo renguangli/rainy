@@ -51,6 +51,10 @@
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-sso</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

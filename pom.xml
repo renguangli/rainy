@@ -32,6 +32,7 @@
         <captcha.version>1.2.7</captcha.version>
         <dataway.version>4.2.5</dataway.version>
         <hutool.version>5.7.22</hutool.version>
+        <poi.version>5.2.2</poi.version>
         <bcprov.version>1.71</bcprov.version>
         <lombok.version>1.18.24</lombok.version>
     </properties>
@@ -111,6 +112,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>

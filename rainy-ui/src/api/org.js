@@ -5,7 +5,8 @@ const api = {
   OrgTree: '/orgs/tree',
   List: '/orgs',
   Update: '/org',
-  BatchDel: '/orgs'
+  BatchDel: '/orgs',
+  Export: '/orgs/export'
 }
 
 export function GetOrgTree () {
@@ -20,6 +21,14 @@ export function List (parameter) {
     url: api.List,
     method: method.GET,
     params: parameter
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }
 

@@ -4,7 +4,7 @@ import storage from 'store'
 import notification from 'ant-design-vue/es/notification'
 import { VueAxios } from './axios'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
-import { Base64 } from 'js-base64'
+// import { Base64 } from 'js-base64'
 export const method = {
   GET: 'get',
   POST: 'post',
@@ -22,8 +22,9 @@ const request = axios.create({
 // 异常拦截处理器
 const errorHandler = (error) => {
   if (error.response) {
-    const data = JSON.parse(Base64.decode(error.response.data))
-    error.response.data = data
+    const data = error.response.data
+    // const data = JSON.parse(Base64.decode(error.response.data))
+    // error.response.data = data
     if (error.response.status === 401) {
       notification.error({
         message: '认证失败',
@@ -55,17 +56,17 @@ const errorHandler = (error) => {
 
 // request interceptor
 request.interceptors.request.use(config => {
-  const params = {}
-  for (const name in config.params) {
-    if (config.params[name] !== undefined && config.params[name] !== null && config.params[name] !== '') {
-      params[name] = Base64.encode(String(config.params[name]))
-    }
-  }
-  config.params = params
-  if (config.data) {
-    config.data = Base64.encode(JSON.stringify(config.data))
-    config.headers['Content-Type'] = 'application/json;charset=utf-8'
-  }
+  // const params = {}
+  // for (const name in config.params) {
+  //   if (config.params[name] !== undefined && config.params[name] !== null && config.params[name] !== '') {
+  //     params[name] = Base64.encode(String(config.params[name]))
+  //   }
+  // }
+  // config.params = params
+  // if (config.data) {
+  //   config.data = Base64.encode(JSON.stringify(config.data))
+  //   config.headers['Content-Type'] = 'application/json;charset=utf-8'
+  // }
   const token = storage.get(ACCESS_TOKEN)
   // 如果 token 存在
   // 让每个请求携带自定义 token 请根据实际情况自行修改
@@ -77,7 +78,11 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
-  return JSON.parse(Base64.decode(response.data))
+  if (response.request.responseType === 'blob') {
+    return response
+  }
+  // return JSON.parse(Base64.decode(response.data))
+  return response.data
 }, errorHandler)
 
 const installer = {

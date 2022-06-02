@@ -45,6 +45,10 @@
             <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除组织吗?'" @confirm="batchDel">
               <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
             </a-popconfirm>
+            <export-excel
+              ref="exportExcel"
+              @exportExcel="exportExcel"
+            />
           </template>
           <span slot="operation" slot-scope="text, record">
             <template>
@@ -64,8 +68,8 @@
 
 <script>
 import { Empty } from 'ant-design-vue'
-import { STable } from '@/components'
-import { GetOrgTree, List, Del, BatchDel } from '@/api/org'
+import { STable, ExportExcel } from '@/components'
+import { GetOrgTree, List, Del, BatchDel, Export } from '@/api/org'
 import editor from './OrgEdit'
 
 export default {
@@ -73,7 +77,8 @@ export default {
   components: {
     STable,
     editor,
-    Empty
+    Empty,
+    ExportExcel
   },
   data () {
     return {
@@ -187,6 +192,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

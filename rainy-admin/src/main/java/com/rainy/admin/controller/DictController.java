@@ -1,7 +1,10 @@
 package com.rainy.admin.controller;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -12,6 +15,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
+import com.rainy.core.entity.Config;
 import com.rainy.core.entity.Dict;
 import com.rainy.core.entity.DictItem;
 import com.rainy.core.service.DictItemService;
@@ -24,7 +28,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * rainy
@@ -61,6 +69,21 @@ public class DictController {
         }
         page.setRecords(dictService.list(qw));
         return Result.ok(page);
+    }
+
+    @ApiOperation("字典列表导出")
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.EXPORT, detail = "导出了字典列表", saved = false, paramSaved = false)
+    @GetMapping("/dicts/export")
+    public void export(HttpServletResponse response) throws IOException {
+        List<Dict> dicts = dictService.list();
+        ExcelWriter writer = ExcelUtil.getWriter();
+        writer.write(dicts, true);
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename=dicts.xls");
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        writer.close();
+        IoUtil.close(out);
     }
 
     @ApiOperation("添加字典")
@@ -104,7 +127,7 @@ public class DictController {
             @ApiImplicitParam(name = "dictCode", value = "字典编码"),
             @ApiImplicitParam(name = "code", value = "字典项编码")
     })
-    @ApiOperation("字典项列表(分页)")
+    @ApiOperation("字典项列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
     @SysLog(module = "字典管理", operationTypeCode = OperationType.QUERY, detail = "'查询了字典项列表第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/dict/items")
@@ -117,6 +140,21 @@ public class DictController {
         }
         page.setRecords(dictItemService.list(qw));
         return Result.ok(page);
+    }
+
+    @ApiOperation("字典项列表导出")
+    @SysLog(module = "字典管理", operationTypeCode = OperationType.EXPORT, detail = "导出了字典项列表", saved = false, paramSaved = false)
+    @GetMapping("/dict/items/export")
+    public void exportItems(HttpServletResponse response) throws IOException {
+        List<DictItem> dictItems = dictItemService.list();
+        ExcelWriter writer = ExcelUtil.getWriter();
+        writer.write(dictItems, true);
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename=dictItems.xls");
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        writer.close();
+        IoUtil.close(out);
     }
 
     @ApiOperation("新增字典项")

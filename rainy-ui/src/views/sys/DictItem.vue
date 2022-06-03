@@ -42,6 +42,10 @@
         <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除字典项吗?删除后可能导致系统出现故障！'" @confirm="batchDel">
           <a-button type="danger" icon="delete" :disabled="selectedRowKeys.length < 1">批量删除</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="dictCode" slot-scope="text">
         {{ $store.getters.dictTree[text] ? $store.getters.dictTree[text].name : text }}
@@ -59,15 +63,16 @@
 </template>
 
 <script>
-import { STable } from '@/components'
+import { STable, ExportExcel } from '@/components'
 import editor from './DictItemEdit'
-import { List, Del, BatchDel } from '@/api/dictItem'
+import { List, Del, BatchDel, Export } from '@/api/dictItem'
 
 export default {
   name: 'DictItem',
   components: {
     STable,
-    editor
+    editor,
+    ExportExcel
   },
   data () {
     return {
@@ -173,6 +178,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

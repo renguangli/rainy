@@ -3,7 +3,8 @@ import { axios, method } from '@/utils/request'
 const api = {
   List: '/users',
   Update: '/user',
-  BatchDel: '/users'
+  BatchDel: '/users',
+  Export: '/users/export'
 }
 
 export function List (parameter) {
@@ -84,5 +85,13 @@ export function ResetPassword (parameter) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

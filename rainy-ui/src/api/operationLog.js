@@ -4,7 +4,8 @@ const api = {
   List: '/operationLogs',
   Update: '/operationLog',
   BatchDel: '/operationLogs',
-  Clear: '/operationLogs/clear'
+  Clear: '/operationLogs/clear',
+  Export: '/operationLogs/export'
 }
 
 export function List (parameter) {
@@ -40,5 +41,13 @@ export function Clear () {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

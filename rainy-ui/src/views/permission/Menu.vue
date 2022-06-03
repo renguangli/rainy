@@ -38,6 +38,10 @@
     >
       <template slot="operator">
         <a-button type="primary" icon="plus" @click="$refs.editor.open(0)">新增菜单</a-button>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="icon" slot-scope="text">
         <a-icon v-if="text" :type="text"></a-icon>
@@ -71,15 +75,16 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del } from '@/api/menu'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, Export } from '@/api/menu'
 import editor from './MenuEdit'
 
 export default {
   name: 'Menu',
   components: {
     STable,
-    editor
+    editor,
+    ExportExcel
   },
   data () {
     return {
@@ -172,6 +177,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

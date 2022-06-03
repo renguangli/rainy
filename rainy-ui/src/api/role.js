@@ -3,7 +3,8 @@ import { axios, method } from '@/utils/request'
 const api = {
   Update: '/role',
   List: '/roles',
-  BatchDel: List
+  BatchDel: List,
+  Export: '/roles/export'
 }
 
 export function GetMenuIds (parameter) {
@@ -74,5 +75,13 @@ export function AssignMenu (parameter) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

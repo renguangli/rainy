@@ -47,6 +47,10 @@
         <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除配置吗?删除后可能导致系统出现故障！'" @confirm="batchDel">
           <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="category" slot-scope="text">
         {{ 'SYS_CONFIG_CATEGORY' | dictItemValue(text) }}
@@ -68,15 +72,16 @@
 
 <script>
 
-import { STable } from '@/components'
+import { STable, ExportExcel } from '@/components'
 import editor from './ConfigEdit'
-import { List, Del, BatchDel } from '@/api/config'
+import { List, Del, BatchDel, Export } from '@/api/config'
 
 export default {
   name: 'Config',
   components: {
     STable,
-    editor
+    editor,
+    ExportExcel
   },
   data () {
     return {
@@ -176,6 +181,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

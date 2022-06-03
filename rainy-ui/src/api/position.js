@@ -3,7 +3,8 @@ import { axios, method } from '@/utils/request'
 const api = {
   List: '/positions',
   Update: '/position',
-  BatchDel: '/positions'
+  BatchDel: '/positions',
+  Export: '/positions/export'
 }
 
 export function List (parameter) {
@@ -55,5 +56,13 @@ export function Edit (parameter) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

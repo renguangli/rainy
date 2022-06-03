@@ -32,8 +32,11 @@
         <a-button type="primary" icon="plus" @click="$refs.editor.open(0)">新增职位</a-button>
         <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除职位吗?'" @confirm="batchDel">
           <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
-
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="operation" slot-scope="text, record">
         <template>
@@ -50,15 +53,16 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del, BatchDel } from '@/api/position'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, BatchDel, Export } from '@/api/position'
 import editor from './PositionEdit'
 
 export default {
   name: 'Position',
   components: {
     STable,
-    editor
+    editor,
+    ExportExcel
   },
   data () {
     return {
@@ -146,6 +150,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

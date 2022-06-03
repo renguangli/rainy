@@ -1,7 +1,10 @@
 package com.rainy.admin.controller;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -15,6 +18,7 @@ import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.Role;
 import com.rainy.core.entity.RoleMenuRel;
+import com.rainy.core.entity.User;
 import com.rainy.core.service.RoleMenuRelService;
 import com.rainy.core.service.RoleService;
 import io.swagger.annotations.Api;
@@ -22,7 +26,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +62,21 @@ public class RoleController {
         }
         page.setRecords(roleService.list(qw));
         return Result.ok(page);
+    }
+
+    @ApiOperation("角色列表导出")
+    @SysLog(module = "角色管理", operationTypeCode = OperationType.EXPORT, detail = "导出了角色列表", saved = false, paramSaved = false)
+    @GetMapping("/roles/export")
+    public void export(HttpServletResponse response) throws IOException {
+        List<Role> roles = roleService.list();
+        ExcelWriter writer = ExcelUtil.getWriter();
+        writer.write(roles, true);
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename=roles.xls");
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        writer.close();
+        IoUtil.close(out);
     }
 
     @ApiOperation("根据角色id查询菜单id列表")

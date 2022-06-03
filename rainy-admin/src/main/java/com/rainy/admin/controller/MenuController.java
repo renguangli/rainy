@@ -1,5 +1,8 @@
 package com.rainy.admin.controller;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.admin.util.WebUtils;
@@ -9,6 +12,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.Menu;
+import com.rainy.core.entity.Role;
 import com.rainy.core.service.MenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,7 +21,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * rainy
@@ -53,6 +61,21 @@ public class MenuController {
 //        qw.likeRight(StrUtil.isNotBlank(name), "name", name);
 //        return menuService.page(page);
 //    }
+
+    @ApiOperation("菜单列表导出")
+    @SysLog(module = "菜单管理", operationTypeCode = OperationType.EXPORT, detail = "导出了菜单列表", saved = false, paramSaved = false)
+    @GetMapping("/menus/export")
+    public void export(HttpServletResponse response) throws IOException {
+        List<Menu> menus = menuService.list();
+        ExcelWriter writer = ExcelUtil.getWriter();
+        writer.write(menus, true);
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename=menus.xls");
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        writer.close();
+        IoUtil.close(out);
+    }
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称"),

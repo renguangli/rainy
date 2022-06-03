@@ -5,7 +5,8 @@ const api = {
   DictTree: '/dict/tree',
   List: '/dicts',
   Update: '/dict',
-  BatchDel: '/dicts'
+  BatchDel: '/dicts',
+  Export: '/dicts/export'
 }
 
 export function List (parameter) {
@@ -57,5 +58,13 @@ export function Edit (parameter) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

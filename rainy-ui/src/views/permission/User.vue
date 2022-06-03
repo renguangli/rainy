@@ -52,6 +52,10 @@
             <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除用户吗?'" @confirm="batchDel">
               <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
             </a-popconfirm>
+            <export-excel
+              ref="exportExcel"
+              @exportExcel="exportExcel"
+            />
           </template>
           <span slot="operation" slot-scope="text, record">
             <template>
@@ -89,9 +93,9 @@
 
 <script>
 import { Empty } from 'ant-design-vue'
-import { STable } from '@/components'
+import { STable, ExportExcel } from '@/components'
 import { GetOrgTree } from '@/api/org'
-import { List, Del, BatchDel, ResetPassword } from '@/api/user'
+import { List, Del, BatchDel, ResetPassword, Export } from '@/api/user'
 import editor from './UserEdit'
 import roleAssign from './RoleAssign'
 
@@ -101,7 +105,8 @@ export default {
     STable,
     editor,
     roleAssign,
-    Empty
+    Empty,
+    ExportExcel
   },
   data () {
     return {
@@ -233,6 +238,11 @@ export default {
         } else {
           this.$message.error('重置失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

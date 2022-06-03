@@ -1,7 +1,10 @@
 package com.rainy.admin.controller;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -12,6 +15,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
+import com.rainy.core.entity.Org;
 import com.rainy.core.entity.Position;
 import com.rainy.core.service.PositionService;
 import io.swagger.annotations.Api;
@@ -21,7 +25,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * rainy
@@ -53,6 +61,21 @@ public class PositionController {
         }
         page.setRecords(positionService.list(qw));
         return Result.ok(page);
+    }
+
+    @ApiOperation("职位列表导出")
+    @SysLog(module = "职位管理", operationTypeCode = OperationType.EXPORT, detail = "导出了职位列表", saved = false, paramSaved = false)
+    @GetMapping("/positions/export")
+    public void export(HttpServletResponse response) throws IOException {
+        List<Position> orgs = positionService.list();
+        ExcelWriter writer = ExcelUtil.getWriter();
+        writer.write(orgs, true);
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename=positions.xls");
+        ServletOutputStream out = response.getOutputStream();
+        writer.flush(out, true);
+        writer.close();
+        IoUtil.close(out);
     }
 
     @ApiOperation("新增职位")

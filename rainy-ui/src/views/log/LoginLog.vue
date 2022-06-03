@@ -52,6 +52,10 @@
         <a-popconfirm placement="topRight" :title="'确定清空日志吗?'" @confirm="clear">
           <a-button type="danger"><a-icon type="delete"/>清空日志</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="loginType" slot-scope="text">
         {{ 'SYS_LOGIN_TYPE' | dictItemValue(text) }}
@@ -76,13 +80,14 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del, BatchDel, Clear } from '@/api/LoginLog'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, BatchDel, Clear, Export } from '@/api/LoginLog'
 
 export default {
   name: 'Position',
   components: {
-    STable
+    STable,
+    ExportExcel
   },
   data () {
     return {
@@ -177,6 +182,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <a-tooltip placement="top">
     <template slot="title">
-      <span>导出所有数据</span>
+      <span>导出Excel(包含所有数据)</span>
     </template>
     <a-button type="dashed" @click="exportExcel" :loading="loading"><a-icon type="export"/>导出</a-button>
   </a-tooltip>

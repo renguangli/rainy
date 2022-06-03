@@ -38,6 +38,10 @@
         <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除角色吗?'" @confirm="batchDel">
           <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="defaultd" slot-scope="text">
         {{ 'SYS_YES_OR_NO' | dictItemValue(text) }}
@@ -70,8 +74,8 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del, BatchDel } from '@/api/role'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, BatchDel, Export } from '@/api/role'
 import editor from './RoleEdit'
 import menuAssign from './MenuAssign'
 
@@ -80,7 +84,8 @@ export default {
   components: {
     STable,
     editor,
-    menuAssign
+    menuAssign,
+    ExportExcel
   },
   data () {
     return {
@@ -172,6 +177,11 @@ export default {
         } else {
           this.$message.error('删除失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

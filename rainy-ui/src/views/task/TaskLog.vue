@@ -55,6 +55,10 @@
           </template>
           <a-button type="danger" icon="delete">清空日志</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="group" slot-scope="text">
         {{ 'SYS_TASK_GROUP' | dictItemValue(text) }}
@@ -79,13 +83,14 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del, BatchDel, Clear } from '@/api/taskLog'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, BatchDel, Clear, Export } from '@/api/taskLog'
 
 export default {
   name: 'TaskLog',
   components: {
-    STable
+    STable,
+    ExportExcel
   },
   data () {
     return {
@@ -183,6 +188,11 @@ export default {
         } else {
           this.$message.error('清空失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

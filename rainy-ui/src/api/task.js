@@ -4,7 +4,8 @@ const api = {
   // 定时任务
   List: '/tasks',
   Update: '/task',
-  BatchDel: '/tasks'
+  BatchDel: '/tasks',
+  Export: '/tasks/export'
 }
 
 export function List (parameter) {
@@ -78,5 +79,13 @@ export function Resume (parameter) {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }
+  })
+}
+
+export function Export () {
+  return axios({
+    url: api.Export,
+    method: method.GET,
+    responseType: 'blob'
   })
 }

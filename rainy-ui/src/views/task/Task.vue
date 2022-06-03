@@ -42,6 +42,10 @@
         <a-popconfirm :disabled="selectedRowKeys.length < 1" placement="topRight" :title="'确定批量删除任务吗？'" @confirm="batchDel">
           <a-button type="danger" :disabled="selectedRowKeys.length < 1"><a-icon type="delete"/>批量删除</a-button>
         </a-popconfirm>
+        <export-excel
+          ref="exportExcel"
+          @exportExcel="exportExcel"
+        />
       </template>
       <span slot="group" slot-scope="text">
         {{ 'SYS_TASK_GROUP' | dictItemValue(text) }}
@@ -87,15 +91,16 @@
 </template>
 
 <script>
-import { STable } from '@/components'
-import { List, Del, BatchDel, Pause, Resume } from '@/api/task'
+import { STable, ExportExcel } from '@/components'
+import { List, Del, BatchDel, Pause, Resume, Export } from '@/api/task'
 import editor from './TaskEdit'
 
 export default {
   name: 'Task',
   components: {
     STable,
-    editor
+    editor,
+    ExportExcel
   },
   data () {
     return {
@@ -220,6 +225,11 @@ export default {
         } else {
           this.$message.error('启动失败：' + res.message)
         }
+      })
+    },
+    exportExcel () {
+      Export().then(res => {
+        this.$refs.exportExcel.download(res)
       })
     }
   }

@@ -6,7 +6,6 @@ import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
-import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.entity.Menu;

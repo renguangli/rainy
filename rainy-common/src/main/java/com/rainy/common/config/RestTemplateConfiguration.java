@@ -1,7 +1,7 @@
 package com.rainy.common.config;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,9 +11,9 @@ import org.springframework.web.client.RestTemplate;
  * @author renguangli
  * @date 2022/5/16 23:24
  */
-@Configuration
+@AutoConfiguration
 public class RestTemplateConfiguration {
-    
+
     @Bean
     public RestTemplate restTemplate(){
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();

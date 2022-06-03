@@ -7,8 +7,8 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.rainy.admin.util.WebUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * @author renguangli
  * @date 2022/3/28 20:47
  */
-@Configuration
+@AutoConfiguration
 @MapperScan("com.rainy.*.mapper")
 public class MyBatisPlusConfiguration {
 

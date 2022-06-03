@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.web.client.RestTemplate;
@@ -23,11 +23,11 @@ import org.springframework.web.client.RestTemplate;
  * @date 2022/5/16 23:14
  */
 @Slf4j
-@Configuration
-@ComponentScan({"com.rainy.sso"})
+@RequiredArgsConstructor
+@AutoConfiguration
 @ConditionalOnProperty(value = "sso.enable", havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(SsoProperties.class)
-@RequiredArgsConstructor
+@ComponentScan({"com.rainy.sso"})
 public class SsoAutoConfiguration {
 
     private static final String USERINFO_URL = "/sso/userinfo";

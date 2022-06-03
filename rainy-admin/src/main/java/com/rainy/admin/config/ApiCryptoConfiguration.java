@@ -1,10 +1,10 @@
 package com.rainy.admin.config;
 
+import com.rainy.api.CryptoFilter;
 import com.rainy.crypto.Base64Decryptor;
 import com.rainy.crypto.Base64Encryptor;
-import com.rainy.api.CryptoFilter;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author renguangli
  * @date 2022/5/21 18:05
  */
-//@Configuration
+@AutoConfiguration
 public class ApiCryptoConfiguration {
 
     @Bean

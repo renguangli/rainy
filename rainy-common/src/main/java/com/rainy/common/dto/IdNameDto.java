@@ -3,7 +3,6 @@ package com.rainy.common.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
 

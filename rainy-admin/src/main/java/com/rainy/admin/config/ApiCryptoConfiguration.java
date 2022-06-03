@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author renguangli
  * @date 2022/5/21 18:05
  */
-@AutoConfiguration
+//@AutoConfiguration
 public class ApiCryptoConfiguration {
 
     @Bean

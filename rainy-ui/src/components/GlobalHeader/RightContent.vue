@@ -12,7 +12,7 @@ import AvatarDropdown from './AvatarDropdown'
 import SelectLang from '@/components/SelectLang'
 
 window.feedbackfin = { config: {}, ...window.feedbackfin }
-window.feedbackfin.config.url = '/feedback'
+window.feedbackfin.config.url = process.env.VUE_APP_API_BASE_URL + '/feedback'
 window.feedbackfin.config.user = { name: '123', email: '123' }
 export default {
   name: 'RightContent',

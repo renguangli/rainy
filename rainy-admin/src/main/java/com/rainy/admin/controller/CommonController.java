@@ -3,6 +3,8 @@ package com.rainy.admin.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.admin.util.WebUtils;
 import com.rainy.common.Result;
@@ -12,6 +14,7 @@ import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.service.FileService;
 import com.rainy.core.entity.Config;
+import com.rainy.core.entity.Feedback;
 import com.rainy.core.entity.User;
 import com.rainy.core.service.ConfigService;
 import com.rainy.core.service.DictService;
@@ -25,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +63,7 @@ public class CommonController {
         QueryWrapper<Config> qw = new QueryWrapper<>();
         qw.eq("category_code", DictCodeConstants.CONFIG_CATEGORY_FRONT);
         List<Map<String, Object>> configs = configService.listMaps(qw);
-        configs.forEach(v -> {config.put(v.get("code").toString(), v.get("value"));});
+        configs.forEach(v -> config.put(v.get("code").toString(), v.get("value")));
         data.put("config", config);
         return Result.ok(data);
     }
@@ -86,6 +90,16 @@ public class CommonController {
         String uploadPath = configService.get(ConfigConstants.AVATAR_UPLOAD_PATH);
         byte[] bytes = FileUtil.readBytes(uploadPath + File.separator + filename);
         response.getOutputStream().write(bytes);
+    }
+
+    @ApiOperation("反馈")
+    @PostMapping("/feedback")
+    public Result feedback(@RequestBody Feedback feedback) {
+        String uploadPath = configService.get(ConfigConstants.AVATAR_UPLOAD_PATH);
+        FileUtil.writeString(JSONUtil.toJsonStr(feedback),
+                uploadPath + File.separator + feedback.getTimestamp() + ".json",
+                StandardCharsets.UTF_8);
+        return Result.ok();
     }
 
 }

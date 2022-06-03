@@ -45,9 +45,9 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     private static final String[] EXCLUDE_PATHS = {
             "/favicon.ico", "/error",
             "/swagger-resources", "/v2/api-docs", "/swagger-ui/index.html", // swagger-path
-            "/**/*.html", "/**/*.js", "/**/*.css", // static resources
             "/register", "/activate/*", "/common/config", "/avatar/*", "/captcha/*",
-            "/interface-ui/**", "/api/**", "/mail/text",
+            "/feedback", // 反馈
+            "/interface-ui/**", "/api/**",
             "/sso/*"// 单点登录
     };
 
@@ -62,7 +62,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
 
     /**
      * 单点登录配置
-     * @param sso
+     * @param sso SaSsoConfig
      */
     @Autowired
     public void configSso(SaSsoConfig sso) {

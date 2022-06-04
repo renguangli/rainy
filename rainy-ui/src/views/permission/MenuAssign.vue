@@ -36,6 +36,7 @@
         checkedKeys: [],
         checkedNodes: [],
         halfCheckedKeys: [],
+        changed: false,
         menuTree: [],
         record: {}
       }
@@ -72,6 +73,7 @@
         })
       },
       handleCheck (checkedKeys, e) {
+        this.changed = true
         this.checkedNodes = e.checkedNodes
         this.halfCheckedKeys = e.halfCheckedKeys
       },
@@ -113,6 +115,10 @@
         // return roleMenuList
       },
       handleSubmit () {
+        if (!this.changed) {
+          this.handleCancel()
+          return
+        }
         this.confirmLoading = true
         AssignMenu(this.getRoleMenuList()).then(res => {
           if (res.success) {
@@ -131,6 +137,7 @@
         this.confirmLoading = false
         this.checkedKeys = []
         this.checkedNodes = []
+        this.changed = false
       }
     }
   }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rainy.sys.mapper.MenuMapper">
 
-    <select id="selectMenusByUserId" resultType="com.rainy.sys.entity.Menu">
+    <select id="selectByUserId" resultType="com.rainy.sys.entity.Menu">
         select m.*
         from t_menu m
          left join t_role_menu_rel rmr on m.id = rmr.menu_id
@@ -10,7 +10,7 @@
         where urr.user_id = #{userId} and m.deleted = 0 and m.target in ('_component','_self','_blank')
         order by m.sort
     </select>
-    <select id="selectMenusByRoleIds" resultType="string">
+    <select id="selectByRoleIds" resultType="string">
         select m.name
         from t_menu m
           left join t_role_menu_rel rmr on m.id = rmr.menu_id

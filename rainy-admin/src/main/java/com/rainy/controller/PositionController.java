@@ -14,7 +14,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
-import com.rainy.dto.PageInfo;
+import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.entity.Position;
 import com.rainy.sys.service.PositionService;
 import io.swagger.annotations.Api;

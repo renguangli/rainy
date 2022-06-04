@@ -15,7 +15,7 @@ import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
-import com.rainy.dto.PageInfo;
+import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.entity.Role;
 import com.rainy.sys.entity.RoleMenuRel;
 import com.rainy.sys.service.RoleMenuRelService;

@@ -10,7 +10,7 @@ import com.rainy.common.constant.CharConstants;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.dto.PageInfo;
+import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.service.SysMonitorService;
 import com.rainy.sys.service.UserService;

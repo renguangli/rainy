@@ -17,8 +17,8 @@ import java.io.Serializable;
 @TableName("t_user_role_rel")
 public class UserRoleRel implements Serializable {
 
-    private static final long serialVersionUID = 390194503645813593L
-            ;
+    private static final long serialVersionUID = 390194503645813593L;
+
     @TableId(type = IdType.AUTO)
     private Integer id;
 

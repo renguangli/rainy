@@ -64,7 +64,7 @@ public class MenuServiceImpl
             qw.in("target", DictCodeConstants.MENU_TARGET_TYPES);
             return this.baseMapper.selectList(qw);
         }
-        return this.baseMapper.selectMenusByUserId(userId);
+        return this.baseMapper.selectByUserId(userId);
     }
 
     @Override

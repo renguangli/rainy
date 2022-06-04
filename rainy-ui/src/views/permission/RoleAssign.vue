@@ -66,6 +66,7 @@
         },
         selectedRowKeys: [],
         selectedRows: [],
+        changed: false,
         record: {}
       }
     },
@@ -77,6 +78,7 @@
         this.loadData()
       },
       handleChange (selectedRowKeys, selectedRows) {
+        this.changed = true
         this.selectedRowKeys = selectedRowKeys
         this.selectedRows = selectedRows
       },
@@ -96,6 +98,10 @@
         })
       },
       handleOk () {
+        if (!this.changed) {
+          this.handleCancel()
+          return
+        }
         this.confirmLoading = true
         const param = {
           id: this.record.id,
@@ -123,6 +129,8 @@
         this.confirmLoading = false
         this.formLoading = false
         this.selectedRowKeys = []
+        this.selectedRows = []
+        this.changed = false
       }
     }
   }

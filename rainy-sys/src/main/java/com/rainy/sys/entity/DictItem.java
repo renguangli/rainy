@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -17,8 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_dict_item")
-public class DictItem {
-
+public class DictItem implements Serializable {
 
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)

@@ -13,10 +13,10 @@ import com.rainy.common.dto.LoginDTO;
 import com.rainy.common.enums.ResultCode;
 import com.rainy.common.enums.UserConstants;
 import com.rainy.common.exception.UnauthorizedException;
+import com.rainy.common.util.WebUtils;
+import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.service.UserService;
-import com.rainy.util.SaTokenUtils;
-import com.rainy.util.WebUtils;
 import com.rainy.vo.Token;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,7 +87,6 @@ public class SsoServerController {
         userService.updateById(user);
 
         // 缓存用户信息
-        WebUtils.setUser(user.convertFor());
         Token token = new Token(StpUtil.getTokenName(), StpUtil.getTokenValue(), StpUtil.getTokenTimeout());
         return Result.ok(token);
     }
@@ -115,10 +114,11 @@ public class SsoServerController {
      */
     @ApiOperation("获取用户信息")
     @GetMapping("/userinfo")
-    public Result ssoUserinfo(Integer loginId) {
+    public Result ssoUserinfo(String loginId) {
         // 校验签名
         SaTokenUtils.checkSsoSign();
-        return Result.ok(WebUtils.getUserinfo(loginId));
+        User user = userService.getById(SaTokenUtils.getUserId(loginId));
+        return Result.ok(user.convertFor());
     }
 
     /**

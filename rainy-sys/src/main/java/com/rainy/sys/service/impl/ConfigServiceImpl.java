@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-@CacheConfig(cacheNames = "config")
+@CacheConfig(cacheNames = "rainy:config")
 public class ConfigServiceImpl
         extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
 

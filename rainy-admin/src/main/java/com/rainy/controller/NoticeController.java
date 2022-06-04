@@ -4,13 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.dto.PageInfo;
-import com.rainy.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.core.satoken.SaTokenUtils;
+import com.rainy.dto.PageInfo;
 import com.rainy.sys.entity.Notice;
 import com.rainy.sys.service.NoticeService;
 import io.swagger.annotations.Api;
@@ -59,8 +59,7 @@ public class NoticeController {
     @SysLog(module = MODULE_NAME, operationTypeCode = OperationType.ADD, detail = "'新增了公告[' + #notice.title + '].'")
     @PostMapping("/notice")
     public Result save(@RequestBody @Valid Notice notice) {
-        Integer userId = WebUtils.getLoginIdAsInt();
-        notice.setUserId(userId);
+        notice.setUserId(SaTokenUtils.getUserId());
         return Result.ok(noticeService.save(notice));
     }
 

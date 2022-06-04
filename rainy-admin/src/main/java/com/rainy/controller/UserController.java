@@ -7,9 +7,6 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.dto.PageInfo;
-import com.rainy.dto.UserUpdateDto;
-import com.rainy.util.WebUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.ConfigConstants;
@@ -19,6 +16,9 @@ import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.enums.UserConstants;
 import com.rainy.common.util.ValidateUtils;
+import com.rainy.core.satoken.SaTokenUtils;
+import com.rainy.dto.PageInfo;
+import com.rainy.dto.UserUpdateDto;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.entity.UserRoleRel;
 import com.rainy.sys.service.ConfigService;
@@ -61,7 +61,8 @@ public class UserController {
     @ApiOperation("获取当前登录用户信息")
     @GetMapping("/userinfo")
     public Result userinfo() {
-        return Result.ok(WebUtils.getCurrUserInfo());
+        int userId = SaTokenUtils.getUserId();
+        return Result.ok(userService.getById(userId));
     }
 
     @ApiImplicitParams({

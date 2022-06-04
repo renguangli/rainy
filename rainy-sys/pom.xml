@@ -48,4 +48,20 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <resources>
+            <!-- 解决不识别mybatis的Mapper.xml文件问题 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*Mapper.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
 </project>

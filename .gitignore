@@ -37,7 +37,7 @@ console/package-lock.json
 
 
 node_modules
-/dist
+dist
 
 # local env files
 .env.local

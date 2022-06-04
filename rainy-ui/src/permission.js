@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
       // 如果重定向地址为 http 开头
       if (redirectUrl && redirectUrl.startsWith('http')) {
         getRedirectUrl({ redirect: redirectUrl }).then((res) => {
-          if (res.code === 200) {
+          if (res.success) {
             location = res.data
           } else {
             // 失败时，调用登出，来清空历史保留信息
@@ -54,7 +54,7 @@ router.beforeEach((to, from, next) => {
               store.getters.addRouters.forEach(r => {
                 router.addRoute(r)
               })
-              // 请求带有 redirect 重定向时，登录自动重定向到该地址
+              // 请求带有 redirect 重定向时，自动重定向到该地址
               const redirect = decodeURIComponent(from.query.redirect || to.path)
               if (to.path === redirect) {
                 // set the replace: true so the navigation will not leave a history record

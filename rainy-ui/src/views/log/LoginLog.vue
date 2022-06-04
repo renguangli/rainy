@@ -122,7 +122,8 @@ export default {
           scopedSlots: { customRender: 'success' }
         }, {
           title: '错误详情',
-          dataIndex: 'errorMessage'
+          dataIndex: 'errorMessage',
+          ellipsis: true
         }, {
           title: '操作',
           scopedSlots: { customRender: 'operation' },

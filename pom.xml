@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.renguangli.rainy</groupId>
+    <groupId>com.rainy</groupId>
     <artifactId>rainy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -13,10 +13,10 @@
     <modules>
         <module>rainy-common</module>
         <module>rainy-core</module>
+        <module>rainy-sys</module>
         <module>rainy-task</module>
         <module>rainy-dataway</module>
         <module>rainy-admin</module>
-        <module>rainy-sso</module>
     </modules>
 
     <properties>
@@ -58,8 +58,28 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.rainy</groupId>
                 <artifactId>rainy-common</artifactId>
-                <groupId>com.renguangli.rainy</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rainy</groupId>
+                <artifactId>rainy-sys</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>rainy-core</artifactId>
+                <groupId>com.rainy</groupId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rainy</groupId>
+                <artifactId>rainy-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rainy</groupId>
+                <artifactId>rainy-dataway</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

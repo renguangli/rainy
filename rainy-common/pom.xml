@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>rainy</artifactId>
-        <groupId>com.renguangli.rainy</groupId>
+        <groupId>com.rainy</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

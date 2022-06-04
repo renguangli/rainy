@@ -102,3 +102,8 @@ Userinfo 类包含的字段
     private List<String> roles = new ArrayList<>();
     private List<String> permissions = new ArrayList<>();
 ```
+
+
+## 问题
+分配菜单，不选中，id默认为空
+

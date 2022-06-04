@@ -24,7 +24,7 @@
         <HASOR_DATAQL_DATAWAY_NACOS_API_MAX_SIZE>4000</HASOR_DATAQL_DATAWAY_NACOS_API_MAX_SIZE>
 
         <!-- 是否启用 Admin UI 的登陆认证 -->
-        <HASOR_DATAQL_DATAWAY_AUTHORIZATION_ENABLE>false</HASOR_DATAQL_DATAWAY_AUTHORIZATION_ENABLE>
+        <HASOR_DATAQL_DATAWAY_AUTHORIZATION_ENABLE>true</HASOR_DATAQL_DATAWAY_AUTHORIZATION_ENABLE>
         <HASOR_DATAQL_DATAWAY_SWAGGER>true</HASOR_DATAQL_DATAWAY_SWAGGER>
         <!-- 登陆认证方式在 basic 模式下的时候，配置的登陆账号 -->
         <HASOR_DATAQL_DATAWAY_AUTHORIZATION_USERNAME>admin</HASOR_DATAQL_DATAWAY_AUTHORIZATION_USERNAME>
@@ -149,9 +149,9 @@
                 <!-- 结合 wrapAllParameters 参数一起使用，当 wrapAllParameters 配置为 true 时候被封装的新参数名称 -->
                 <wrapParameterName>root</wrapParameterName>
                 <!-- 是否展示 Git 的按钮 -->
-                <showGitButton>true</showGitButton>
+                <showGitButton>false</showGitButton>
                 <!-- 是否检测版本，Dataway 会收集您一些信息。如关闭将不会接收到任何新版本提示信息。 -->
-                <checkDatawayVersion>true</checkDatawayVersion>
+                <checkDatawayVersion>false</checkDatawayVersion>
             </globalConfig>
         </dataway>
 

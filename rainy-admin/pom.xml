@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>rainy</artifactId>
-        <groupId>com.renguangli.rainy</groupId>
+        <groupId>com.rainy</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -17,25 +17,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.renguangli.rainy</groupId>
+            <groupId>com.rainy</groupId>
+            <artifactId>rainy-sys</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rainy</groupId>
             <artifactId>rainy-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.renguangli.rainy</groupId>
+            <groupId>com.rainy</groupId>
             <artifactId>rainy-task</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.renguangli.rainy</groupId>
+            <groupId>com.rainy</groupId>
             <artifactId>rainy-dataway</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.renguangli.rainy</groupId>
-            <artifactId>rainy-api-crypto</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.anji-plus</groupId>
@@ -64,7 +59,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.rainy.admin.RainyApplication</mainClass>
+                    <mainClass>com.rainy.RainyApplication</mainClass>
                     <classifier>exec</classifier>
                 </configuration>
                 <executions>

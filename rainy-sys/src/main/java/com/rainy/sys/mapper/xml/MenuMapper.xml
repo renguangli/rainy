@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rainy.sys.mapper.MenuMapper">
+
+    <select id="selectMenusByUserId" resultType="com.rainy.sys.entity.Menu">
+        select m.*
+        from t_menu m
+         left join t_role_menu_rel rmr on m.id = rmr.menu_id
+         left join t_user_role_rel urr on rmr.role_id = urr.role_id
+        where urr.user_id = #{userId} and m.deleted = 0 and m.target in ('_component','_self','_blank')
+        order by m.sort
+    </select>
+    <select id="selectMenusByRoleIds" resultType="string">
+        select m.name
+        from t_menu m
+          left join t_role_menu_rel rmr on m.id = rmr.menu_id
+        where m.deleted = 0 and m.type_code = 'button'
+        <if test="roleIds != null">
+            and rmr.role_id in
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+    </select>
+</mapper>

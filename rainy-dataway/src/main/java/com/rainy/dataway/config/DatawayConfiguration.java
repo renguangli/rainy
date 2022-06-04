@@ -2,7 +2,7 @@ package com.rainy.dataway.config;
 
 import net.hasor.spring.boot.EnableHasor;
 import net.hasor.spring.boot.EnableHasorWeb;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * dataway 配置类
@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
  */
 @EnableHasor    // 在Spring 中启用 Hasor
 @EnableHasorWeb(path = {"/interface-ui/**", "/api/**"})
-@AutoConfiguration
+@Configuration
 public class DatawayConfiguration {
 
 }

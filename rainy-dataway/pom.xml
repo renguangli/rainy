@@ -7,7 +7,7 @@
 
     <parent>
         <artifactId>rainy</artifactId>
-        <groupId>com.renguangli.rainy</groupId>
+        <groupId>com.rainy</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -17,7 +17,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.renguangli.rainy</groupId>
+            <groupId>com.rainy</groupId>
             <artifactId>rainy-common</artifactId>
         </dependency>
         <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-spring -->

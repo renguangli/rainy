@@ -3,6 +3,8 @@ package com.rainy.sys.entity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 系统监控实体类
  *
@@ -10,7 +12,9 @@ import lombok.Data;
  * @date 2022/3/24 18:42
  */
 @Data
-public class SysMonitor {
+public class SysMonitor implements Serializable {
+
+    private static final long serialVersionUID = -657407604916842976L;
 
     private String osName;
 

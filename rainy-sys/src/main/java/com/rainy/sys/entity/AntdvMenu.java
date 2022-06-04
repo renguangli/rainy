@@ -3,6 +3,8 @@ package com.rainy.sys.entity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * ant design pro of vue 菜单结构
  *
@@ -10,8 +12,10 @@ import lombok.Data;
  * @date 2022/3/11 13:42
  */
 @Data
-public class AntdvMenu {
+public class AntdvMenu implements Serializable {
 
+    private static final long serialVersionUID = -6959727250486298083L
+            ;
     @ApiModelProperty("主键id")
     private Integer id;
     @ApiModelProperty("父id")

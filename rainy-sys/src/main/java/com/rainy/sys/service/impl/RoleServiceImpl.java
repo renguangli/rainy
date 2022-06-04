@@ -50,6 +50,9 @@ public class RoleServiceImpl
         QueryWrapper<RoleMenuRel> qw = new QueryWrapper<>();
         qw.eq("role_id", roleId);
         roleMenuRelService.remove(qw);
+        if (roleMenuRelList.isEmpty()) {
+            return true;
+        }
         return roleMenuRelService.saveBatch(roleMenuRelList);
     }
 

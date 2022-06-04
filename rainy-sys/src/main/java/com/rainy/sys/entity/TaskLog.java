@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.rainy.common.util.DateUtils;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -16,7 +17,9 @@ import java.util.Date;
  */
 @Data
 @TableName("t_task_log")
-public class TaskLog {
+public class TaskLog implements Serializable {
+
+    private static final long serialVersionUID = -855438800878020051L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;

@@ -29,6 +29,9 @@ public class UserRoleRelServiceImpl
         QueryWrapper<UserRoleRel> qw = new QueryWrapper<>();
         qw.eq("user_id", userId);
         this.baseMapper.delete(qw);
+        if (roleIds.isEmpty()) {
+            return true;
+        }
         List<UserRoleRel> userRoleRelList = roleIds.stream()
                 .flatMap((Function<Integer, Stream<UserRoleRel>>) roleId -> Stream.of(new UserRoleRel(userId, roleId)))
                 .collect(Collectors.toList());

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 通知公告用户关系实体(给那些用户接收)
  *
@@ -14,7 +16,9 @@ import lombok.Data;
  */
 @Data
 @TableName("t_notice")
-public class NoticeUserRel {
+public class NoticeUserRel implements Serializable {
+
+    private static final long serialVersionUID = 305688484392016540L;
 
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)

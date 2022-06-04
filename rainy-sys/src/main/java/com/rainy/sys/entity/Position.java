@@ -9,6 +9,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +20,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_position")
-public class Position {
+public class Position implements Serializable {
 
+    private static final long serialVersionUID = -8872841278854052028L;
+    
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)
     private Integer id;

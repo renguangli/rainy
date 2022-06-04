@@ -19,14 +19,13 @@
         <dependency>
             <groupId>com.rainy</groupId>
             <artifactId>rainy-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.renguangli.rainy</groupId>
+            <groupId>com.rainy</groupId>
             <artifactId>rainy-mybatis-crypto</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

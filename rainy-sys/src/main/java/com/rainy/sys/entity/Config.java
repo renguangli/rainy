@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -17,8 +18,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_config")
-public class Config {
+public class Config implements Serializable {
 
+    private static final long serialVersionUID = -3052821665138888635L;
+    
     @ApiModelProperty(value = "主键id")
     @TableId(type = IdType.AUTO)
     private Integer id;

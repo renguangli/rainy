@@ -9,6 +9,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +20,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_task")
-public class Task {
+public class Task implements Serializable {
 
+    private static final long serialVersionUID = 4605218781276912084L;
+    
     @TableId(type = IdType.AUTO)
     private Integer id;
 

@@ -30,7 +30,7 @@ public interface MenuService extends IService<Menu> {
      * @return the list
      * @param type 菜单类型
      */
-    List<Menu> listMenusByType(String type);
+    List<Menu> listByTypeCode(String type);
 
     /**
      * List antdv menus list.

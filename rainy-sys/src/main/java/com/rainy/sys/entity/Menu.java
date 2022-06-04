@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,7 +23,9 @@ import java.util.List;
  */
 @Data
 @TableName("t_menu")
-public class Menu {
+public class Menu implements Serializable {
+
+    private static final long serialVersionUID = -84055217618075456L;
 
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)

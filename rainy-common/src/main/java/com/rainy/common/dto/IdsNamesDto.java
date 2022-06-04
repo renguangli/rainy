@@ -21,15 +21,14 @@ public class IdsNamesDto {
     @PositiveOrZero
     private Integer id;
 
+    @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称...,方便记录日志，调试时可不传。")
+    private String name;
+
     @ApiModelProperty("id列表")
-    @NotEmpty
     private List<Integer> ids;
 
     @ApiModelProperty(value = "半选id列表", notes = "分配菜单时使用,其他地方不用传")
     private List<Integer> halfIds;
-
-    @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称...,方便记录日志，调试时可不传。")
-    private String name;
 
     @ApiModelProperty(name = "名称", notes = "角色名称,菜单名称（list）...,方便记录日志，调试时可不传。")
     private List<String> names;

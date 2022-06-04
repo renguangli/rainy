@@ -21,55 +21,13 @@ const request = axios.create({
 
 // 异常拦截处理器
 const errorHandler = (error) => {
-  if (error.response) {
-    const data = error.response.data
-    // const data = JSON.parse(Base64.decode(error.response.data))
-    // error.response.data = data
-    if (error.response.status === 401) {
-      notification.error({
-        message: '认证失败',
-        description: data.message
-      })
-      store.dispatch('Logout').then(() => {
-        setTimeout(() => {
-          if (!window.location.pathname.endsWith('/user/login')) {
-            window.location.reload()
-          }
-        }, 500)
-      })
-    }
-    if (error.response.status === 403) {
-      notification.error({
-        message: '权限不足',
-        description: data.message
-      })
-    }
-    if (error.response.status === 500) {
-      notification.error({
-        message: '操作失败',
-        description: data.message
-      })
-    }
-  }
   return Promise.reject(error)
 }
 
 // request interceptor
 request.interceptors.request.use(config => {
-  // const params = {}
-  // for (const name in config.params) {
-  //   if (config.params[name] !== undefined && config.params[name] !== null && config.params[name] !== '') {
-  //     params[name] = Base64.encode(String(config.params[name]))
-  //   }
-  // }
-  // config.params = params
-  // if (config.data) {
-  //   config.data = Base64.encode(JSON.stringify(config.data))
-  //   config.headers['Content-Type'] = 'application/json;charset=utf-8'
-  // }
   const token = storage.get(ACCESS_TOKEN)
-  // 如果 token 存在
-  // 让每个请求携带自定义 token 请根据实际情况自行修改
+  // 如果 token 存在，让每个请求携带自定义 token 请根据实际情况自行修改
   if (token) {
     config.headers['Access-Token'] = token
   }
@@ -81,8 +39,33 @@ request.interceptors.response.use((response) => {
   if (response.request.responseType === 'blob') {
     return response
   }
-  // return JSON.parse(Base64.decode(response.data))
-  return response.data
+  const data = response.data
+  if (data.code === 401) {
+    notification.error({
+      message: '认证失败',
+      description: data.message
+    })
+    store.dispatch('Logout').then(() => {
+      setTimeout(() => {
+        if (!window.location.pathname.endsWith('/user/login')) {
+          window.location.reload()
+        }
+      }, 500)
+    })
+  }
+  if (data.code === 403) {
+    notification.error({
+      message: '权限不足',
+      description: data.message
+    })
+  }
+  if (data.code === 500) {
+    notification.error({
+      message: '系统错误',
+      description: data.message
+    })
+  }
+  return data
 }, errorHandler)
 
 const installer = {

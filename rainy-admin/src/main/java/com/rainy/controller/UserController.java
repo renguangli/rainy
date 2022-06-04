@@ -156,7 +156,7 @@ public class UserController {
         QueryWrapper<UserRoleRel> qw = new QueryWrapper<>();
         qw.eq("user_id", userId);
         List<Integer> roleIds = roleRelService.list(qw).stream()
-                .map(UserRoleRel::getId)
+                .map(UserRoleRel::getRoleId)
                 .collect(Collectors.toList());
         return Result.ok(roleIds);
     }

@@ -9,17 +9,18 @@
     @cancel="handleCancel"
     :destroyOnClose="true"
   >
-    <s-table
+    <a-table
       class="role-assign"
+      size="middle"
       :loading="tableLoading"
       :rowKey="(record) => record.id"
       :alert="{ show: true, clear: () => { this.selectedRowKeys = [] }}"
       :columns="columns"
-      :data="loadData"
+      :data-source="data"
       :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: handleChange }"
-      :showPagination="true"
+      :pagination="page"
     >
-    </s-table>
+    </a-table>
   </a-modal>
 </template>
 
@@ -50,10 +51,18 @@
             dataIndex: 'description'
           }
         ],
-        loadData: parameter => {
-          return List(Object.assign(parameter, {})).then((res) => {
-            return res
-          })
+        data: [],
+        page: {
+          defaultCurrent: 1,
+          current: 1,
+          pageSize: 6,
+          total: 10,
+          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+          onChange: (current, pageSize) => {
+            this.page.current = current
+            this.page.pageSize = pageSize
+            this.loadData()
+          }
         },
         selectedRowKeys: [],
         selectedRows: [],
@@ -65,11 +74,21 @@
       open (record) {
         this.record = record
         this.visible = true
-        this.getRoleIds()
+        this.loadData()
       },
       handleChange (selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
         this.selectedRows = selectedRows
+      },
+      loadData () {
+        const param = { current: this.page.current, size: this.page.pageSize }
+        List(param).then((res) => {
+          this.data = res.data.records
+          this.page.current = res.data.current
+          this.page.pageSize = res.data.size
+          this.page.total = res.data.total
+          this.getRoleIds()
+        })
       },
       getRoleIds () {
         GetRoleIds(this.record.id).then(res => {

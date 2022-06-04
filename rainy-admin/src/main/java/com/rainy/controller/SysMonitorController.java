@@ -71,7 +71,7 @@ public class SysMonitorController {
     @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'下线了用户[' + #dto.name + '].'")
     @PutMapping("/user/kickOut")
     public Result kickOut(@RequestBody @Valid IdNameDto dto){
-        StpUtil.kickout(dto.getId());
+        StpUtil.kickout(dto.getId() + CharConstants.comma + dto.getName());
         return Result.ok();
     }
 
@@ -79,7 +79,10 @@ public class SysMonitorController {
     @SysLog(module = "系统监控", operationTypeCode = OperationType.DELETE, detail = "'批量下线了用户[' + #dto.names + '].'")
     @PutMapping("/users/kickOut")
     public Result batchKickOut(@RequestBody @Valid IdNamesDto dto){
-        dto.getIds().forEach(StpUtil::kickout);
+        List<Integer> ids = dto.getIds();
+        for (int i = 0; i < ids.size(); i++) {
+            StpUtil.kickout(ids.get(i) + CharConstants.comma + dto.getNames().get(i) );
+        }
         return Result.ok();
     }
 }

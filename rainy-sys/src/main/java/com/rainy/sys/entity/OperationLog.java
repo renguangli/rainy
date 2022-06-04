@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -20,7 +21,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_operation_log")
-public class OperationLog {
+public class OperationLog implements Serializable {
+
+    private static final long serialVersionUID = 5701958407602456306L;
 
     @ApiModelProperty("主键id")
     @Positive

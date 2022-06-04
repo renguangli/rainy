@@ -11,6 +11,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,10 @@ import java.util.List;
  */
 @Data
 @TableName("t_user")
-public class User {
+public class User implements Serializable {
 
     private static final String PASSWORD_REGEX = "^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\\W_]+$)(?![a-z0-9]+$)(?![a-z\\W_]+$)(?![0-9\\W_]+$)[a-zA-Z0-9\\W_]{8,20}$";
+    private static final long serialVersionUID = 3686551800192087000L;
 
     @ApiModelProperty("主键id")
     @Positive

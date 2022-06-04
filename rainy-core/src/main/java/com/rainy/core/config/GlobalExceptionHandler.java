@@ -34,9 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result exception(Exception e, HttpServletResponse response) {
         log.error(e.getMessage(), e);
-        int status = ResultCode.INTERNAL_SERVER_ERROR.getCode();
-        response.setStatus(status);
-        return Result.of(status, e.getMessage());
+        return Result.of(ResultCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
     }
 
     /**
@@ -45,7 +43,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = UnauthorizedException.class)
     public Result unauthorizedException(UnauthorizedException e,  HttpServletResponse response) {
         int status = ResultCode.UNAUTHORIZED.getCode();
-        response.setStatus(status);
         return Result.of(status, e.getMessage());
     }
 
@@ -64,7 +61,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = NotExistsException.class)
     public Result notExistsException(NotExistsException e) {
-        return Result.of(ResultCode.BAD_REQUEST.getCode(), e.getMessage());
+        int code = ResultCode.BAD_REQUEST.getCode();
+        return Result.of(code, e.getMessage());
     }
 
     /**

@@ -7,6 +7,7 @@ import com.rainy.common.util.DateUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,9 @@ import java.util.List;
  * @date 2022/3/10 14:55
  */
 @Data
-public class Userinfo {
+public class Userinfo implements Serializable {
+
+    private static final long serialVersionUID = 3277508365277302622L;
 
     @ApiModelProperty("用户名")
     private String username;

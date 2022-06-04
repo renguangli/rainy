@@ -37,6 +37,7 @@
           </a-form>
         </div>
         <s-table
+          size="middle"
           ref="table"
           :rowKey="(record) => record.id"
           :alert="{ show: true, clear: () => { this.selectedRowKeys = [] }}"
@@ -125,7 +126,8 @@ export default {
           dataIndex: 'username'
         }, {
           title: '昵称',
-          dataIndex: 'name'
+          dataIndex: 'name',
+          ellipsis: true
         }, {
           title: '头像',
           dataIndex: 'avatar',

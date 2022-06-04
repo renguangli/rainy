@@ -28,6 +28,7 @@
     </div>
     <s-table
       ref="table"
+      size="middle"
       :rowKey="(record) => record.id"
       :alert="false"
       :columns="columns"

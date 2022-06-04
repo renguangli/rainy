@@ -18,6 +18,7 @@
       </a-form>
     </div>
     <s-table
+      size="middle"
       ref="table"
       :rowKey="(record) => record.id"
       :alert="{ show: true, clear: () => { this.selectedRowKeys = [] }}"

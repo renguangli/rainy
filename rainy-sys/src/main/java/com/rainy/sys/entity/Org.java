@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +19,9 @@ import java.util.List;
  */
 @Data
 @TableName("t_org")
-public class Org {
+public class Org implements Serializable {
+
+    private static final long serialVersionUID = 6638206224536548147L;
 
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)

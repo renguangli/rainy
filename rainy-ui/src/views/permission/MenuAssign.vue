@@ -119,7 +119,7 @@
             this.$message.info('分配成功')
             this.handleCancel()
           } else {
-            this.$message.error('分配失败,' + res.message)
+            this.$message.error('分配失败:' + res.message)
           }
         }).finally(() => {
           this.confirmLoading = false

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 角色菜单关系实体类
  *
@@ -14,7 +16,9 @@ import lombok.Data;
  */
 @Data
 @TableName("t_role_menu_rel")
-public class RoleMenuRel {
+public class RoleMenuRel implements Serializable {
+
+    private static final long serialVersionUID = 5473284930528492835L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;

@@ -9,6 +9,7 @@ import com.rainy.common.util.DateUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -19,8 +20,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_login_log")
-public class LoginLog {
+public class LoginLog implements Serializable {
 
+    private static final long serialVersionUID = 1216155141458626087L;
+    
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)
     private Integer id;

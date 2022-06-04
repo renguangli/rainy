@@ -27,6 +27,7 @@
       </a-form>
     </div>
     <s-table
+      size="middle"
       ref="table"
       :rowKey="(record) => record.id"
       :alert="{ show: true, clear: () => { this.selectedRowKeys = [] }}"
@@ -204,6 +205,10 @@ export default {
       })
     },
     pause (record) {
+      if (record.status === 1) {
+        this.$message.warning('任务暂停中')
+        return
+      }
       const param = { id: record.id, name: record.name }
       Pause(param).then(res => {
         if (res.success) {
@@ -216,6 +221,10 @@ export default {
       })
     },
     resume (record) {
+      if (record.status === 0) {
+        this.$message.warning('任务启动中')
+        return
+      }
       const param = { id: record.id, name: record.name }
       Resume(param).then(res => {
         if (res.success) {

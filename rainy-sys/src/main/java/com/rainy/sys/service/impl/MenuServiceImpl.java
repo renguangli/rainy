@@ -15,6 +15,7 @@ import com.rainy.sys.mapper.RoleMenuRelMapper;
 import com.rainy.sys.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import java.util.stream.Stream;
  * @since JDK1.8
  */
 @Service
+@CacheConfig(cacheNames = "rainy:menu")
 @RequiredArgsConstructor
 public class MenuServiceImpl
         extends ServiceImpl<MenuMapper, Menu> implements MenuService {
@@ -67,7 +69,7 @@ public class MenuServiceImpl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames = "menu", key = "#menu.typeCode")
+    @CacheEvict(key = "#menu.typeCode")
     public boolean save(Menu menu) {
         Integer parentId = menu.getParentId();
         // 将所有父节点设置为半选状态
@@ -85,17 +87,17 @@ public class MenuServiceImpl
     }
 
     @Override
-    @CacheEvict(cacheNames = "menu", key = "#menu.typeCode")
+    @CacheEvict(key = "#menu.typeCode")
     public boolean updateById(Menu menu) {
         return this.baseMapper.updateById(menu) > 0;
     }
 
 
     @Override
-    @Cacheable(cacheNames = "menu", key = "#type")
-    public List<Menu> listMenusByType(String type) {
+    @Cacheable(key = "#typeCode")
+    public List<Menu> listByTypeCode(String typeCode) {
         QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.eq(StrUtil.isNotBlank(type), "type_code", type);
+        qw.eq(StrUtil.isNotBlank(typeCode), "type_code", typeCode);
         return this.baseMapper.selectList(qw);
     }
 

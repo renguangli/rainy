@@ -20,8 +20,8 @@ import com.rainy.sys.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author renguangli
  * @date 2022/3/11 16:51
  */
-@AutoConfiguration(after = RestTemplateConfiguration.class)
+@Configuration
 public class SaTokenConfiguration implements WebMvcConfigurer {
 
     private static final Logger log = LoggerFactory.getLogger(SaTokenConfiguration.class);
@@ -114,7 +114,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
 //        });
 
         // 权限校验
-        List<Menu> menus = menuService.listMenusByType(DictCodeConstants.MENU_TYPE_BUTTON);
+        List<Menu> menus = menuService.listByTypeCode(DictCodeConstants.MENU_TYPE_BUTTON);
         menus.forEach(p -> {
             // 匹配请求uri
             SaRouter.match(p.getUrl(), () -> {
@@ -138,7 +138,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
         } else { // 其他异常打印日志
             log.error(e.getMessage(), e);
         }
-        SaHolder.getResponse().setStatus(status);
+//        SaHolder.getResponse().setStatus(status);
         return buildError(status, e.getMessage());
     }
 

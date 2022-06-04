@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,9 @@ import java.util.function.Predicate;
  * @author renguangli
  * @date 2022/4/7 09:17
  */
-public class PageInfo<T> implements IPage<T> {
+public class PageInfo<T> implements IPage<T>, Serializable {
+
+    private static final long serialVersionUID = -2843326194397304523L;
 
     /* 自定义参数 begin*/
     @ApiModelProperty("是否分页:默认分页")

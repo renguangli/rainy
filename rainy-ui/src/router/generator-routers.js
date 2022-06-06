@@ -176,10 +176,10 @@ const rootRouter = {
  * @param token
  * @returns {Promise<Router>}
  */
-export const generatorDynamicRouter = () => {
+export const generatorDynamicRouter = (appCode) => {
   return new Promise((resolve, reject) => {
     loginService
-      .getCurrentUserNav()
+      .getCurrentUserNav(appCode)
       .then(res => {
         // console.log('generatorDynamicRouter response:', res)
         const { data } = res

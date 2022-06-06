@@ -30,15 +30,18 @@
     -->
     <template v-slot:headerContentRender>
       <div>
-        <a-tooltip title="刷新页面" >
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
-        </a-tooltip>
-        <a-tooltip title="刷新页面" >
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
-        </a-tooltip>
-        <a-tooltip title="刷新页面" >
-          <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -0.2em" @click="() => { reload }" />
-        </a-tooltip>
+        <a-menu
+          style="border-bottom: 0;"
+          mode="horizontal"
+          :default-selected-keys="selectedApp"
+        >
+          <a-menu-item v-for="item in apps" :key="item.code" style="top:0;margin-bottom: -10px; padding-left: 10px; padding-right: 10px" @click="switchApp(item.code)">
+            {{ item.name }}
+          </a-menu-item>
+          <a-tooltip title="刷新页面" >
+            <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -13px" @click="() => { refresh() }" />
+          </a-tooltip>
+        </a-menu>
       </div>
     </template>
 
@@ -68,15 +71,18 @@
 import { SettingDrawer, updateTheme } from '@ant-design-vue/pro-layout'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
-import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE } from '@/store/mutation-types'
+import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, APP_CODE, APP_CODE_DEFAULT } from '@/store/mutation-types'
 
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import LogoSvg from '../assets/logo.svg?inline'
+import message from 'ant-design-vue/lib/message'
+import storage from 'store'
 
 export default {
   name: 'BasicLayout',
+  inject: ['reload'],
   components: {
     SettingDrawer,
     RightContent,
@@ -116,7 +122,17 @@ export default {
       query: {},
 
       // 是否手机模式
-      isMobile: false
+      isMobile: false,
+      apps: [
+        {
+          name: '系统应用',
+          code: 'sys'
+        }, {
+          name: '报告管理',
+          code: 'report'
+        }
+      ],
+      selectedApp: []
     }
   },
   computed: {
@@ -137,6 +153,7 @@ export default {
     })
   },
   mounted () {
+    this.selectedApp.push(storage.get(APP_CODE, APP_CODE_DEFAULT))
     const userAgent = navigator.userAgent
     if (userAgent.indexOf('Edge') > -1) {
       this.$nextTick(() => {
@@ -192,8 +209,15 @@ export default {
           break
       }
     },
-    reload () {
-      window.location.reload()
+    refresh () {
+      this.reload()
+    },
+    switchApp (appCode) {
+      message.loading('切换应用中...', 0.1)
+      storage.set(APP_CODE, appCode)
+      this.refresh()
+      // this.$router.push(this.$route.path, { replace: true })
+      // window.location.reload()
     }
   }
 }

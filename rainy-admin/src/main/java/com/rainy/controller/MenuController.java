@@ -43,9 +43,9 @@ public class MenuController {
 
     @ApiOperation("antdv菜单列表")
     @GetMapping("/menus/antdv")
-    public Result listAntdvMenus(){
+    public Result listAntdvMenus(String appCode){
         Integer userId = SaTokenUtils.getUserId();
-        return Result.ok(menuService.listAntdvMenus(userId));
+        return Result.ok(menuService.listAntdvMenus(userId, appCode));
     }
 
 //    @ApiImplicitParams({

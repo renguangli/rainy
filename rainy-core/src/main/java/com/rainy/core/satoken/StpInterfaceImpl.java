@@ -38,7 +38,7 @@ public class StpInterfaceImpl implements StpInterface {
         if (roleList.isEmpty()) {
             return Collections.emptyList();
         }
-        List<Role> roles = roleMapper.listRolesByUserId(loginId);
+        List<Role> roles = roleMapper.listByUserId(loginId);
         List<String> roleCodes = map2RoleCodes(roles);
         // 如果是超级管理员返回所有接口权限
         if (roleCodes.contains(DefaultRole.SUPPER_ADMIN.getName())) {
@@ -50,7 +50,7 @@ public class StpInterfaceImpl implements StpInterface {
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         int userId = SaTokenUtils.getUserId(loginId.toString());
-        List<Role> roles = roleMapper.listRolesByUserId(userId);
+        List<Role> roles = roleMapper.listByUserId(userId);
         return roles.stream().map(Role::getCode).collect(Collectors.toList());
     }
 

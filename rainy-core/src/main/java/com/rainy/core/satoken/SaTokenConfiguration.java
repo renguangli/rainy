@@ -45,7 +45,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     private static final String[] UPDATE_METHODS = {"POST", "PUT", "DELETE"};
     private static final String[] EXCLUDE_PATHS = {
             "/favicon.ico", "/error",
-            "/swagger-resources", "/v2/api-docs", "/swagger-ui/index.html", // swagger-path
+            "/swagger-resources", "/v2/api-docs", "/webjars/**", "/doc.html", "/swagger-ui/index.html", // swagger-path
             "/register", "/activate/*", "/common/config", "/avatar/*", "/captcha/*",
             "/feedback", // 反馈
             "/interface-ui/**", "/api/**",

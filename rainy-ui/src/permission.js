@@ -58,8 +58,15 @@ router.beforeEach((to, from, next) => {
               // 请求带有 redirect 重定向时，自动重定向到该地址
               const redirect = decodeURIComponent(from.query.redirect || to.path)
               if (to.path === redirect) {
-                // set the replace: true so the navigation will not leave a history record
-                next({ ...to, replace: true })
+                next({ path: defaultRoutePath })
+                // alert(to.path)
+                // // set the replace: true so the navigation will not leave a history record
+                // const appCode = storage.get(APP_CODE, APP_CODE_DEFAULT)
+                // if (appCode === APP_CODE_DEFAULT) {
+                //   next({ ...to, replace: true })
+                // } else {
+                //   next({ path: defaultRoutePath })
+                // }
               } else {
                 // 跳转到目的路由
                 next({ path: redirect })

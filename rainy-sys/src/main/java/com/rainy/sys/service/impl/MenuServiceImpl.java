@@ -62,10 +62,10 @@ public class MenuServiceImpl
         if (roleCodes.contains(DefaultRole.SUPPER_ADMIN.getName())) {
             QueryWrapper<Menu> qw = new QueryWrapper<>();
             qw.in("target", DictCodeConstants.MENU_TARGET_TYPES);
-            qw.in("app_code", DictCodeConstants.MENU_TARGET_TYPES);
+            qw.in("app_code", appCode);
             return this.baseMapper.selectList(qw);
         }
-        return this.baseMapper.selectByUserIdAndAppCode(userId);
+        return this.baseMapper.selectByUserIdAndAppCode(userId, appCode);
     }
 
     @Override

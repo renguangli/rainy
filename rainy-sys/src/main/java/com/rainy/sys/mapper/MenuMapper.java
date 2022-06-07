@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
-    List<Menu> selectByUserIdAndAppCode(@Param("userId") Integer userId);
+    List<Menu> selectByUserIdAndAppCode(@Param("userId") Integer userId, @Param("appCode") String appCode);
 
     /**
      * 查询按钮类型的菜单

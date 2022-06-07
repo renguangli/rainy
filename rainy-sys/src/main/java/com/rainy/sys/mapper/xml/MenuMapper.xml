@@ -7,7 +7,7 @@
         from t_menu m
          left join t_role_menu_rel rmr on m.id = rmr.menu_id
          left join t_user_role_rel urr on rmr.role_id = urr.role_id
-        where m.deleted = 0 and m.target in ('_component','_self','_blank') and urr.user_id = #{userId} and app_code = #{appCode}
+        where m.deleted = 0 and m.target in ('_component','_self','_blank') and urr.user_id = #{userId} and m.app_code = #{appCode}
         order by m.sort
     </select>
     <select id="selectByRoleIds" resultType="string">

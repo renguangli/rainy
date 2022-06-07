@@ -215,9 +215,9 @@ export default {
     switchApp (appCode) {
       message.loading('切换应用中...', 0.1)
       storage.set(APP_CODE, appCode)
-      this.refresh()
+      // this.refresh()
       // this.$router.push(this.$route.path, { replace: true })
-      // window.location.reload()
+      window.location.reload()
     }
   }
 }

@@ -17,6 +17,8 @@ export const TITLE = 'title'
 export const LOGO = 'logo'
 export const SYS_DESCRIPTION = 'sys_description'
 export const CAPTCHA_ENABLE = 'captchaEnable'
+export const APP_CODE = 'app_code'
+export const APP_CODE_DEFAULT = 'sys'
 
 export const CONTENT_WIDTH_TYPE = {
   Fluid: 'Fluid',

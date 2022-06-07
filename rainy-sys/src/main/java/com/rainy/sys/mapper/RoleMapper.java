@@ -19,6 +19,6 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @param userId the user id
      * @return the list
      */
-    List<Role> listRolesByUserId(Object userId);
+    List<Role> listByUserId(Object userId);
 
 }

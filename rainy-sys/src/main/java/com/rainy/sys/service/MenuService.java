@@ -37,10 +37,11 @@ public interface MenuService extends IService<Menu> {
      *
      * @return the list
      * @param userId
+     * @param appCode
      */
-    List<AntdvMenu> listAntdvMenus(Integer userId);
+    List<AntdvMenu> listAntdvMenus(Integer userId, String appCode);
 
-    List<Menu> listMenusByUserId(Integer userId);
+    List<Menu> listByUserIdAndAppCode(Integer userId, String appCode);
 
     @Override
     boolean save(Menu menu);

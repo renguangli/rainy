@@ -45,16 +45,16 @@ public class MenuServiceImpl
     private final RoleMapper roleMapper;
 
     @Override
-    public List<AntdvMenu> listAntdvMenus(Integer userId) {
-        List<Menu> menus = this.listMenusByUserId(userId);
+    public List<AntdvMenu> listAntdvMenus(Integer userId, String appCode) {
+        List<Menu> menus = this.listByUserIdAndAppCode(userId, appCode);
         return menus.stream()
                 .flatMap(this::menu2antdvMenu)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Menu> listMenusByUserId(Integer userId) {
-        List<Role> roles = roleMapper.listRolesByUserId(userId);
+    public List<Menu> listByUserIdAndAppCode(Integer userId, String appCode) {
+        List<Role> roles = roleMapper.listByUserId(userId);
         List<String> roleCodes = roles.stream()
                 .map(Role::getCode)
                 .collect(Collectors.toList());
@@ -62,9 +62,10 @@ public class MenuServiceImpl
         if (roleCodes.contains(DefaultRole.SUPPER_ADMIN.getName())) {
             QueryWrapper<Menu> qw = new QueryWrapper<>();
             qw.in("target", DictCodeConstants.MENU_TARGET_TYPES);
+            qw.in("app_code", DictCodeConstants.MENU_TARGET_TYPES);
             return this.baseMapper.selectList(qw);
         }
-        return this.baseMapper.selectByUserId(userId);
+        return this.baseMapper.selectByUserIdAndAppCode(userId);
     }
 
     @Override

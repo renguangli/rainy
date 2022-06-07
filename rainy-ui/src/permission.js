@@ -5,7 +5,7 @@ import NProgress from 'nprogress' // progress bar
 import '@/components/NProgress/nprogress.less' // progress bar custom style
 // import notification from 'ant-design-vue/es/notification'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
-import { ACCESS_TOKEN } from '@/store/mutation-types'
+import { ACCESS_TOKEN, APP_CODE, APP_CODE_DEFAULT } from '@/store/mutation-types'
 import { i18nRender } from '@/locales'
 import { getRedirectUrl } from '@/api/sso'
 
@@ -47,7 +47,8 @@ router.beforeEach((to, from, next) => {
           .dispatch('GetInfo')
           .then(res => {
             // generate dynamic router
-            store.dispatch('GenerateRoutes').then(() => {
+            const appCode = storage.get(APP_CODE, APP_CODE_DEFAULT)
+            store.dispatch('GenerateRoutes', appCode).then(() => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
               // VueRouter@3.5.0+ New API

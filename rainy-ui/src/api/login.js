@@ -58,10 +58,11 @@ export function getInfo () {
   })
 }
 
-export function getCurrentUserNav () {
+export function getCurrentUserNav (parameter) {
   return axios({
     url: userApi.UserMenu,
-    method: method.GET
+    method: method.GET,
+    params: parameter
   })
 }
 

@@ -52,7 +52,7 @@ public class SysMonitorController {
     @SysLog(module = "系统监控", operationTypeCode = OperationType.QUERY, detail = "'查询了在线用户第' + #page.current + '页.每页' + #page.size + '条数据'")
     @GetMapping("/users/online")
     public Result listOnlineUsers(PageInfo<User> page, String username, String name){
-        List<String> loginIds = StpUtil.searchSessionId(null, -1, 0);
+        List<String> loginIds = StpUtil.searchSessionId(CharConstants.EMPTY_STR, -1, 0);
         List<Integer> userIds = loginIds.stream()
                 .map(val -> {
                     String loginId = StrUtil.subAfter(val, CharConstants.COLON, true);
@@ -61,7 +61,7 @@ public class SysMonitorController {
                 })
                 .collect(Collectors.toList());
         QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.in(!userIds.isEmpty(), "id", userIds);
+        qw.in("id", userIds);
         qw.likeRight(StrUtil.isNotBlank(username), "username", username);
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         return Result.ok(userService.page(page, qw));

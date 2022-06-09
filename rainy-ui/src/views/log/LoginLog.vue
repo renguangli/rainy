@@ -123,6 +123,7 @@ export default {
         }, {
           title: '错误详情',
           dataIndex: 'errorMessage',
+          checked: false,
           ellipsis: true
         }, {
           title: '操作',
@@ -178,11 +179,11 @@ export default {
     clear () {
       Clear().then(res => {
         if (res.success) {
-          this.$message.success('删除成功')
+          this.$message.success('清除成功')
           this.$refs.table.clearSelected()
           this.handleOk()
         } else {
-          this.$message.error('删除失败：' + res.message)
+          this.$message.error('清除失败：' + res.message)
         }
       })
     },

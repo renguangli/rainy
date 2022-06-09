@@ -25,7 +25,8 @@ const getters = {
   title: state => state.app.title,
   logo: state => state.app.logo,
   sysDescription: state => state.app.sys_desciption,
-  captchaEnable: state => state.app.captchaEnable
+  captchaEnable: state => state.app.captchaEnable,
+  apps: state => state.app.apps
 }
 
 export default getters

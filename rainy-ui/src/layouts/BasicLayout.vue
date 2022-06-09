@@ -2,6 +2,7 @@
   <pro-layout
     :menus="menus"
     :collapsed="collapsed"
+    :collapseWidth="32"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
@@ -35,12 +36,12 @@
           mode="horizontal"
           :default-selected-keys="selectedApp"
         >
-          <a-menu-item v-for="item in apps" :key="item.code" style="top:0;margin-bottom: -10px; padding-left: 10px; padding-right: 10px" @click="switchApp(item.code)">
-            {{ item.name }}
-          </a-menu-item>
           <a-tooltip title="刷新页面" >
             <a-icon type="reload" style="font-size: 18px;cursor: pointer;vertical-align: -13px" @click="() => { refresh() }" />
           </a-tooltip>
+          <a-menu-item v-for="item in apps" :key="item.code" style="top:0;margin-bottom: -10px; padding-left: 10px; padding-right: 10px" @click="switchApp(item.code)">
+            {{ item.name }}
+          </a-menu-item>
         </a-menu>
       </div>
     </template>
@@ -123,15 +124,7 @@ export default {
 
       // 是否手机模式
       isMobile: false,
-      apps: [
-        {
-          name: '系统应用',
-          code: 'sys'
-        }, {
-          name: '报告管理',
-          code: 'report'
-        }
-      ],
+      apps: this.$store.getters.apps,
       selectedApp: []
     }
   },

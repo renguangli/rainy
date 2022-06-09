@@ -71,6 +71,10 @@ public class Menu implements Serializable {
     private Boolean show;
 
     @NotNull
+    @ApiModelProperty("应用编码")
+    private String appCode;
+
+    @NotNull
     @Positive
     @ApiModelProperty("排序")
     @TableField("sort")

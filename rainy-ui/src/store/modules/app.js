@@ -18,7 +18,7 @@ import {
   TITLE,
   LOGO,
   SYS_DESCRIPTION,
-  CAPTCHA_ENABLE
+  CAPTCHA_ENABLE, APPS
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
 
@@ -40,7 +40,8 @@ const app = {
     dictTree: {},
     title: null,
     logo: null,
-    captchaEnable: false
+    captchaEnable: false,
+    apps: []
   },
   mutations: {
     [SIDEBAR_TYPE]: (state, type) => {
@@ -106,6 +107,9 @@ const app = {
     },
     [CAPTCHA_ENABLE]: (state, captchaEnable) => {
       state.captchaEnable = captchaEnable
+    },
+    [APPS]: (state, apps) => {
+      state.apps = apps
     }
   },
   actions: {
@@ -128,6 +132,7 @@ const app = {
           commit(LOGO, data.config.SYS_LOGO)
           commit(SYS_DESCRIPTION, data.config.SYS_DESCRIPTION)
           commit(CAPTCHA_ENABLE, data.config.CAPTCHA_ENABLE)
+          commit(APPS, data.apps)
           resolve(data)
         }).catch(error => {
           reject(error)

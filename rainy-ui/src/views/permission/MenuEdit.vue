@@ -177,11 +177,37 @@
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
             <a-form-item
+              style="width: 100%"
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="应用"
+              hasFeedback
+            >
+              <a-select placeholder="请选择应用" v-decorator="['appCode', {rules: [{required: true, min: 1, message: '请选择应用！'}]}]">
+                <a-select-option :key="item.code" v-for="item in $store.getters.apps" :value="item.code">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <a-form-item
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
               label="排序"
             >
               <a-input-number style="width: 100%" v-decorator="['sort', {rules: [{required: true, message: '请输入排序！'}]}]" :min="1" :max="10000" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="是否可见"
+            >
+              <a-switch checkedChildren="是" unCheckedChildren="否" v-decorator="['show', { valuePropName: 'checked' }]"/>
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
@@ -194,17 +220,6 @@
                 <a-input placeholder="请输入描述" v-decorator="['description']" />
               </a-form-item>
             </div>
-          </a-col>
-        </a-row>
-        <a-row :gutter="24">
-          <a-col :md="12" :sm="24">
-            <a-form-item
-              :labelCol="labelCol"
-              :wrapperCol="wrapperCol"
-              label="是否可见"
-            >
-              <a-switch checkedChildren="是" unCheckedChildren="否" v-decorator="['show', { valuePropName: 'checked' }]"/>
-            </a-form-item>
           </a-col>
         </a-row>
       </a-form>
@@ -274,6 +289,7 @@
         this.form.getFieldDecorator('component', { initialValue: 'Iframe' })
         this.form.getFieldDecorator('show', { initialValue: true })
         this.form.getFieldDecorator('sort', { initialValue: 99 })
+        this.form.getFieldDecorator('appCode', { initialValue: 'sys' })
         this.componentDisabled = true
       },
       // 打开页面初始化
@@ -291,6 +307,7 @@
           this.form.getFieldDecorator('icon', { initialValue: record.icon })
           // 是否展示
           this.form.getFieldDecorator('show', { initialValue: record.show })
+          this.form.getFieldDecorator('appCode', { initialValue: record.appCode })
           this.selectMenuType(record.typeCode)
           this.selectTarget(record.target, record.typeCode)
           this.setFieldValue('component', record.component)

@@ -76,7 +76,7 @@ public class SsoServerController {
         }
         // 登录
         String loginId = String.join(CharConstants.comma, user.getId().toString(), user.getUsername());
-        StpUtil.login(loginId);
+        StpUtil.login(loginId, loginDTO.getRememberMe());
 
         // 登录成功后更新最后登录ip和时间
         user.setLastLoginIp(WebUtils.getRemoteIp());

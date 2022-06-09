@@ -70,7 +70,7 @@
       </a-tabs>
 
       <a-form-item>
-        <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">{{ $t('user.login.remember-me') }}</a-checkbox>
+        <a-checkbox value="true" v-decorator="['rememberMe', { valuePropName: 'rememberMe' }]">{{ $t('user.login.remember-me') }}</a-checkbox>
         <router-link
           :to="{ name: 'recover', params: { user: 'aaa'} }"
           class="forge-password"
@@ -237,7 +237,7 @@ export default {
         form: { validateFields },
         customActiveKey
       } = this
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password'] : ['mobile', 'captcha']
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password', 'rememberMe'] : ['mobile', 'captcha', 'rememberMe']
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
           if (this.$store.getters.captchaEnable === 'true') {
@@ -256,7 +256,7 @@ export default {
         Login
       } = this
       state.loginBtn = true
-      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password'] : ['mobile', 'captcha']
+      const validateFieldsKey = customActiveKey === 'tab1' ? ['username', 'password', 'rememberMe'] : ['mobile', 'captcha', 'rememberMe']
       validateFields(validateFieldsKey, { force: true }, (err, values) => {
         if (!err) {
           // console.log('login form', values)
@@ -266,6 +266,7 @@ export default {
           // loginParams.password = md5(values.password)
           loginParams.loginType = state.loginType
           loginParams.password = values.password
+          loginParams.rememberMe = values.rememberMe || false
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))

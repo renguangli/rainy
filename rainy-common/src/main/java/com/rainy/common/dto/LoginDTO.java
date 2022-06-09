@@ -27,4 +27,7 @@ public class LoginDTO {
     @ApiModelProperty("密码")
     private String password;
 
+    @ApiModelProperty("记住我")
+    private Boolean rememberMe;
+
 }

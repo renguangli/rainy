@@ -12,9 +12,11 @@ import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.service.FileService;
 import com.rainy.core.satoken.SaTokenUtils;
+import com.rainy.sys.entity.App;
 import com.rainy.sys.entity.Config;
 import com.rainy.sys.entity.Feedback;
 import com.rainy.sys.entity.User;
+import com.rainy.sys.service.AppService;
 import com.rainy.sys.service.ConfigService;
 import com.rainy.sys.service.DictService;
 import com.rainy.sys.service.UserService;
@@ -49,6 +51,7 @@ public class CommonController {
     private final ConfigService configService;
     private final UserService userService;
     private final FileService fileService;
+    private final AppService appService;
 
     @ApiOperation("全局配置")
     @GetMapping("/common/config")
@@ -64,6 +67,11 @@ public class CommonController {
         List<Map<String, Object>> configs = configService.listMaps(qw);
         configs.forEach(v -> config.put(v.get("code").toString(), v.get("value")));
         data.put("config", config);
+        // 应用
+        QueryWrapper<App> appQw = new QueryWrapper<>();
+        appQw.select("name", "code");
+        List<App> list = appService.list(appQw);
+        data.put("apps", list);
         return Result.ok(data);
     }
 

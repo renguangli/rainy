@@ -102,22 +102,24 @@ public class SaTokenListenerImpl implements SaTokenListener {
     }
 
     private void saveLog(Object loginId, LoginType loginType) {
-        User user = userService.getById(loginId.toString());
+        String id = loginId.toString();
+        int userId = SaTokenUtils.getUserId(id);
+        User user = userService.getById(userId);
         LoginLog loginLog = new LoginLog();
         loginLog.setDatetime(LocalDateTime.now());
         loginLog.setLoginType(loginType.getCode());
         loginLog.setUsername(user.getUsername());
         loginLog.setIp(user.getLastLoginIp());
         loginLog.setBrowser(user.getBrowser());
-        loginLog.setSuccess(true);
         loginLog.setOs(user.getOs());
+        loginLog.setSuccess(true);
         loginLogService.asyncSave(loginLog);
     }
 
     /**
      * 日志输出的前缀
      */
-    public static final String LOG_PREFIX = "Login-Monitor-Log -->: ";
+    public static final String LOG_PREFIX = "Login-Log -->: ";
 
     /**
      * 打印指定字符串

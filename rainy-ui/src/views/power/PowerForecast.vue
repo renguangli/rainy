@@ -1,7 +1,45 @@
 <template>
-  <a-card>
-    <v-chart class="chart" :option="option" />
-  </a-card>
+  <a-row :gutter="48">
+    <a-col :md="24" :sm="24">
+      <a-breadcrumb>
+        当前场站：
+        <a-tree-select
+          show-search
+          style="width: 100%"
+          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+          placeholder="Please select"
+          allow-clear
+          tree-default-expand-all
+        >
+        </a-tree-select>
+      </a-breadcrumb>
+      <a-divider/>
+    </a-col>
+    <a-col :md="24" :sm="24">
+      <a-card>
+        <div>
+          <a-form layout="inline">
+            <a-form-item label="预测时间">
+              <a-date-picker @change="onChange" />
+            </a-form-item>
+            <a-form-item label="预测时间">
+              <a-range-picker @change="onChange" />
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary">查询</a-button>
+              <a-button style="margin-left: 8px">重置</a-button>
+              <a-button type="dashed" style="margin-left: 8px">手动调整</a-button>
+            </a-form-item>
+            <a-form-item style="float: right" label="更新时间">
+              2022-10-01 00:00:00
+            </a-form-item>
+          </a-form>
+        </div>
+        <v-chart class="chart" :option="option" />
+      </a-card>
+    </a-col>
+  </a-row>
+
 </template>
 
 <script>
@@ -38,25 +76,18 @@ export default {
   },
   data () {
     return {
+      visible: false,
       option: {
         title: {
-          text: '功率预测'
+          text: ''
         },
         tooltip: {
           trigger: 'axis'
         },
-        legend: {
-          itemStyle: {
-            decal: 'none'
-          },
-          type: 'scroll',
-          align: 'left',
-          data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
-        },
         grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
+          left: '0',
+          right: '1%',
+          top: '10%',
           containLabel: true
         },
         toolbox: {
@@ -89,6 +120,15 @@ export default {
           }
         ]
       }
+    }
+  },
+  methods: {
+    hide () {
+      console.log(111)
+      this.visible = false
+    },
+    onChange (p) {
+      console.log(p)
     }
   }
 }

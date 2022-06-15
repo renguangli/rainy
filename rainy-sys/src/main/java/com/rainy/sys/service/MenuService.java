@@ -21,8 +21,9 @@ public interface MenuService extends IService<Menu> {
      * @return the list
      * @param name String
      * @param typeCode String
+     * @param appCode
      */
-    List<Menu> getMenuTree(String name, String typeCode);
+    List<Menu> getMenuTree(String name, String typeCode, String appCode);
 
     /**
      * List menus tree list.

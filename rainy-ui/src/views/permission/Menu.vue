@@ -2,13 +2,13 @@
   <a-card :bordered="false">
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
+        <a-row :gutter="24">
+          <a-col :md="6" :sm="24">
             <a-form-item label="菜单名称">
               <a-input v-model="queryParam.name" placeholder="请输入菜单名称"/>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="6" :sm="24">
             <a-form-item label="菜单类型">
               <a-select v-model="queryParam.typeCode" placeholder="请选择菜单类型">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_MENU_TYPE')" :value="item.value">
@@ -17,7 +17,16 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="6" :sm="24">
+            <a-form-item label="所属应用">
+              <a-select v-model="queryParam.appCode" placeholder="请选择所属应用" @select="$refs.table.refresh()">
+                <a-select-option :key="item.value" v-for="item in $store.getters.apps" :value="item.code">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="6" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
               <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>
@@ -57,6 +66,9 @@
         <a-tag v-if="text === 'catalog_breadcrumb' || text === 'catalog'" color="#87d068">
           {{ 'SYS_MENU_TYPE' | dictItemValue(text) }}
         </a-tag>
+      </span>
+      <span slot="app" slot-scope="text">
+        {{ text | app }}
       </span>
       <span slot="target" slot-scope="text">
         {{ 'SYS_MENU_OPEN_TYPE' | dictItemValue(text) }}
@@ -120,6 +132,10 @@ export default {
           title: '前端组件',
           dataIndex: 'component',
           checked: false
+        }, {
+          title: '所属应用',
+          dataIndex: 'appCode',
+          scopedSlots: { customRender: 'app' }
         }, {
           title: '描述',
           dataIndex: 'description',

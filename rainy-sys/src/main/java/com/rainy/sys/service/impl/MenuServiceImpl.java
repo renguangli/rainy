@@ -156,10 +156,11 @@ public class MenuServiceImpl
     }
 
     @Override
-    public List<Menu> getMenuTree(String name, String typeCode) {
+    public List<Menu> getMenuTree(String name, String typeCode, String appCode) {
         QueryWrapper<Menu> qw = new QueryWrapper<>();
         qw.likeRight(StrUtil.isNotBlank(name), "name", name);
         qw.eq(StrUtil.isNotBlank(typeCode), "type_code", typeCode);
+        qw.eq(StrUtil.isNotBlank(appCode), "app_code", appCode);
         List<Menu> menus = this.list(qw);
         List<Menu> rootMenus = menus.stream()
                 .filter(m -> m.getParentId() == null || m.getParentId() == 0).collect(Collectors.toList());

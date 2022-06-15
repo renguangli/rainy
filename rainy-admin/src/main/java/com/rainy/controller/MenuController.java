@@ -78,12 +78,13 @@ public class MenuController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "菜单名称"),
-            @ApiImplicitParam(name = "typeCode", value = "类型编码")
+            @ApiImplicitParam(name = "typeCode", value = "类型编码"),
+            @ApiImplicitParam(name = "appCode", value = "应用编码")
     })
     @ApiOperation("菜单树结构")
     @GetMapping("/menus/tree")
-    public Result getMenuTree(String name, String typeCode){
-        return Result.ok(menuService.getMenuTree(name, typeCode));
+    public Result getMenuTree(String name, String typeCode, String appCode){
+        return Result.ok(menuService.getMenuTree(name, typeCode, appCode));
     }
 
     @ApiOperation("添加菜单")

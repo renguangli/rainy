@@ -41,6 +41,18 @@ Vue.filter('dictItemValue', function (dictCode, dictItemCode) {
   return dictItem
 })
 
+Vue.filter('app', (appCode) => {
+  const apps = store.getters.apps
+  let appName = appCode
+  for (const i in apps) {
+    if (apps[i].code === appCode) {
+      appName = apps[i].name
+      break
+    }
+  }
+  return appName
+})
+
 Vue.filter('NumberFormat', function (value) {
   if (!value) {
     return '0'

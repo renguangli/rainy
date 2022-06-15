@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="菜单类型">
-              <a-select v-model="queryParam.typeCode" placeholder="请选择菜单类型">
+              <a-select v-model="queryParam.typeCode" placeholder="请选择菜单类型" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_MENU_TYPE')" :value="item.value">
                   {{ item.name }}
                 </a-select-option>

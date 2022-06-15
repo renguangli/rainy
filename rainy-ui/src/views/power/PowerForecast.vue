@@ -20,7 +20,7 @@
         <div>
           <a-form layout="inline">
             <a-form-item label="预测时间">
-              <a-date-picker @change="onChange" />
+              <a-date-picker v-model="queryParam.forecastDate" @change="onChange" />
             </a-form-item>
             <a-form-item label="预测时间">
               <a-range-picker @change="onChange" />
@@ -28,24 +28,24 @@
             <a-form-item>
               <a-button type="primary">查询</a-button>
               <a-button style="margin-left: 8px">重置</a-button>
-              <a-button type="dashed" style="margin-left: 8px">手动调整</a-button>
+              <a-button @click="$refs.editor.open()" type="dashed" style="margin-left: 8px">手动调整</a-button>
             </a-form-item>
             <a-form-item style="float: right" label="更新时间">
               2022-10-01 00:00:00
             </a-form-item>
           </a-form>
         </div>
-        <v-chart class="chart" :option="option" />
+        <v-chart class="chart" :option="option" :autoresize="true" />
       </a-card>
+      <editor ref="editor" @ok="handleOk"></editor>
     </a-col>
   </a-row>
-
 </template>
 
 <script>
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { PieChart, LineChart } from 'echarts/charts'
+import { LineChart } from 'echarts/charts'
 import {
   TitleComponent,
   TooltipComponent,
@@ -54,10 +54,10 @@ import {
   GridComponent
 } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
+import editor from './PowerForecastEdit'
 
 use([
   CanvasRenderer,
-  PieChart,
   LineChart,
   TitleComponent,
   TooltipComponent,
@@ -69,7 +69,8 @@ use([
 export default {
   name: 'PowerForecast',
   components: {
-    VChart
+    VChart,
+    editor
   },
   provide: {
     [THEME_KEY]: 'ecTheme'
@@ -77,6 +78,9 @@ export default {
   data () {
     return {
       visible: false,
+      queryParam: {
+        forecastDate: '2022-02-01'
+      },
       option: {
         title: {
           text: ''
@@ -123,6 +127,9 @@ export default {
     }
   },
   methods: {
+    handleOk () {
+
+    },
     hide () {
       console.log(111)
       this.visible = false

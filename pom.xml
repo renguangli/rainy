@@ -17,6 +17,7 @@
         <module>rainy-task</module>
         <module>rainy-dataway</module>
         <module>rainy-admin</module>
+        <module>rainy-power-forecast</module>
     </modules>
 
     <properties>

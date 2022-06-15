@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>rainy-power-forecast</artifactId>
+
+    <parent>
+        <groupId>com.rainy</groupId>
+        <artifactId>rainy</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <name>rainy-task</name>
+    <description>rainy-task project for rainy</description>
+    <url>https://guangli.ren</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.rainy</groupId>
+            <artifactId>rainy-sys</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

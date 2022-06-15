@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="任务分组">
-              <a-select v-model="queryParam.group" placeholder="请选择任务分组">
+              <a-select v-model="queryParam.group" placeholder="请选择任务分组" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_TASK_GROUP')" :value="item.value">
                   {{ item.name }}
                 </a-select-option>
@@ -19,7 +19,7 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="执行结果">
-              <a-select v-model="queryParam.success" placeholder="请选择执行结果">
+              <a-select v-model="queryParam.success" placeholder="请选择执行结果" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_SUCCESS_FAIL')" :value="item.value">
                   {{ item.name }}
                 </a-select-option>

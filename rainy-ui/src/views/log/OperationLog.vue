@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="操作类型">
-              <a-select v-model="queryParam.operationTypeCode" placeholder="请选择操作类型">
+              <a-select v-model="queryParam.operationTypeCode" placeholder="请选择操作类型" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_OPERATION_LOG_TYPE')" :value="item.value">
                   {{ item.name }}
                 </a-select-option>
@@ -155,6 +155,7 @@ export default {
     handleDateOk (value, dateString) {
       this.queryParam.startTime = dateString[0]
       this.queryParam.endTime = dateString[1]
+      this.handleOk()
     },
     del (id) {
       Del(id).then(res => {

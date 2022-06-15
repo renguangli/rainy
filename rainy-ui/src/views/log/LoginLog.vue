@@ -10,7 +10,7 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="登录类型">
-              <a-select v-model="queryParam.loginType" placeholder="请选择登录类型">
+              <a-select v-model="queryParam.loginType" placeholder="请选择登录类型" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_LOGIN_TYPE')" :value="item.value">
                   {{ item.name }}
                 </a-select-option>
@@ -154,6 +154,7 @@ export default {
     handleDateOk (value, dateString) {
       this.queryParam.startTime = dateString[0]
       this.queryParam.endTime = dateString[1]
+      this.handleOk()
     },
     del (id) {
       Del(id).then(res => {

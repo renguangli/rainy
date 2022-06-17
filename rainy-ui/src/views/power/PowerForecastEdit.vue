@@ -22,7 +22,8 @@
             </a-select>
             <a-input-number
               v-model="value"
-              :min="1"
+              @change="adjust"
+              :min="0"
               :max="100"
               :formatter="value => `${value}%`"
               :parser="value => value.replace('%', '')"
@@ -30,8 +31,7 @@
           </a-input-group>
         </a-form-item>
         <a-form-item>
-          <a-button type="primary" @click="adjust">确定</a-button>
-          <a-button style="margin-left: 8px" @click="recover">复原</a-button>
+          <a-button type="primary" @click="recover">复原</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -40,17 +40,11 @@
 </template>
 
 <script>
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { LineChart } from 'echarts/charts'
-import {
-  TitleComponent,
-  TooltipComponent,
-  ToolboxComponent,
-  LegendComponent,
-  GridComponent
-} from 'echarts/components'
-import VChart, { THEME_KEY } from 'vue-echarts'
+import {use} from 'echarts/core'
+import {CanvasRenderer} from 'echarts/renderers'
+import {LineChart} from 'echarts/charts'
+import {GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent} from 'echarts/components'
+import VChart, {THEME_KEY} from 'vue-echarts'
 
 use([
   CanvasRenderer,
@@ -72,7 +66,7 @@ export default {
   },
   data () {
     return {
-      value: 1,
+      value: 0,
       operation: 'up',
       option: {
         title: {
@@ -99,7 +93,7 @@ export default {
           {
             name: 'Email',
             type: 'line',
-            symbol: 'none',
+            // symbol: 'none',
             smooth: true,
             data: [120, 132, 101, 134, 90, 230, 210]
           },
@@ -124,13 +118,13 @@ export default {
     // 打开页面初始化
     open () {
       this.visible = true
-      this.data = this.copyArray(this.option.series[1].data);
+      this.data = this.copyArray(this.option.series[1].data)
     },
     adjust () {
       // 判断是上调还是下调
-      let percentage = 1 + this.value/100
+      let percentage = 1 + this.value / 100
       if (this.operation === 'down') {
-        percentage = 1 - this.value/100
+        percentage = 1 - this.value / 100
       }
       // 调整
       const data = this.data.slice(0)
@@ -145,7 +139,7 @@ export default {
       this.$refs.chart.setOption(this.option)
     },
     copyArray (arr) {
-      return  arr.slice(0);
+      return arr.slice(0)
     },
     handleOk () {
      this.handleCancel()

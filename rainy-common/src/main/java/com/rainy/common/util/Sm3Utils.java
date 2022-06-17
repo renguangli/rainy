@@ -12,11 +12,12 @@ import java.nio.charset.StandardCharsets;
  */
 public final class Sm3Utils {
 
-    /** SM3 算法盐 */
-    private static final byte[] SM3_SALT = "!@#B#$**@(JH2323erweJKH$#@0".getBytes(StandardCharsets.UTF_8);
-
     public static String encrypt(String content) {
-        return encrypt(content, SM3_SALT);
+        return new SM3().digestHex(content);
+    }
+
+    public static String encrypt(String content, String salt) {
+        return encrypt(content, salt.getBytes(StandardCharsets.UTF_8));
     }
 
     public static String encrypt(String content, byte[] salt) {

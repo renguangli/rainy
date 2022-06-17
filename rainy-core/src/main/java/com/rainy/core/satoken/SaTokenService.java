@@ -1,4 +1,4 @@
-package com.rainy.service;
+package com.rainy.core.satoken;
 
 /**
  * rainy

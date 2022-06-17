@@ -10,7 +10,8 @@
           </a-col>
           <a-col :md="6" :sm="24">
             <a-form-item label="字典">
-              <a-select v-model="queryParam.dictCode" placeholder="请选择字典" show-search option-filter-prop="children" :filter-option="filterOption">
+              <a-select v-model="queryParam.dictCode" placeholder="请选择字典" @select="$refs.table.refresh()" show-search
+                        option-filter-prop="children" :filter-option="filterOption">
                 <a-select-option :key="item.dictCode" v-for="item in $store.getters.getDicts()" :value="item.dictCode">
                   {{ item.name }}
                 </a-select-option>
@@ -64,9 +65,9 @@
 </template>
 
 <script>
-import { STable, ExportExcel } from '@/components'
+import {ExportExcel, STable} from '@/components'
 import editor from './DictItemEdit'
-import { List, Del, BatchDel, Export } from '@/api/dictItem'
+import {BatchDel, Del, Export, List} from '@/api/dictItem'
 
 export default {
   name: 'DictItem',

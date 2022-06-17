@@ -14,7 +14,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.ValidateUtils;
-import com.rainy.service.SaTokenService;
+import com.rainy.core.satoken.SaTokenService;
 import com.rainy.sys.entity.Config;
 import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.service.ConfigService;

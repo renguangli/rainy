@@ -138,7 +138,6 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
         } else { // 其他异常打印日志
             log.error(e.getMessage(), e);
         }
-//        SaHolder.getResponse().setStatus(status);
         return buildError(status, e.getMessage());
     }
 

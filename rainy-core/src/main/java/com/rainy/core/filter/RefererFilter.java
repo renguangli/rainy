@@ -8,6 +8,7 @@ import com.rainy.sys.service.ConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.pattern.PathPatternRouteMatcher;
 
@@ -16,7 +17,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 校验 http header referer
@@ -41,9 +41,9 @@ public class RefererFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) res;
         String referer = configService.get(ConfigConstants.HTTP_HEADER_REFERER);
         String refererHeader = request.getHeader(HttpHeaders.REFERER);
-        if (!MATCHER.match(referer, () -> refererHeader)) {
+        if (refererHeader == null || !MATCHER.match(referer, MATCHER.parseRoute(refererHeader))) {
             String body = objectMapper.writeValueAsString(Result.of(ResultCode.ILLEGAL_REQUEST));
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.getWriter().write(body);
             return;
         }

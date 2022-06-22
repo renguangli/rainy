@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import {ExportExcel, STable} from '@/components'
+import { ExportExcel, STable } from '@/components'
 import detail from './OperationLogDetail'
-import {BatchDel, Clear, Del, Export, List} from '@/api/operationLog'
+import { BatchDel, Clear, Del, Export, List } from '@/api/operationLog'
 
 export default {
   name: 'Position',
@@ -107,7 +107,7 @@ export default {
         }, {
           title: '操作类型',
           dataIndex: 'operationTypeCode',
-          scopedSlots: {customRender: 'operationTypeCode'}
+          scopedSlots: { customRender: 'operationTypeCode' }
         }, {
           title: '操作人',
           dataIndex: 'username'
@@ -120,7 +120,7 @@ export default {
         }, {
           title: '是否成功',
           dataIndex: 'success',
-          scopedSlots: {customRender: 'success'}
+          scopedSlots: { customRender: 'success' }
         }, {
           title: '操作',
           scopedSlots: { customRender: 'operation' },

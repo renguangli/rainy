@@ -10,7 +10,7 @@
   >
     <a-spin :spinning="formLoading">
       <a-form :form="form" >
-        <a-form-item v-show="false" >
+        <a-form-item v-show="false">
           <a-input v-decorator="['id']" />
         </a-form-item>
         <a-form-item
@@ -65,7 +65,6 @@
     </a-spin>
   </a-modal>
 </template>
-
 <script>
   import { Add, Edit } from '@/api/dictItem'
   export default {

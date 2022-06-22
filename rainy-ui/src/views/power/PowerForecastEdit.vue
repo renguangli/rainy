@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import {use} from 'echarts/core'
-import {CanvasRenderer} from 'echarts/renderers'
-import {LineChart} from 'echarts/charts'
-import {GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent} from 'echarts/components'
-import VChart, {THEME_KEY} from 'vue-echarts'
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { LineChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from 'echarts/components'
+import VChart, { THEME_KEY } from 'vue-echarts'
 
 use([
   CanvasRenderer,

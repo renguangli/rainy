@@ -12,16 +12,12 @@ import java.nio.charset.StandardCharsets;
  */
 public final class Sm3Utils {
 
-    public static String encrypt(String content) {
+    public static String digest(String content) {
         return new SM3().digestHex(content);
     }
 
-    public static String encrypt(String content, String salt) {
-        return encrypt(content, salt.getBytes(StandardCharsets.UTF_8));
-    }
-
-    public static String encrypt(String content, byte[] salt) {
-        return new SM3(salt).digestHex(content);
+    public static String digest(String content, String salt) {
+        return new SM3(salt.getBytes(StandardCharsets.UTF_8)).digestHex(content);
     }
 
 }

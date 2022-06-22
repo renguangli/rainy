@@ -11,6 +11,7 @@ public enum ResultCode {
     /** success */
     SUCCESS(200, "success"),
     BAD_REQUEST(400, "Bad Request."),
+    ILLEGAL_REQUEST(400, "非法请求，未知请求来源！"),
 
     UNAUTHORIZED(401, "未认证！"),
     ACCOUNT_NOT_ACTIVATE(401, "账号未激活!"),

@@ -9,7 +9,8 @@ package com.rainy.common.constant;
 public interface DictCodeConstants {
 
     /** http 安全响应头字典编码 */
-    String DICT_SECURITY_RESPONSE_HEADER_CODE = "SYS_SECURITY_RESPONSE_HEADER";
+    String SECURITY_RESPONSE_HEADER_CODE = "SYS_SECURITY_RESPONSE_HEADER";
+    String HTTP_ALLOW_METHOD = "SYS_HTTP_ALLOW_METHOD";
 
     /** 菜单类型 */
     String MENU_TYPE_BUTTON = "button";

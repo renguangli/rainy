@@ -35,4 +35,6 @@ public interface ConfigConstants {
 
     String SM4_KEY = "sm4_key";
 
+    String HTTP_HEADER_REFERER = "http_header_referer";
+
 }

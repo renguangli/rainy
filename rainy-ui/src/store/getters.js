@@ -6,6 +6,7 @@ const getters = {
   theme: state => state.app.theme,
   fixedHeader: state => state.app.fixedHeader,
   fixSiderbar: state => state.app.fixSiderbar,
+  contentWidth: state => state.app.contentWidth,
   colorWeak: state => state.app.weak,
   primaryColor: state => state.app.color,
   token: state => state.user.token,

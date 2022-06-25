@@ -74,7 +74,7 @@ import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
 import { CONTENT_WIDTH_TYPE, SIDEBAR_TYPE, TOGGLE_MOBILE_TYPE, APP_CODE, APP_CODE_DEFAULT } from '@/store/mutation-types'
 
-import defaultSettings from '@/config/defaultSettings'
+// import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import LogoSvg from '../assets/logo.svg?inline'
@@ -107,7 +107,7 @@ export default {
         // 布局类型
         layout: this.$store.getters.layout, // 'sidemenu', 'topmenu'
         // CONTENT_WIDTH_TYPE
-        contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
+        contentWidth: this.$store.getters.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : this.$store.getters.contentWidth,
         // 主题 'dark' | 'light'
         theme: this.$store.getters.theme,
         // 主色调

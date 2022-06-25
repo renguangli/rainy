@@ -100,21 +100,21 @@ export default {
       // base
       menus: [],
       // 侧栏收起状态
-      collapsed: false,
-      title: this.$store.getters.title || defaultSettings.title,
-      logo: this.$store.getters.logo || defaultSettings.logo,
+      collapsed: this.$store.getters.sideCollapsed,
+      title: this.$store.getters.title,
+      logo: this.$store.getters.logo,
       settings: {
         // 布局类型
-        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
+        layout: this.$store.getters.layout, // 'sidemenu', 'topmenu'
         // CONTENT_WIDTH_TYPE
         contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
         // 主题 'dark' | 'light'
-        theme: defaultSettings.navTheme,
+        theme: this.$store.getters.theme,
         // 主色调
-        primaryColor: defaultSettings.primaryColor,
-        fixedHeader: defaultSettings.fixedHeader,
-        fixSiderbar: defaultSettings.fixSiderbar,
-        colorWeak: defaultSettings.colorWeak,
+        primaryColor: this.$store.getters.primaryColor,
+        fixedHeader: this.$store.getters.fixedHeader,
+        fixSiderbar: this.$store.getters.fixSiderbar,
+        colorWeak: this.$store.getters.colorWeak,
         multiTab: this.$store.getters.multiTab,
         hideHintAlert: false,
         hideCopyButton: false
@@ -186,7 +186,8 @@ export default {
       this.handleSettingChange({ 'type': 'multiTab', 'value': checked })
     },
     handleSettingChange ({ type, value }) {
-      // console.log('type', type, value)
+      console.log('type', type, value)
+      this.$store.commit(type, value)
       type && (this.settings[type] = value)
       switch (type) {
         case 'contentWidth':

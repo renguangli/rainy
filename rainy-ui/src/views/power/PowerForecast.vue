@@ -1,30 +1,27 @@
 <template>
   <a-row :gutter="48">
     <a-col :md="24" :sm="24">
-      <a-breadcrumb>
-        当前场站：
-        <a-tree-select
-          show-search
-          style="width: 100%"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
-          placeholder="Please select"
-          allow-clear
-          tree-default-expand-all
-        >
-        </a-tree-select>
-      </a-breadcrumb>
-      <a-divider/>
-    </a-col>
-    <a-col :md="24" :sm="24">
       <a-card>
         <div>
           <a-form layout="inline">
+            <a-form-item label="当前场站">
+              <a-tree-select
+                v-decorator="['parentId', {rules: [{ required: true, message: '请选择父级组织！' }]}]"
+                style="width: 100%"
+                :dropdownStyle="{ maxHeight: '300px', overflow: 'auto' }"
+                :treeData="orgTree"
+                :replace-fields="replaceFields"
+                placeholder="请选择场站"
+                treeDefaultExpandAll
+              >
+              </a-tree-select>
+            </a-form-item>
             <a-form-item label="预测时间">
               <a-date-picker v-model="queryParam.forecastDate" @change="onChange" />
             </a-form-item>
-            <a-form-item label="预测时间">
-              <a-range-picker @change="onChange" />
-            </a-form-item>
+<!--            <a-form-item label="预测时间">-->
+<!--              <a-range-picker @change="onChange" />-->
+<!--            </a-form-item>-->
             <a-form-item>
               <a-button type="primary">查询</a-button>
               <a-button style="margin-left: 8px">重置</a-button>
@@ -55,6 +52,7 @@ import {
 } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 import editor from './PowerForecastEdit'
+import { ListTree } from '@/api/resource'
 
 use([
   CanvasRenderer,
@@ -78,6 +76,8 @@ export default {
   data () {
     return {
       visible: false,
+      orgTree: [],
+      replaceFields: { title: 'name', key: 'id', value: 'id' },
       queryParam: {
         forecastDate: '2022-02-01'
       },
@@ -126,9 +126,17 @@ export default {
       }
     }
   },
+  mounted () {
+    this.listTree()
+  },
   methods: {
     handleOk () {
 
+    },
+    listTree () {
+      ListTree().then(res => {
+        this.orgTree = res.data
+      })
     },
     hide () {
       console.log(111)

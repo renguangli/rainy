@@ -103,8 +103,8 @@ public class CommonController {
     @PostMapping("/feedback")
     public Result feedback(@RequestBody Feedback feedback) {
         String uploadPath = configService.get(ConfigConstants.AVATAR_UPLOAD_PATH);
-        FileUtil.writeString(JSONUtil.toJsonStr(feedback),
-                uploadPath + File.separator + feedback.getTimestamp() + ".json",
+        FileUtil.appendString(JSONUtil.toJsonStr(feedback),
+                uploadPath + File.separator+ "idea.json",
                 StandardCharsets.UTF_8);
         return Result.ok();
     }

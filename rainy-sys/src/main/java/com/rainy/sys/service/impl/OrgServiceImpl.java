@@ -27,14 +27,14 @@ public class OrgServiceImpl
     public List<Org> getOrgTree(){
         List<Org> orgs = list();
         // 找出根节点
-        List<Org> parentOrgList = orgs.stream()
+        List<Org> rootOrgs = orgs.stream()
                 .filter(org -> org.getParentId() == null || org.getParentId() == 0)
                 .collect(Collectors.toList());
         // 为根节点设置子节点
-        parentOrgList.forEach(org -> {
+        rootOrgs.forEach(org -> {
             org.setChildren(getChildren(org.getId(), orgs));
         });
-        return parentOrgList;
+        return rootOrgs;
     }
 
     /**

@@ -36,5 +36,6 @@ public interface ConfigConstants {
     String SM4_KEY = "sm4_key";
 
     String HTTP_HEADER_REFERER = "http_header_referer";
+    String HTTP_HEADER_REFERER_EXCLUDE_URL = "http_header_referer_exclude_url";
 
 }

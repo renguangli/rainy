@@ -2,6 +2,7 @@ package com.rainy.core.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rainy.common.Result;
+import com.rainy.common.constant.CharConstants;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.ResultCode;
 import com.rainy.sys.service.ConfigService;
@@ -39,6 +40,16 @@ public class RefererFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+        // 1.忽略的 url
+        String excludeUrl = configService.get(ConfigConstants.HTTP_HEADER_REFERER_EXCLUDE_URL);
+        String[] excludeUrls = excludeUrl.split(CharConstants.comma);
+        for (String url : excludeUrls) {
+            if (MATCHER.match(request.getContextPath() + url, MATCHER.parseRoute(request.getRequestURI()))) {
+                chain.doFilter(req, res);
+                return;
+            }
+        }
+        // 2.验证 referer
         String referer = configService.get(ConfigConstants.HTTP_HEADER_REFERER);
         String refererHeader = request.getHeader(HttpHeaders.REFERER);
         if (refererHeader == null || !MATCHER.match(referer, MATCHER.parseRoute(refererHeader))) {

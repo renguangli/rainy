@@ -29,7 +29,7 @@ public class ConfigServiceImpl
         QueryWrapper<Config> qw = new QueryWrapper<>();
         qw.select("value").eq("code", code);
         Config config = this.baseMapper.selectOne(qw);
-        return config == null ? null : config.getValue().toString();
+        return config == null ? null : config.getValue();
     }
 
     @Override

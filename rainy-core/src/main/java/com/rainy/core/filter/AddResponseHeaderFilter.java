@@ -41,7 +41,7 @@ public class AddResponseHeaderFilter implements Filter {
         // 1.设置响应头
         List<DictItem> dictItems = dictItemService.listByDictCode(DictCodeConstants.SECURITY_RESPONSE_HEADER_CODE);
         dictItems.forEach(item -> response.setHeader(item.getCode(), item.getValue()));
-        // 2.不允许的请求url直接返回405
+        // 2.不允许的请求方法直接返回405
         List<DictItem> allowMethodDict = dictItemService.listByDictCode(DictCodeConstants.HTTP_ALLOW_METHOD);
         Set<String> allowMethods = allowMethodDict.stream().map(DictItem::getCode).collect(Collectors.toSet());
         if (!allowMethods.contains(request.getMethod().toLowerCase())) {

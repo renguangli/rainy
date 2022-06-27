@@ -8,6 +8,7 @@ import com.rainy.common.enums.ResultCode;
 import com.rainy.sys.service.ConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import java.io.IOException;
 @Slf4j
 @Component()
 @WebFilter(urlPatterns = "/**")
+@Order(value = -9999)
 @RequiredArgsConstructor
 public class RefererFilter implements Filter {
 

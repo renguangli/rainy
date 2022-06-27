@@ -11,8 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.pattern.PathPatternRouteMatcher;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -33,8 +35,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class RefererFilter implements Filter {
 
-    private static final PathPatternRouteMatcher MATCHER = new PathPatternRouteMatcher();
-
     private final ConfigService configService;
     private final ObjectMapper objectMapper;
 
@@ -46,21 +46,29 @@ public class RefererFilter implements Filter {
         String excludeUrl = configService.get(ConfigConstants.HTTP_HEADER_REFERER_EXCLUDE_URL);
         String[] excludeUrls = excludeUrl.split(CharConstants.comma);
         for (String url : excludeUrls) {
-            if (MATCHER.match(request.getContextPath() + url, MATCHER.parseRoute(request.getRequestURI()))) {
+            PathPattern pathPattern = PathPatternParser.defaultInstance.parse(request.getContextPath() + url);
+            PathContainer pathContainer = PathContainer.parsePath(request.getRequestURI());
+            if (pathPattern.matches(pathContainer)) {
                 chain.doFilter(req, res);
                 return;
             }
         }
         // 2.验证 referer
         String referer = configService.get(ConfigConstants.HTTP_HEADER_REFERER);
+        String[] refererList = referer.split(CharConstants.comma);
         String refererHeader = request.getHeader(HttpHeaders.REFERER);
-        if (refererHeader == null || !MATCHER.match(referer, MATCHER.parseRoute(refererHeader))) {
-            String body = objectMapper.writeValueAsString(Result.of(ResultCode.ILLEGAL_REQUEST));
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write(body);
-            return;
+        for (String url : refererList) {
+            PathPattern pathPattern = PathPatternParser.defaultInstance.parse(url);
+            if (refererHeader != null && pathPattern.matches(PathContainer.parsePath(refererHeader))) {
+                chain.doFilter(req, res);
+                return;
+            }
         }
-        chain.doFilter(req, res);
+
+        // 3.验证不通过返回错误信息
+        String body = objectMapper.writeValueAsString(Result.of(ResultCode.ILLEGAL_REQUEST));
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().write(body);
     }
 
 }

@@ -13,7 +13,6 @@ import com.rainy.common.Result;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.ResultCode;
-import com.rainy.core.config.RestTemplateConfiguration;
 import com.rainy.sys.entity.Menu;
 import com.rainy.sys.service.ConfigService;
 import com.rainy.sys.service.MenuService;
@@ -22,7 +21,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -142,6 +143,7 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     }
 
     private void beforeAuth(Object r) {
+        SaHolder.getResponse().setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         // do something
     }
 

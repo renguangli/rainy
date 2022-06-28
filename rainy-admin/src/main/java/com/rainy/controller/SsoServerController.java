@@ -129,7 +129,7 @@ public class SsoServerController {
     private Result getRedirectUrl(String redirect, String mode) {
         // 未登录情况下，返回 code=401
         if (!StpUtil.isLogin()) {
-            return Result.unauthorized();
+            return Result.of(ResultCode.UNAUTHORIZED);
         }
         // 已登录情况下，构建 redirectUrl
         if (SaSsoConsts.MODE_SIMPLE.equals(mode)) {

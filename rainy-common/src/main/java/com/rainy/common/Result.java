@@ -32,32 +32,16 @@ public class Result {
         return new Result(ResultCode.SUCCESS.getCode(), true, ResultCode.SUCCESS.getMessage(), null);
     }
 
-    public static Result of(ResultCode resultCode) {
-        return new Result(resultCode.getCode(), false, resultCode.getMessage(), null);
-    }
-
     public static Result ok(Object data) {
         return new Result(ResultCode.SUCCESS.getCode(), true, ResultCode.SUCCESS.getMessage(), data);
     }
 
-    public static Result of(Object data) {
-        return new Result(ResultCode.SUCCESS.getCode(), true, ResultCode.SUCCESS.getMessage(), data);
+    public static Result of(ResultCode resultCode) {
+        return new Result(resultCode.getCode(), false, resultCode.getMessage(), null);
     }
 
-    public static Result of(int code, String message) {
-        return new Result(code, false, message, null);
-    }
-
-    public static Result unauthorized() {
-        return new Result(ResultCode.UNAUTHORIZED.getCode(), false, ResultCode.UNAUTHORIZED.getMessage(), null);
-    }
-
-    public static Result unauthorized(String message) {
-        return new Result(ResultCode.UNAUTHORIZED.getCode(), false, message, null);
-    }
-
-    public static Result forbidden(String message) {
-        return new Result(ResultCode.FORBIDDEN.getCode(), false, message, null);
+    public static Result of(ResultCode resultCode, String message) {
+        return new Result(resultCode.getCode(), false, message, null);
     }
 
 }

@@ -13,7 +13,7 @@ public enum ResultCode {
     BAD_REQUEST(400, "Bad Request."),
     ILLEGAL_REQUEST(400, "非法请求，未知请求来源！"),
 
-    UNAUTHORIZED(401, "未认证！"),
+    UNAUTHORIZED(401, "未登录！"),
     ACCOUNT_NOT_ACTIVATE(401, "账号未激活!"),
     ACCOUNT_EXPIRED(401, "账号已过期！"),
     PASSWORD_EXPIRED(401, "密码已过期!"),

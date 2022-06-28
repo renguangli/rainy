@@ -22,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -129,17 +128,17 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
     }
 
     private String error(Throwable e) {
-        int status =  ResultCode.INTERNAL_SERVER_ERROR.getCode();
+        ResultCode resultCode =  ResultCode.INTERNAL_SERVER_ERROR;
         if (e instanceof NotLoginException || e instanceof DisableLoginException) { // 认证异常
-            status = HttpStatus.UNAUTHORIZED.value();
+            resultCode = ResultCode.UNAUTHORIZED;
         } else if (e instanceof NotSafeException) { // 二级认证异常
-            status = ResultCode.UNAUTHORIZED2.getCode();
+            resultCode = ResultCode.UNAUTHORIZED2;
         } else if (e instanceof NotRoleException || e instanceof NotPermissionException) { // 无权限异常
-            status = HttpStatus.FORBIDDEN.value();
+            resultCode = ResultCode.FORBIDDEN;
         } else { // 其他异常打印日志
             log.error(e.getMessage(), e);
         }
-        return buildError(status, e.getMessage());
+        return buildError(resultCode, e.getMessage());
     }
 
     private void beforeAuth(Object r) {
@@ -147,9 +146,9 @@ public class SaTokenConfiguration implements WebMvcConfigurer {
         // do something
     }
 
-    private String buildError(int status, String message) {
+    private String buildError(ResultCode resultCode, String message) {
         try {
-            return objectMapper.writeValueAsString(Result.of(status, message));
+            return objectMapper.writeValueAsString(Result.of(resultCode, message));
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
             return e.getMessage();

@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Result exception(Exception e, HttpServletResponse response) {
         log.error(e.getMessage(), e);
-        return Result.of(ResultCode.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
+        return Result.of(ResultCode.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
     /**
@@ -42,27 +42,23 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = UnauthorizedException.class)
     public Result unauthorizedException(UnauthorizedException e,  HttpServletResponse response) {
-        int status = ResultCode.UNAUTHORIZED.getCode();
-        return Result.of(status, e.getMessage());
+        return Result.of(ResultCode.UNAUTHORIZED, e.getMessage());
     }
 
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
     public Result httpMessageNotReadableException(HttpMessageNotReadableException e) {
-        int code = ResultCode.BAD_REQUEST.getCode();
-        return Result.of(code,
+        return Result.of(ResultCode.BAD_REQUEST,
                 StrUtil.subBefore(e.getMessage(), CharConstants.COLON, false));
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public Result illegalArgumentException(IllegalArgumentException e) {
-        int code = ResultCode.BAD_REQUEST.getCode();
-        return Result.of(code, e.getMessage());
+        return Result.of(ResultCode.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(value = NotExistsException.class)
     public Result notExistsException(NotExistsException e) {
-        int code = ResultCode.BAD_REQUEST.getCode();
-        return Result.of(code, e.getMessage());
+        return Result.of(ResultCode.BAD_REQUEST, e.getMessage());
     }
 
     /**
@@ -72,7 +68,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     public Result httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        return Result.of(ResultCode.METHOD_NOT_ALLOW.getCode(), e.getMessage());
+        return Result.of(ResultCode.METHOD_NOT_ALLOW, e.getMessage());
     }
 
     /**
@@ -99,7 +95,7 @@ public class GlobalExceptionHandler {
                 message = fieldError.getField() + fieldError.getDefaultMessage();
             }
         }
-        return Result.of(ResultCode.BAD_REQUEST.getCode(), message);
+        return Result.of(ResultCode.BAD_REQUEST, message);
     }
 
 }

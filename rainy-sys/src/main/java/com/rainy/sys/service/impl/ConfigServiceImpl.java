@@ -1,7 +1,6 @@
 package com.rainy.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.sys.entity.Config;
 import com.rainy.sys.mapper.ConfigMapper;
 import com.rainy.sys.service.ConfigService;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @CacheConfig(cacheNames = "rainy:config")
 public class ConfigServiceImpl
-        extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
+        extends BaseServiceImpl<ConfigMapper, Config> implements ConfigService {
 
     @Override
     @Cacheable(key = "#code")

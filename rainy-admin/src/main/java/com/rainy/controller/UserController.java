@@ -1,20 +1,18 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.ConfigConstants;
+import com.rainy.common.constant.UserConstants;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.constant.UserConstants;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.dto.UserUpdateDto;
@@ -33,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -92,14 +89,7 @@ public class UserController {
     @GetMapping("/users/export")
     public void export(HttpServletResponse response) throws IOException {
         List<User> users = userService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(users, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=users.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, users, "users.xls");
     }
 
     @ApiOperation("新增用户")
@@ -109,8 +99,8 @@ public class UserController {
     public Result save(@RequestBody @Valid User user) {
         // 校验用户是否存在
         boolean exists = userService.exists("username", user.getUsername());
-        ValidateUtils.isTrue(exists, "用户[" + user.getUsername() + "]已存在！");
-        ValidateUtils.isContains(user.getPassword(), user.getUsername(), "密码不能等于或包含用户名");
+        ValidateUtils.isTrue(exists, "用户[{}]已存在！", user.getUsername());
+        ValidateUtils.isContains(user.getPassword(), user.getUsername(), "密码不能包含用户名!");
         user.setStatus(UserConstants.STATUS_NORMAL);
         return Result.ok(userService.save(user));
     }
@@ -143,7 +133,7 @@ public class UserController {
         Integer id = dto.getId();
         User user = userService.getById(id);
         // 校验用户是否存在
-        ValidateUtils.isNull(user, "用户[" + id + "]不存在.");
+        ValidateUtils.isNull(user, "用户[{}]不存在.", dto.getName());
         String resetPassword = configService.get(ConfigConstants.RESET_PASSWORD);
         boolean flag = userService.updateById(new User(id, resetPassword));
         return Result.ok(flag);

@@ -1,7 +1,7 @@
-package com.rainy.common.service.impl;
+package com.rainy.sys.service.impl;
 
 import cn.hutool.core.io.FileUtil;
-import com.rainy.common.service.FileService;
+import com.rainy.sys.service.FileService;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;

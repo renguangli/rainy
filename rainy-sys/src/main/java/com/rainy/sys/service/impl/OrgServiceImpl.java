@@ -1,6 +1,5 @@
 package com.rainy.sys.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.sys.entity.Org;
 import com.rainy.sys.mapper.OrgMapper;
 import com.rainy.sys.service.OrgService;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class OrgServiceImpl
-        extends ServiceImpl<OrgMapper, Org> implements OrgService {
+        extends BaseServiceImpl<OrgMapper, Org> implements OrgService {
 
     @Override
     public List<Org> getOrgTree(){

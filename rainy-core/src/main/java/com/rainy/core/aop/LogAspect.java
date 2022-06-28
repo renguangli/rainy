@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.SpringELUtils;
 import com.rainy.common.util.ThrowableUtils;
 import com.rainy.common.util.WebUtils;
 import com.rainy.core.satoken.SaTokenUtils;
@@ -17,12 +18,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.DefaultParameterNameDiscoverer;
-import org.springframework.core.ParameterNameDiscoverer;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -43,8 +38,7 @@ public class LogAspect {
     // 操作日志切入点
     private static final String OPERATION_LOG_POINTCUT = "@annotation(com.rainy.common.annotation.SysLog)";
 
-    private final ExpressionParser expressionParser = new SpelExpressionParser();
-    private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+
 
     private final ObjectMapper objectMapper;
     private final OperationLogService operationLogService;
@@ -91,7 +85,7 @@ public class LogAspect {
         opLog.setDatetime(LocalDateTime.now());
         opLog.setModule(sysLog.module());
         opLog.setOperationTypeCode(sysLog.operationTypeCode());
-        String detail = resolveSpEL(sysLog.detail(), method, joinPoint.getArgs());
+        String detail = SpringELUtils.resolveSpEL(sysLog.detail(), method, joinPoint.getArgs());
         opLog.setDetail(detail);
 
         opLog.setPath(WebUtils.getRequestURI());
@@ -117,20 +111,6 @@ public class LogAspect {
         operationLogService.asyncSave(opLog);
     }
 
-    private String resolveSpEL(String spELStr, Method method, Object[] args){
-        int i = 0;
-        EvaluationContext context = new StandardEvaluationContext();
-        String[] parameterNames = parameterNameDiscoverer.getParameterNames(method);
-        if (parameterNames != null) {
-            for (String parameterName : parameterNames) {
-                context.setVariable(parameterName, args[i ++]);
-            }
-        }
-        if (spELStr.contains("#")) {
-            return expressionParser.parseExpression(spELStr)
-                    .getValue(context, String.class);
-        }
-        return  spELStr;
-    }
+
 
 }

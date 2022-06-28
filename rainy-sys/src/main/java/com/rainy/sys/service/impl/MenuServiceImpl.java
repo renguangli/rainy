@@ -2,7 +2,6 @@ package com.rainy.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.DefaultRole;
 import com.rainy.sys.entity.AntdvMenu;
@@ -38,7 +37,7 @@ import java.util.stream.Stream;
 @CacheConfig(cacheNames = "rainy:menu")
 @RequiredArgsConstructor
 public class MenuServiceImpl
-        extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+        extends BaseServiceImpl<MenuMapper, Menu> implements MenuService {
 
     private final RoleMenuRelMapper roleMenuRelMapper;
     private final RoleMapper roleMapper;
@@ -110,13 +109,6 @@ public class MenuServiceImpl
         roleMenuRelMapper.delete(qw);
         // 删除菜单
         return this.baseMapper.deleteById(id) > 0;
-    }
-
-    @Override
-    public boolean exists(String column, String value) {
-        QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
     }
 
     private Stream<? extends AntdvMenu> menu2antdvMenu(Menu menu) {

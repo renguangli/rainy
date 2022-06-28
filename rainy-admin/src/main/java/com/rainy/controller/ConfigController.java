@@ -1,9 +1,6 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -13,6 +10,7 @@ import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenService;
 import com.rainy.sys.entity.Config;
@@ -23,7 +21,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -65,14 +62,7 @@ public class ConfigController {
     @GetMapping("/configs/export")
     public void export(HttpServletResponse response) throws IOException {
         List<Config> configs = configService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(configs, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=configs.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, configs, "configs.xls");
     }
 
     @ApiOperation("新增配置")
@@ -80,9 +70,9 @@ public class ConfigController {
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
     public Result save(@Valid @RequestBody Config config){
         boolean nameExists = configService.exists("name", config.getName());
-        ValidateUtils.isTrue(nameExists, "配置编码[" + config.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "配置编码[{}]已存在！", config.getName());
         boolean codeExists = configService.exists("code", config.getCode());
-        ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "配置编码[{}}]已存在！", config.getCode());
         return Result.ok(configService.save(config));
     }
 
@@ -105,9 +95,9 @@ public class ConfigController {
     @PutMapping("/config")
     public Result update(@Valid @RequestBody Config config){
         boolean nameExists = configService.exists(config.getId(),"name", config.getName());
-        ValidateUtils.isTrue(nameExists, "配置编码[" + config.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "配置编码[{}}]已存在！", config.getName());
         boolean codeExists = configService.exists(config.getId(),"code", config.getCode());
-        ValidateUtils.isTrue(codeExists, "配置编码[" + config.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "配置编码[{}}]已存在！", config.getCode());
         boolean ret = configService.update(config);
         // 如果是 sa_token 相关的配置，更新 sa_token 配置
         if (DictCodeConstants.CONFIG_CATEGORY_SA_TOKEN.equals(config.getCategoryCode())) {

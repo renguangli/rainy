@@ -1,6 +1,5 @@
 package com.rainy.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainy.sys.entity.AntdvMenu;
 import com.rainy.sys.entity.Menu;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @author renguangli
  * @since JDK1.8
  */
-public interface MenuService extends IService<Menu> {
+public interface MenuService extends BaseService<Menu> {
 
     /**
      * List menus tree list.
@@ -51,7 +50,5 @@ public interface MenuService extends IService<Menu> {
     boolean updateById(Menu menu);
 
     boolean deleteById(Integer id);
-
-    boolean exists(String column, String value);
 
 }

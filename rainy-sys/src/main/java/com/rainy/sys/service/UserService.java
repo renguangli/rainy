@@ -1,6 +1,5 @@
 package com.rainy.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainy.sys.entity.User;
 
 /**
@@ -9,7 +8,7 @@ import com.rainy.sys.entity.User;
  * @author renguangli
  * @date 2022/3/29 17:50
  */
-public interface UserService extends IService<User> {
+public interface UserService extends BaseService<User> {
 
     User register(User user);
 

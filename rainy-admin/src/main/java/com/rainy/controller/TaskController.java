@@ -1,9 +1,6 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -12,6 +9,7 @@ import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.entity.Task;
@@ -24,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.quartz.SchedulerException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -68,14 +65,7 @@ public class TaskController {
     @GetMapping("/tasks/export")
     public void export(HttpServletResponse response) throws IOException {
         List<Task> tasks = taskService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(tasks, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=tasks.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, tasks, "tasks.xls");
     }
 
     @ApiOperation("新增任务")
@@ -84,7 +74,7 @@ public class TaskController {
     @PostMapping("/task")
     public Result saveTask(@RequestBody @Valid Task task) throws SchedulerException {
         boolean exists = taskService.exists("name", task.getName());
-        ValidateUtils.isTrue(exists, "任务[{" + task.getName() + "}]已存在！");
+        ValidateUtils.isTrue(exists, "任务[{}]已存在！", task.getName());
         return Result.ok(taskService.addTask(task));
     }
 
@@ -108,7 +98,7 @@ public class TaskController {
     @PutMapping("/task")
     public Result updateTask(@RequestBody @Valid Task task) throws SchedulerException {
         boolean exists = taskService.exists(task.getId(), "name", task.getName());
-        ValidateUtils.isTrue(exists, "任务[" + task.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "任务[{}}]已存在！", task.getName());
         return Result.ok(taskService.updateTaskById(task));
     }
 

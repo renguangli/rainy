@@ -1,9 +1,6 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -12,6 +9,7 @@ import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.sys.entity.App;
 import com.rainy.sys.entity.PageInfo;
@@ -21,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -61,14 +58,7 @@ public class AppController {
     @GetMapping("/apps/export")
     public void export(HttpServletResponse response) throws IOException {
         List<App> apps = appService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(apps, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=apps.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, apps, "apps.xls");
     }
 
     @ApiOperation("新增应用")
@@ -76,9 +66,9 @@ public class AppController {
     @SysLog(module = "应用管理", operationTypeCode = OperationType.ADD, detail = "'新增了应用[' + #app.name + '].'")
     public Result save(@Valid @RequestBody App app){
         boolean nameExists = appService.exists("name", app.getName());
-        ValidateUtils.isTrue(nameExists, "应用编码[" + app.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "应用编码[{}]已存在！", app.getName());
         boolean codeExists = appService.exists("code", app.getCode());
-        ValidateUtils.isTrue(codeExists, "应用编码[" + app.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "应用编码[{}]已存在！", app.getCode());
         return Result.ok(appService.save(app));
     }
 
@@ -101,9 +91,9 @@ public class AppController {
     @PutMapping("/app")
     public Result update(@Valid @RequestBody App app){
         boolean nameExists = appService.exists(app.getId(),"name", app.getName());
-        ValidateUtils.isTrue(nameExists, "应用编码[" + app.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "应用编码[{}}]已存在！", app.getName());
         boolean codeExists = appService.exists(app.getId(),"code", app.getCode());
-        ValidateUtils.isTrue(codeExists, "应用编码[" + app.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "应用编码[{}]已存在！", app.getCode());
         return Result.ok(appService.updateById(app));
     }
 

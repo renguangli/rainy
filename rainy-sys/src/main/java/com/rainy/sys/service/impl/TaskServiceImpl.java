@@ -1,6 +1,5 @@
 package com.rainy.sys.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.enums.TaskStatus;
 import com.rainy.common.exception.NotExistsException;
 import com.rainy.sys.entity.Task;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements TaskService {
+public class TaskServiceImpl extends BaseServiceImpl<TaskMapper, Task> implements TaskService {
 
     private final JobService jobService;
 

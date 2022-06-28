@@ -7,7 +7,7 @@ import com.rainy.common.constant.ConfigConstants;
 import com.rainy.common.constant.UserConstants;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenUtils;
-import com.rainy.dto.RegisterDTO;
+import com.rainy.param.RegisterDTO;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.service.ConfigService;
 import com.rainy.sys.service.MailService;

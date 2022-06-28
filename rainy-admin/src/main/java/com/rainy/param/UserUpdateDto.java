@@ -1,4 +1,4 @@
-package com.rainy.dto;
+package com.rainy.param;
 
 import com.rainy.sys.entity.User;
 import io.swagger.annotations.ApiModelProperty;

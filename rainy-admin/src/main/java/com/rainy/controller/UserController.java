@@ -17,7 +17,7 @@ import com.rainy.common.enums.OperationType;
 import com.rainy.common.constant.UserConstants;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenUtils;
-import com.rainy.dto.UserUpdateDto;
+import com.rainy.param.UserUpdateDto;
 import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.entity.UserRoleRel;

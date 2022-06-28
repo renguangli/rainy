@@ -1,4 +1,4 @@
-package com.rainy.dto;
+package com.rainy.param;
 
 import lombok.Data;
 

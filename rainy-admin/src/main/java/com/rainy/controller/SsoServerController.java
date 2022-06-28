@@ -11,7 +11,7 @@ import com.rainy.common.Result;
 import com.rainy.common.constant.CharConstants;
 import com.rainy.common.dto.LoginDTO;
 import com.rainy.common.enums.ResultCode;
-import com.rainy.common.enums.UserConstants;
+import com.rainy.common.constant.UserConstants;
 import com.rainy.common.exception.UnauthorizedException;
 import com.rainy.common.util.WebUtils;
 import com.rainy.core.satoken.SaTokenUtils;

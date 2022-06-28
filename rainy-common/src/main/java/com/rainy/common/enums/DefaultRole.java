@@ -10,7 +10,8 @@ public enum DefaultRole {
 
     SUPPER_ADMIN("role_superAdmin", "超级管理员"),
     ADMIN("role_admin", "系统管理员"),
-    AUDIT("role_audit", "审计管理员");
+    AUDIT("role_audit", "审计管理员"),
+    DEFAULT("role_default", "默认角色");
 
     private final String name;
     private final String description;

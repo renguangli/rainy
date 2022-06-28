@@ -4,7 +4,7 @@ import cn.dev33.satoken.temp.SaTempUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.common.Result;
 import com.rainy.common.constant.ConfigConstants;
-import com.rainy.common.enums.UserConstants;
+import com.rainy.common.constant.UserConstants;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.dto.RegisterDTO;

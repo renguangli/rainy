@@ -3,9 +3,12 @@ package com.rainy.sys.service.impl;
 import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rainy.common.enums.UserConstants;
+import com.rainy.common.constant.UserConstants;
+import com.rainy.common.enums.DefaultRole;
+import com.rainy.sys.entity.Role;
 import com.rainy.sys.entity.User;
 import com.rainy.sys.entity.UserRoleRel;
+import com.rainy.sys.mapper.RoleMapper;
 import com.rainy.sys.mapper.UserMapper;
 import com.rainy.sys.mapper.UserRoleRelMapper;
 import com.rainy.sys.service.UserService;
@@ -23,8 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    private final UserRoleRelMapper userRoleRelMapper;
     private final UserMapper userMapper;
+    private final RoleMapper roleMapper;
+    private final UserRoleRelMapper userRoleRelMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -36,7 +40,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userMapper.insert(user);
 
         // // 给用户一个默认角色
-        UserRoleRel userRoleRel = new UserRoleRel(user.getId(), 1);
+        String roleCode = DefaultRole.DEFAULT.getName();
+        QueryWrapper<Role> qw = new QueryWrapper<>();
+        qw.eq("code", roleCode);
+        Role role = roleMapper.selectOne(qw);
+
+        UserRoleRel userRoleRel = new UserRoleRel(user.getId(), role.getId());
         userRoleRelMapper.insert(userRoleRel);
         return user;
     }

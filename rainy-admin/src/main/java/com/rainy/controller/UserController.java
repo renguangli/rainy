@@ -14,7 +14,7 @@ import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.dto.IdsNamesDto;
 import com.rainy.common.enums.OperationType;
-import com.rainy.common.enums.UserConstants;
+import com.rainy.common.constant.UserConstants;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.dto.UserUpdateDto;

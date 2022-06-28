@@ -15,7 +15,6 @@
         <module>rainy-core</module>
         <module>rainy-sys</module>
         <module>rainy-task</module>
-        <module>rainy-dataway</module>
         <module>rainy-admin</module>
         <module>rainy-power-forecast</module>
     </modules>
@@ -31,7 +30,6 @@
         <mybatis-plus.vserion>3.5.1</mybatis-plus.vserion>
         <sa-token.version>1.30.0</sa-token.version>
         <captcha.version>1.2.7</captcha.version>
-        <dataway.version>4.2.5</dataway.version>
         <hutool.version>5.7.22</hutool.version>
         <poi.version>5.2.2</poi.version>
         <bcprov.version>1.71</bcprov.version>
@@ -122,17 +120,6 @@
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.vserion}</version>
-            </dependency>
-            <!-- 查看最新版本：https://mvnrepository.com/artifact/net.hasor/hasor-spring -->
-            <dependency>
-                <groupId>net.hasor</groupId>
-                <artifactId>hasor-spring</artifactId>
-                <version>${dataway.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.hasor</groupId>
-                <artifactId>hasor-dataway</artifactId>
-                <version>${dataway.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
             <dependency>

@@ -1,4 +1,4 @@
-package com.rainy.common.enums;
+package com.rainy.common.constant;
 
 /**
  * rainy-console

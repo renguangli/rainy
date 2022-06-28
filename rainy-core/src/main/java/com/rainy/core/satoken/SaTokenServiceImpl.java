@@ -46,7 +46,7 @@ public class SaTokenServiceImpl implements SaTokenService {
     private void updateConfig(Object ojb, List<Config> configs) {
         configs.forEach(config -> {
             try {
-                log.info("Init sa-token config: {}={}", config.getCode(), config.getValue());
+                log.debug("Init sa-token config: {}={}", config.getCode(), config.getValue());
                 ReflectionUtils.setField(ojb.getClass().getDeclaredField(config.getCode()),
                         ojb,
                         getValueByDataType(config.getValue(), config.getDataType()));

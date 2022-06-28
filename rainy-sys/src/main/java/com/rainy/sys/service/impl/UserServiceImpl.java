@@ -50,10 +50,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return user;
     }
 
-    @Override
-    public boolean exists(String column, String value){
-        QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return getOne(qw) != null;
-    }
 }

@@ -13,6 +13,4 @@ public interface UserService extends IService<User> {
 
     User register(User user);
 
-    boolean exists(String column, String value);
-
 }

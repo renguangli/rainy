@@ -11,7 +11,4 @@ import com.rainy.sys.entity.App;
  */
 public interface AppService extends IService<App> {
 
-    boolean exists(String column, String value);
-    boolean exists(Integer id, String column, String value);
-
 }

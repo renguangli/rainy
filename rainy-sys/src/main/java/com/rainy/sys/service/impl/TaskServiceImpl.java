@@ -1,6 +1,5 @@
 package com.rainy.sys.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.enums.TaskStatus;
 import com.rainy.common.exception.NotExistsException;
@@ -92,21 +91,6 @@ public class TaskServiceImpl extends ServiceImpl<TaskMapper, Task> implements Ta
             throw new NotExistsException("Task[id:" + id + "] not exists.");
         }
         return task;
-    }
-
-    @Override
-    public boolean exists(String column, String value) {
-        QueryWrapper<Task> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public boolean exists(Integer id, String column, String value) {
-        QueryWrapper<Task> qw = new QueryWrapper<>();
-        qw.ne("id", id);
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
     }
 
 }

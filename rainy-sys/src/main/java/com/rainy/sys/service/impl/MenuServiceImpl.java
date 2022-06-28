@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -118,32 +117,6 @@ public class MenuServiceImpl
         QueryWrapper<Menu> qw = new QueryWrapper<>();
         qw.eq(column, value);
         return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public boolean exists(Integer id, String column, String value) {
-        QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.ne("id", id);
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public List<Menu> listMenusById(Integer id) {
-        List<Menu> menus = new ArrayList<>();
-        // 找出等于id的根节点
-        List<Menu> menuList = list();
-        Optional<Menu> orgOptional = menuList.stream()
-                .filter(o -> id.equals(o.getId()))
-                .findFirst();
-        if (!orgOptional.isPresent()) {
-            return menus;
-        }
-        menus.add(orgOptional.get());
-        // 找出 parentId 等于 id 的数据
-        List<Menu> menusById = getOrgsById(id, menuList);
-        menus.addAll(menusById);
-        return menus;
     }
 
     private Stream<? extends AntdvMenu> menu2antdvMenu(Menu menu) {

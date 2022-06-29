@@ -66,7 +66,7 @@ public class AppController {
     @SysLog(module = "应用管理", operationTypeCode = OperationType.ADD, detail = "'新增了应用[' + #app.name + '].'")
     public Result save(@Valid @RequestBody App app){
         boolean nameExists = appService.exists("name", app.getName());
-        ValidateUtils.isTrue(nameExists, "应用编码[{}]已存在！", app.getName());
+        ValidateUtils.isTrue(nameExists, "应用[{}]已存在！", app.getName());
         boolean codeExists = appService.exists("code", app.getCode());
         ValidateUtils.isTrue(codeExists, "应用编码[{}]已存在！", app.getCode());
         return Result.ok(appService.save(app));
@@ -91,7 +91,7 @@ public class AppController {
     @PutMapping("/app")
     public Result update(@Valid @RequestBody App app){
         boolean nameExists = appService.exists(app.getId(),"name", app.getName());
-        ValidateUtils.isTrue(nameExists, "应用编码[{}}]已存在！", app.getName());
+        ValidateUtils.isTrue(nameExists, "应用[{}}]已存在！", app.getName());
         boolean codeExists = appService.exists(app.getId(),"code", app.getCode());
         ValidateUtils.isTrue(codeExists, "应用编码[{}]已存在！", app.getCode());
         return Result.ok(appService.updateById(app));

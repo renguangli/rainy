@@ -83,7 +83,7 @@ public class OrgController {
     @PostMapping("/org")
     public Result save(@RequestBody @Valid Org org) {
         boolean exists = orgService.exists("name", org.getName());
-        ValidateUtils.isTrue(exists, "岗位[{}]已存在！", org.getName());
+        ValidateUtils.isTrue(exists, "组织[{}]已存在！", org.getName());
         return Result.ok(orgService.save(org));
     }
 
@@ -108,7 +108,7 @@ public class OrgController {
     @PutMapping("/org")
     public Result update(@RequestBody @Valid Org org) {
         boolean exists = orgService.exists(org.getId(), "name", org.getName());
-        ValidateUtils.isTrue(exists, "岗位[{}]已存在！", org.getName());
+        ValidateUtils.isTrue(exists, "组织[{}]已存在！", org.getName());
         return Result.ok(orgService.updateById(org));
     }
 

@@ -70,7 +70,7 @@ public class ConfigController {
     @SysLog(module = "配置管理", operationTypeCode = OperationType.ADD, detail = "'新增了配置[' + #config.name + '].'")
     public Result save(@Valid @RequestBody Config config){
         boolean nameExists = configService.exists("name", config.getName());
-        ValidateUtils.isTrue(nameExists, "配置编码[{}]已存在！", config.getName());
+        ValidateUtils.isTrue(nameExists, "配置[{}]已存在！", config.getName());
         boolean codeExists = configService.exists("code", config.getCode());
         ValidateUtils.isTrue(codeExists, "配置编码[{}}]已存在！", config.getCode());
         return Result.ok(configService.save(config));
@@ -95,7 +95,7 @@ public class ConfigController {
     @PutMapping("/config")
     public Result update(@Valid @RequestBody Config config){
         boolean nameExists = configService.exists(config.getId(),"name", config.getName());
-        ValidateUtils.isTrue(nameExists, "配置编码[{}}]已存在！", config.getName());
+        ValidateUtils.isTrue(nameExists, "配置[{}}]已存在！", config.getName());
         boolean codeExists = configService.exists(config.getId(),"code", config.getCode());
         ValidateUtils.isTrue(codeExists, "配置编码[{}}]已存在！", config.getCode());
         boolean ret = configService.update(config);

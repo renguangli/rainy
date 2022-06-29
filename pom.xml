@@ -33,6 +33,7 @@
         <poi.version>5.2.2</poi.version>
         <bcprov.version>1.71</bcprov.version>
         <lombok.version>1.18.24</lombok.version>
+        <druid.version>1.2.11</druid.version>
     </properties>
 
     <dependencies>
@@ -76,16 +77,17 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.rainy</groupId>
-                <artifactId>rainy-dataway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

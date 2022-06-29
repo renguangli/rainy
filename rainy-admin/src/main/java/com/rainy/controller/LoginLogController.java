@@ -1,9 +1,6 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -11,6 +8,7 @@ import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.enums.OperationType;
 import com.rainy.common.util.DateUtils;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.sys.entity.LoginLog;
 import com.rainy.sys.entity.PageInfo;
 import com.rainy.sys.service.LoginLogService;
@@ -20,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -63,14 +60,7 @@ public class LoginLogController {
     @GetMapping("/loginLogs/export")
     public void export(HttpServletResponse response) throws IOException {
         List<LoginLog> loginLogs = loginLogService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(loginLogs, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=loginLogs.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, loginLogs, "loginLogs.xls");
     }
 
     @ApiOperation("删除登录日志")

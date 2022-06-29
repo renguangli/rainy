@@ -2,7 +2,6 @@ package com.rainy.sys.service.impl;
 
 import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.constant.UserConstants;
 import com.rainy.common.enums.DefaultRole;
 import com.rainy.sys.entity.Role;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implements UserService {
 
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
@@ -50,10 +49,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return user;
     }
 
-    @Override
-    public boolean exists(String column, String value){
-        QueryWrapper<User> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return getOne(qw) != null;
-    }
 }

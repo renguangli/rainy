@@ -1,10 +1,7 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -13,6 +10,7 @@ import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.sys.entity.Dict;
 import com.rainy.sys.entity.DictItem;
@@ -27,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -75,14 +72,7 @@ public class DictController {
     @GetMapping("/dicts/export")
     public void export(HttpServletResponse response) throws IOException {
         List<Dict> dicts = dictService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(dicts, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=dicts.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, dicts, "dicts.xls");
     }
 
     @ApiOperation("添加字典")
@@ -91,9 +81,9 @@ public class DictController {
     @PostMapping("/dict")
     public Result saveDict(@RequestBody @Valid Dict dict) {
         boolean nameExists = dictService.exists("name", dict.getName());
-        ValidateUtils.isTrue(nameExists, "字典[" + dict.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "字典[{}]已存在！", dict.getName());
         boolean codeExists = dictService.exists("code", dict.getCode());
-        ValidateUtils.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "字典编码[{}}]已存在！", dict.getCode());
         return Result.ok(dictService.save(dict));
     }
 
@@ -116,9 +106,9 @@ public class DictController {
     @PutMapping("/dict")
     public Result updateDict(@RequestBody @Valid Dict dict) {
         boolean nameExists = dictService.exists(dict.getId(),"name", dict.getName());
-        ValidateUtils.isTrue(nameExists, "字典[" + dict.getName() + "]已存在！");
+        ValidateUtils.isTrue(nameExists, "字典[{}}]已存在！", dict.getName());
         boolean codeExists = dictService.exists(dict.getId(), "code", dict.getCode());
-        ValidateUtils.isTrue(codeExists, "字典编码[" + dict.getCode() + "]已存在！");
+        ValidateUtils.isTrue(codeExists, "字典编码[{}]已存在！", dict.getCode());
         return Result.ok(dictService.updateById(dict));
     }
 
@@ -146,14 +136,7 @@ public class DictController {
     @GetMapping("/dict/items/export")
     public void exportItems(HttpServletResponse response) throws IOException {
         List<DictItem> dictItems = dictItemService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(dictItems, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=dictItems.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, dictItems, "dictItems.xls");
     }
 
     @ApiOperation("新增字典项")

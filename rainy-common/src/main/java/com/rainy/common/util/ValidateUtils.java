@@ -1,5 +1,6 @@
 package com.rainy.common.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.rainy.common.exception.NotExistsException;
 
 /**
@@ -10,30 +11,24 @@ import com.rainy.common.exception.NotExistsException;
  */
 public class ValidateUtils {
 
-    public static void isContains(String str1, String str2, String message) {
+    public static void isContains(String str1, String str2, String message, Object... variables) {
         if (str1 == null || str2 == null) {
             return;
         }
         if (str1.contains(str2)) {
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException(StrUtil.format(message, variables));
         }
     }
 
-    public static void isNull(Object obj, String message) {
+    public static void isNull(Object obj, String message, Object... variables) {
         if (obj == null) {
-            throw new NotExistsException(message);
+            throw new NotExistsException(StrUtil.format(message, variables));
         }
     }
 
-    public static void isTrue(boolean expression, String message) {
+    public static void isTrue(boolean expression, String message, Object... variables) {
         if (expression) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    public static void isGtZero(long count, String message) {
-        if (count > 0) {
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException(StrUtil.format(message, variables));
         }
     }
 

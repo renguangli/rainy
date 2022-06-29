@@ -47,7 +47,7 @@ public class User implements Serializable {
 
     @ApiModelProperty("密码")
     @NotBlank
-    @Size(min = 8, max = 20)
+    @Size(min = 8, max = 20, message = "密码至少8位!")
     @Pattern(regexp = PASSWORD_REGEX, message = "密码至少包含大写字母、小写字母、数字或特殊符号中的任意三种!")
     @Encrypt
     @Decrypt

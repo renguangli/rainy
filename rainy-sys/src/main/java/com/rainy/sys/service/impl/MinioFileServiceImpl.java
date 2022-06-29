@@ -1,6 +1,6 @@
-package com.rainy.common.service.impl;
+package com.rainy.sys.service.impl;
 
-import com.rainy.common.service.FileService;
+import com.rainy.sys.service.FileService;
 
 import java.io.InputStream;
 

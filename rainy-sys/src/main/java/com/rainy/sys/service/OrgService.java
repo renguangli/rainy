@@ -1,6 +1,5 @@
 package com.rainy.sys.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.rainy.sys.entity.Org;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @author renguangli
  * @date 2022 /3/16 19:34
  */
-public interface OrgService extends IService<Org> {
+public interface OrgService extends BaseService<Org> {
 
     /**
      * 生成组织机构树
@@ -36,6 +35,4 @@ public interface OrgService extends IService<Org> {
      */
     List<Integer> listOrgIdsById(Integer id);
 
-    boolean exists(String column, String value);
-    boolean exists(Integer id, String column, String value);
 }

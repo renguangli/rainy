@@ -1,16 +1,14 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
+import com.rainy.core.satoken.SaTokenUtils;
 import com.rainy.sys.entity.Menu;
 import com.rainy.sys.service.MenuService;
 import io.swagger.annotations.Api;
@@ -20,7 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -66,14 +63,7 @@ public class MenuController {
     @GetMapping("/menus/export")
     public void export(HttpServletResponse response) throws IOException {
         List<Menu> menus = menuService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(menus, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=menus.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, menus, "menus.xls");
     }
 
     @ApiImplicitParams({
@@ -93,7 +83,7 @@ public class MenuController {
     @PostMapping("/menu")
     public Result save(@RequestBody @Valid Menu menu){
         boolean exists = menuService.exists("name", menu.getName());
-        ValidateUtils.isTrue(exists, "菜单[" + menu.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "菜单[{}]已存在！", menu.getName());
         return Result.ok(menuService.save(menu));
     }
 
@@ -112,7 +102,7 @@ public class MenuController {
     @PutMapping("/menu")
     public Result update(@RequestBody @Valid Menu menu){
         boolean exists = menuService.exists(menu.getId(), "name", menu.getName());
-        ValidateUtils.isTrue(exists, "菜单[" + menu.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "菜单[{}}]已存在！", menu.getName());
         return Result.ok(menuService.updateById(menu));
     }
 

@@ -1,9 +1,6 @@
 package com.rainy.controller;
 
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.poi.excel.ExcelUtil;
-import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
@@ -12,6 +9,7 @@ import com.rainy.common.annotation.SysLog;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.ExcelUtils;
 import com.rainy.common.util.ValidateUtils;
 import com.rainy.sys.entity.Org;
 import com.rainy.sys.entity.PageInfo;
@@ -23,7 +21,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -77,14 +74,7 @@ public class OrgController {
     @GetMapping("/orgs/export")
     public void export(HttpServletResponse response) throws IOException {
         List<Org> orgs = orgService.list();
-        ExcelWriter writer = ExcelUtil.getWriter();
-        writer.write(orgs, true);
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-Disposition","attachment;filename=orgs.xls");
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        writer.close();
-        IoUtil.close(out);
+        ExcelUtils.export(response, orgs, "orgs.xls");
     }
 
     @ApiOperation("新增组织")
@@ -93,7 +83,7 @@ public class OrgController {
     @PostMapping("/org")
     public Result save(@RequestBody @Valid Org org) {
         boolean exists = orgService.exists("name", org.getName());
-        ValidateUtils.isTrue(exists, "岗位[" + org.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "岗位[{}]已存在！", org.getName());
         return Result.ok(orgService.save(org));
     }
 
@@ -118,7 +108,7 @@ public class OrgController {
     @PutMapping("/org")
     public Result update(@RequestBody @Valid Org org) {
         boolean exists = orgService.exists(org.getId(), "name", org.getName());
-        ValidateUtils.isTrue(exists, "岗位[" + org.getName() + "]已存在！");
+        ValidateUtils.isTrue(exists, "岗位[{}]已存在！", org.getName());
         return Result.ok(orgService.updateById(org));
     }
 

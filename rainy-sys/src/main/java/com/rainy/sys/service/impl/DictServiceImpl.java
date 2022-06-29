@@ -1,7 +1,6 @@
 package com.rainy.sys.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.sys.entity.Dict;
 import com.rainy.sys.entity.DictItem;
 import com.rainy.sys.mapper.DictItemMapper;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class DictServiceImpl
-        extends ServiceImpl<DictMapper, Dict> implements DictService {
+        extends BaseServiceImpl<DictMapper, Dict> implements DictService {
 
     private final DictItemMapper dictItemMapper;
 
@@ -75,21 +74,6 @@ public class DictServiceImpl
         qw.eq("dict_code", dict.getCode());
         dictItemMapper.delete(qw);
         return true;
-    }
-
-    @Override
-    public boolean exists(String column, String value) {
-        QueryWrapper<Dict> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public boolean exists(Integer id, String column, String value) {
-        QueryWrapper<Dict> qw = new QueryWrapper<>();
-        qw.ne("id", id);
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
     }
 
 }

@@ -43,7 +43,7 @@ public class RegisterController {
     public Result register(@Valid @RequestBody RegisterDTO registerDTO) {
         // 校验邮箱是否被注册
         boolean exists = userService.exists("email", registerDTO.getEmail());
-        ValidateUtils.isTrue(exists, "邮箱[" + registerDTO.getEmail() + "]已被注册！");
+        ValidateUtils.isTrue(exists, "邮箱[{}]已被注册！", registerDTO.getEmail());
         User user = userService.register(registerDTO.convert());
         // 发送激活账号邮件
         String subject = configService.get(ConfigConstants.ACTIVATE_ACCOUNT_MAIL_TITLE);

@@ -2,7 +2,6 @@ package com.rainy.sys.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.enums.DefaultRole;
 import com.rainy.sys.entity.AntdvMenu;
@@ -24,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -39,7 +37,7 @@ import java.util.stream.Stream;
 @CacheConfig(cacheNames = "rainy:menu")
 @RequiredArgsConstructor
 public class MenuServiceImpl
-        extends ServiceImpl<MenuMapper, Menu> implements MenuService {
+        extends BaseServiceImpl<MenuMapper, Menu> implements MenuService {
 
     private final RoleMenuRelMapper roleMenuRelMapper;
     private final RoleMapper roleMapper;
@@ -111,39 +109,6 @@ public class MenuServiceImpl
         roleMenuRelMapper.delete(qw);
         // 删除菜单
         return this.baseMapper.deleteById(id) > 0;
-    }
-
-    @Override
-    public boolean exists(String column, String value) {
-        QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public boolean exists(Integer id, String column, String value) {
-        QueryWrapper<Menu> qw = new QueryWrapper<>();
-        qw.ne("id", id);
-        qw.eq(column, value);
-        return this.baseMapper.exists(qw);
-    }
-
-    @Override
-    public List<Menu> listMenusById(Integer id) {
-        List<Menu> menus = new ArrayList<>();
-        // 找出等于id的根节点
-        List<Menu> menuList = list();
-        Optional<Menu> orgOptional = menuList.stream()
-                .filter(o -> id.equals(o.getId()))
-                .findFirst();
-        if (!orgOptional.isPresent()) {
-            return menus;
-        }
-        menus.add(orgOptional.get());
-        // 找出 parentId 等于 id 的数据
-        List<Menu> menusById = getOrgsById(id, menuList);
-        menus.addAll(menusById);
-        return menus;
     }
 
     private Stream<? extends AntdvMenu> menu2antdvMenu(Menu menu) {

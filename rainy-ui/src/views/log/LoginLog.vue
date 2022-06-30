@@ -3,12 +3,12 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="24">
-          <a-col :md="6" :sm="24">
+          <a-col :md="8" :sm="24">
             <a-form-item label="用户名">
               <a-input v-model="queryParam.username" placeholder="请输入用户名"/>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="24">
+          <a-col :md="8" :sm="24">
             <a-form-item label="登录类型">
               <a-select v-model="queryParam.loginType" placeholder="请选择登录类型" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_LOGIN_TYPE')" :value="item.value">
@@ -17,18 +17,34 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="24">
-            <a-range-picker
-              :show-time="{ format: 'HH:mm' }"
-              format="YYYY-MM-DD HH:mm"
-              :placeholder="['开始时间', '结束时间']"
-              @change="handleDateOk"
-            />
+          <a-col v-if="!expand" :md="8" :sm="24">
+            <span class="table-page-search-submitButtons">
+              <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
+              <a-button style="margin-left: 8px" @click="queryParam = {};$refs.table.refresh()">重置</a-button>
+              <a :style="{ marginLeft: '8px', fontSize: '12px' }" @click="expand = !expand">
+                展开 <a-icon :type="expand ? 'up' : 'down'" />
+              </a>
+            </span>
           </a-col>
-          <a-col :md="6" :sm="24">
+        </a-row>
+        <a-row v-if="expand" :gutter="24">
+          <a-col :md="10" :sm="24">
+            <a-form-item label="时间">
+              <a-range-picker
+                :show-time="{ format: 'HH:mm' }"
+                format="YYYY-MM-DD HH:mm"
+                :placeholder="['开始时间', '结束时间']"
+                @change="handleDateOk"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :md="14" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
               <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>
+              <a :style="{ marginLeft: '8px', fontSize: '12px' }" @click="expand = !expand">
+                收缩 <a-icon :type="expand ? 'up' : 'down'" />
+              </a>
             </span>
           </a-col>
         </a-row>
@@ -94,6 +110,7 @@ export default {
     return {
       // 查询参数
       queryParam: {},
+      expand: false,
       // 表头
       columns: [
         {

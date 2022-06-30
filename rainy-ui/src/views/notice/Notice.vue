@@ -5,13 +5,13 @@
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
             <a-form-item label="公告标题">
-              <a-input v-model="queryParam.name" placeholder="请输入公告标题"/>
+              <a-input v-model="queryParam.title" placeholder="请输入公告标题"/>
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
-              <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>
+              <a-button style="margin-left: 8px" @click="queryParam = {};$refs.table.refresh()">重置</a-button>
             </span>
           </a-col>
         </a-row>

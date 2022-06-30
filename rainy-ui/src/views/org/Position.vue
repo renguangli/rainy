@@ -11,7 +11,7 @@
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
-              <a-button style="margin-left: 8px" @click="queryParam = {}">重置</a-button>
+              <a-button style="margin-left: 8px" @click="queryParam = {};$refs.table.refresh()">重置</a-button>
             </span>
           </a-col>
         </a-row>

@@ -267,7 +267,7 @@
         componentDisabled: false,
         componentRequired: true,
         // 默认图标
-        defaultIcon: 'pause-circle',
+        defaultIcon: 'bars',
         formLoading: false,
         openTypeDisabled: false,
         targetDisable: true,

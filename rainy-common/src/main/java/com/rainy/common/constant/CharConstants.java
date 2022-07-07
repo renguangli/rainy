@@ -13,4 +13,8 @@ public interface CharConstants {
     String NEW_LINE = "\n";
     String SLASH = "/";
     String comma = ",";
+    String DOT = ".";
+    String UNDERSCORE = "_";
+    String BIG_PARANTHESES = "{}";
+
 }

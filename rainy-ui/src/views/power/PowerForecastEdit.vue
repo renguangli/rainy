@@ -84,25 +84,25 @@ export default {
         },
         xAxis: {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: []
         },
         yAxis: {
           type: 'value'
         },
         series: [
           {
-            name: 'Email',
+            name: '预测功率',
             type: 'line',
             // symbol: 'none',
             smooth: true,
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: []
           },
           {
-            name: 'Union Ads',
+            name: '预测功率(调整后)',
             type: 'line',
-            symbol: 'none',
+            // symbol: 'none',
             smooth: true,
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           }
         ]
       },
@@ -116,8 +116,11 @@ export default {
   },
   methods: {
     // 打开页面初始化
-    open () {
+    open (x, y1, y2) {
       this.visible = true
+      this.option.xAxis.data = x
+      this.option.series[0].data = y1
+      this.option.series[1].data = y2
       this.data = this.copyArray(this.option.series[1].data)
     },
     adjust () {

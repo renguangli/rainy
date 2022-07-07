@@ -1,5 +1,6 @@
 package com.rainy.common.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -13,6 +14,7 @@ import java.time.temporal.TemporalAccessor;
 public final class DateUtils {
 
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String MM_DD_HH_MM = "MM-dd HH:mm";
     public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
@@ -35,4 +37,9 @@ public final class DateUtils {
     public static LocalDateTime parse(String datetime, String pattern) {
         return LocalDateTime.parse(datetime, getDtf(pattern));
     }
+
+    public static int getYear() {
+        return LocalDate.now().getYear();
+    }
+
 }

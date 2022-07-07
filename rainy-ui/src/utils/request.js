@@ -53,6 +53,12 @@ request.interceptors.response.use((response) => {
       }, 500)
     })
   }
+  if (data.code === 400) {
+    notification.error({
+      message: '参数检验失败',
+      description: data.message
+    })
+  }
   if (data.code === 403) {
     notification.error({
       message: '权限不足',

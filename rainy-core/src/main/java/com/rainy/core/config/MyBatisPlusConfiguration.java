@@ -1,9 +1,15 @@
 package com.rainy.core.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.handler.TableNameHandler;
+import com.baomidou.mybatisplus.extension.plugins.inner.DynamicTableNameInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.rainy.common.constant.CharConstants;
+import com.rainy.common.util.DateUtils;
+import com.rainy.common.util.WebUtils;
 import com.rainy.core.satoken.SaTokenUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.mybatis.spring.annotation.MapperScan;
@@ -11,6 +17,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * mybatis 相关配置
@@ -19,7 +27,7 @@ import java.time.LocalDateTime;
  * @date 2022/3/28 20:47
  */
 @Configuration
-@MapperScan(value = {"com.rainy.sys.mapper"})
+@MapperScan(value = {"com.rainy.sys.mapper", "com.rainy.power.mapper"})
 public class MyBatisPlusConfiguration {
 
     private static final String CREATE_TIME_FIELD = "createTime";
@@ -38,7 +46,19 @@ public class MyBatisPlusConfiguration {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        //  分页插件
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+
+        // 动态表名插件
+        DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
+        dynamicTableNameInnerInterceptor.setTableNameHandler((sql, tableName) -> {
+            if (tableName.contains(CharConstants.BIG_PARANTHESES)) {
+                int year = DateUtils.getYear();
+                return StrUtil.format(tableName, CharConstants.UNDERSCORE + year);
+            }
+            return tableName;
+        });
+        interceptor.addInnerInterceptor(dynamicTableNameInnerInterceptor);
         return interceptor;
     }
 

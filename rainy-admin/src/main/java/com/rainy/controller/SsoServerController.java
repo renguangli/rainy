@@ -118,6 +118,8 @@ public class SsoServerController {
         // 校验签名
         SaTokenUtils.checkSsoSign();
         User user = userService.getById(SaTokenUtils.getUserId(loginId));
+        user.setPermissions(StpUtil.getPermissionList());
+        user.setRoles(StpUtil.getRoleList());
         return Result.ok(user.convertFor());
     }
 

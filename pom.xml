@@ -15,6 +15,7 @@
         <module>rainy-core</module>
         <module>rainy-sys</module>
         <module>rainy-task</module>
+        <module>rainy-power-forecast</module>
         <module>rainy-admin</module>
     </modules>
 
@@ -74,6 +75,11 @@
             <dependency>
                 <groupId>com.rainy</groupId>
                 <artifactId>rainy-task</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rainy</groupId>
+                <artifactId>rainy-power-forecast</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -1,11 +1,11 @@
 package com.rainy.controller;
 
 import com.rainy.common.Result;
+import com.rainy.common.dto.IdNameDto;
 import com.rainy.sys.entity.Resource;
 import com.rainy.sys.service.ResourceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +25,21 @@ public class ResourceController {
     public Result listTree(){
         List<Resource> list = resourceService.listTree();
         return Result.ok(list);
+    }
+
+    @PostMapping("/resource")
+    public Result save(@RequestBody Resource resource){
+        return Result.ok(resourceService.save(resource));
+    }
+
+    @PutMapping("/resource")
+    public Result update(@RequestBody Resource resource){
+        return Result.ok(resourceService.updateById(resource));
+    }
+
+    @DeleteMapping("/resource")
+    public Result remove(@RequestBody IdNameDto dto){
+        return Result.ok(resourceService.removeById(dto.getId()));
     }
 
 }

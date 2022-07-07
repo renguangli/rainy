@@ -4,35 +4,41 @@
       <a-card>
         <div>
           <a-form layout="inline">
-            <a-form-item label="当前场站">
-              <a-tree-select
-                v-decorator="['parentId', {rules: [{ required: true, message: '请选择父级组织！' }]}]"
-                style="width: 100%"
-                :dropdownStyle="{ maxHeight: '300px', overflow: 'auto' }"
-                :treeData="orgTree"
-                :replace-fields="replaceFields"
-                placeholder="请选择场站"
-                treeDefaultExpandAll
-              >
-              </a-tree-select>
-            </a-form-item>
-            <a-form-item label="预测时间">
-              <a-date-picker v-model="queryParam.forecastDate" @change="onChange" />
-            </a-form-item>
-<!--            <a-form-item label="预测时间">-->
-<!--              <a-range-picker @change="onChange" />-->
-<!--            </a-form-item>-->
-            <a-form-item>
-              <a-button type="primary">查询</a-button>
-              <a-button style="margin-left: 8px">重置</a-button>
-              <a-button @click="$refs.editor.open()" type="dashed" style="margin-left: 8px">手动调整</a-button>
-            </a-form-item>
-            <a-form-item style="float: right" label="更新时间">
-              2022-10-01 00:00:00
-            </a-form-item>
+            <a-row :gutter="24">
+              <a-col :md="18" :sm="24">
+                <a-form-item
+                  label="当前场站">
+                  <a-tree-select
+                    v-model="queryParam.stationCode"
+                    style="min-width: 150px"
+                    :dropdownStyle="{ maxHeight: '300px', overflow: 'auto' }"
+                    :treeData="treeData"
+                    :replace-fields="replaceFields"
+                    placeholder="请选择场站"
+                    treeDefaultExpandAll
+                  >
+                  </a-tree-select>
+                </a-form-item>
+                <a-form-item label="预测时间">
+                  <a-date-picker valueFormat="YYYY-MM-DD" v-model="queryParam.date" @change="onChange" />
+                </a-form-item>
+                <a-form-item>
+                  <a-button @click="list" type="primary">查询</a-button>
+                  <a-button @click="queryParam = {}" style="margin-left: 8px">重置</a-button>
+                  <a-button @click="$refs.editor.open(option.xAxis.data, option.series[0].data, option.series[1].data)" type="dashed" style="margin-left: 8px">手动调整</a-button>
+                </a-form-item>
+              </a-col>
+<!--              <a-col :md="6" :sm="24">-->
+<!--                <a-form-item style="float: right" label="更新时间">-->
+<!--                  2022-10-01 00:00:00-->
+<!--                </a-form-item>-->
+<!--              </a-col>-->
+            </a-row>
           </a-form>
         </div>
-        <v-chart class="chart" :option="option" :autoresize="true" />
+        <a-spin :spinning="spinning">
+          <v-chart class="chart" :option="option" :autoresize="true" />
+        </a-spin>
       </a-card>
       <editor ref="editor" @ok="handleOk"></editor>
     </a-col>
@@ -53,6 +59,8 @@ import {
 import VChart, { THEME_KEY } from 'vue-echarts'
 import editor from './PowerForecastEdit'
 import { ListTree } from '@/api/resource'
+import { List } from '@/api/powerForecast'
+import moment from 'moment'
 
 use([
   CanvasRenderer,
@@ -76,11 +84,13 @@ export default {
   data () {
     return {
       visible: false,
-      orgTree: [],
-      replaceFields: { title: 'name', key: 'id', value: 'id' },
+      treeData: [],
+      replaceFields: { title: 'name', key: 'id', value: 'code' },
       queryParam: {
-        forecastDate: '2022-02-01'
+        date: moment().format('YYYY-MM-DD'),
+        stationCode: 'dxdd01'
       },
+      spinning: false,
       option: {
         title: {
           text: ''
@@ -102,25 +112,25 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+          data: []
         },
         yAxis: {
           type: 'value'
         },
         series: [
           {
-            name: 'Email',
+            name: '预测功率',
             type: 'line',
-            symbol: 'none',
+            // symbol: 'none',
             smooth: true,
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: []
           },
           {
-            name: 'Union Ads',
+            name: '预测功率(调整后)',
             type: 'line',
-            symbol: 'none',
+            // symbol: 'none',
             smooth: true,
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: []
           }
         ]
       }
@@ -128,22 +138,41 @@ export default {
   },
   mounted () {
     this.listTree()
+    this.list()
   },
   methods: {
     handleOk () {
 
     },
+    list () {
+      this.spinning = true
+      List(this.queryParam).then(res => {
+        const data = res.data
+        var x = []
+        var y1 = []
+        var y2 = []
+        data.forEach(re => {
+          x.push(re.datetime)
+          y1.push(re.value)
+          y2.push(re.adjustValue)
+        })
+        this.option.xAxis.data = x
+        this.option.series[0].data = y1
+        this.option.series[1].data = y2
+      }).finally(() => {
+        this.spinning = false
+      })
+    },
     listTree () {
       ListTree().then(res => {
-        this.orgTree = res.data
+        this.treeData = res.data
       })
     },
     hide () {
-      console.log(111)
       this.visible = false
     },
-    onChange (p) {
-      console.log(p)
+    onChange () {
+      this.list()
     }
   }
 }

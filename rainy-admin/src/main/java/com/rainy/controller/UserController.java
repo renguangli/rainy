@@ -1,5 +1,6 @@
 package com.rainy.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
@@ -59,7 +60,10 @@ public class UserController {
     @GetMapping("/userinfo")
     public Result userinfo() {
         int userId = SaTokenUtils.getUserId();
-        return Result.ok(userService.getById(userId));
+        User user = userService.getById(userId);
+        user.setPermissions(StpUtil.getPermissionList());
+        user.setRoles(StpUtil.getRoleList());
+        return Result.ok(user);
     }
 
     @ApiImplicitParams({

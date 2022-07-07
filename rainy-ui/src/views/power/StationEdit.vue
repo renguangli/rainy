@@ -94,19 +94,20 @@
     },
     methods: {
       // 打开页面初始化
-      open (flag, record, orgId) {
+      open (flag, record) {
         this.visible = true
-        this.getOrgTree()
+        this.getResourcesTree()
         this.flag = flag
         if (flag !== 0) {
           this.form.getFieldDecorator('id', { initialValue: record.id })
           this.form.getFieldDecorator('parentId', { initialValue: record.parentId })
           this.form.getFieldDecorator('name', { initialValue: record.name })
+          this.form.getFieldDecorator('code', { initialValue: record.code })
           this.form.getFieldDecorator('description', { initialValue: record.description })
           this.form.getFieldDecorator('sort', { initialValue: record.sort })
         } else {
           this.form.getFieldDecorator('sort', { initialValue: 99 })
-          this.form.getFieldDecorator('parentId', { initialValue: orgId })
+          this.form.getFieldDecorator('parentId', { initialValue: 0 })
         }
       },
       handleOk () {
@@ -129,7 +130,7 @@
         this.confirmLoading = false
         this.visible = false
       },
-      getOrgTree () {
+      getResourcesTree () {
         this.formLoading = true
         ListTree().then(res => {
           if (res.success) {

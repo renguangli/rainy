@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-
 @ConfigurationProperties(prefix = "async.task.executor")
 public class AsyncTaskExecutorProperties {
 

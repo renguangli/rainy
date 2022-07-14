@@ -52,7 +52,7 @@ public class MyBatisPlusConfiguration {
         // 动态表名插件
         DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
         dynamicTableNameInnerInterceptor.setTableNameHandler((sql, tableName) -> {
-            if (tableName.contains(CharConstants.BIG_PARANTHESES)) {
+            if (tableName.contains(CharConstants.BRACES)) {
                 int year = DateUtils.getYear();
                 return StrUtil.format(tableName, CharConstants.UNDERSCORE + year);
             }

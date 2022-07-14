@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -34,13 +35,16 @@ public class TaskLogAspect {
      */
     @Around("execution(public * com.rainy.job..*.*(..))")
     public Object saveTaskLog(ProceedingJoinPoint pjp) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         TaskLog taskLog = buildTaskLog(pjp);
         long start = System.currentTimeMillis();
         Object result = null;
         try {
             result = pjp.proceed(pjp.getArgs());
             taskLog.setSuccess(true);
-            taskLog.setProcessTime(System.currentTimeMillis() - start);
+            stopWatch.stop();
+            taskLog.setProcessTime(stopWatch.getTotalTimeMillis());
         } catch (Throwable e) {
             log.error("定时任务[{}]执行失败：{}", taskLog.getName(), e.getMessage(), e);
             taskLog.setSuccess(false);

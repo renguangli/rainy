@@ -19,6 +19,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -53,6 +54,8 @@ public class LogAspect {
      */
     @Around(OPERATION_LOG_POINTCUT)
     public Object printMethodExecuteTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         Object result = null;
         // 下线自己时，在下线之前获取用户名
         String username = SaTokenUtils.getUsername();
@@ -67,7 +70,8 @@ public class LogAspect {
             opLog.setErrorMessage(ThrowableUtils.toString(e));
             throw e;
         } finally {
-            opLog.setProcessTime(System.currentTimeMillis() - startTime);
+            stopWatch.stop();
+            opLog.setProcessTime(stopWatch.getTotalTimeMillis());
             this.saveLog(joinPoint, result, opLog);
         }
         return result;

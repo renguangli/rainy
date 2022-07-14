@@ -6,6 +6,7 @@ import com.rainy.common.util.DateUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_app")
-public class App {
+public class App implements Serializable {
+
+    private static final long serialVersionUID = -2546234898051541106L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;

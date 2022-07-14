@@ -20,6 +20,8 @@ import java.time.LocalDateTime;
 @TableName("t_dict_item")
 public class DictItem implements Serializable {
 
+    private static final long serialVersionUID = -2797060251921436036L;
+
     @ApiModelProperty("主键id")
     @TableId(type = IdType.AUTO)
     private Integer id;

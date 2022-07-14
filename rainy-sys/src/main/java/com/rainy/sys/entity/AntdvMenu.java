@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Data
 public class AntdvMenu implements Serializable {
 
-    private static final long serialVersionUID = -6959727250486298083L
-            ;
+    private static final long serialVersionUID = -6959727250486298083L;
+
     @ApiModelProperty("主键id")
     private Integer id;
     @ApiModelProperty("父id")

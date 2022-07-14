@@ -15,6 +15,10 @@ public interface CharConstants {
     String comma = ",";
     String DOT = ".";
     String UNDERSCORE = "_";
-    String BIG_PARANTHESES = "{}";
-
+    String PERCENT_SIGN = "%";
+    String HASHTAG = "#";
+    String BRACES = "{}";
+    String PARENTHESES_PREFIX = "(";
+    String PARENTHESES_SUFFIX = ")";
+    String BRACKETS = "[]";
 }

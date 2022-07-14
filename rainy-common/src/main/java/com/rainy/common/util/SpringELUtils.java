@@ -1,6 +1,7 @@
 package com.rainy.common.util;
 
 
+import com.rainy.common.constant.CharConstants;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
@@ -30,7 +31,7 @@ public class SpringELUtils {
                 context.setVariable(parameterName, args[i ++]);
             }
         }
-        if (spELStr.contains("#")) {
+        if (spELStr.contains(CharConstants.HASHTAG)) {
             return expressionParser.parseExpression(spELStr)
                     .getValue(context, String.class);
         }

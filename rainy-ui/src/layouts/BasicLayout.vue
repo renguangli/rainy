@@ -2,7 +2,7 @@
   <pro-layout
     :menus="menus"
     :collapsed="collapsed"
-    :collapseWidth="32"
+    :collapseWidth="collapseWidth"
     :mediaQuery="query"
     :isMobile="isMobile"
     :handleMediaQuery="handleMediaQuery"
@@ -101,6 +101,7 @@ export default {
       menus: [],
       // 侧栏收起状态
       collapsed: this.$store.getters.sideCollapsed,
+      collapseWidth: 32,
       title: this.$store.getters.title,
       logo: this.$store.getters.logo,
       settings: {

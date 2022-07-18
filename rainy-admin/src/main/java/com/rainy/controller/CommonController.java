@@ -65,6 +65,7 @@ public class CommonController {
         data.put("config", config);
         // 应用
         QueryWrapper<App> appQw = new QueryWrapper<>();
+        appQw.eq("status", DictCodeConstants.APP_STATUS_ENABLE);
         appQw.select("name", "code");
         List<App> list = appService.list(appQw);
         data.put("apps", list);

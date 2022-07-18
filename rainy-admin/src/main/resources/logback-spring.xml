@@ -32,7 +32,6 @@
 
     <logger name="com.rainy.sys.mapper" level="debug" />
     <logger name="springfox.documentation" level="error" />
-    <logger name="net.hasor" level="off" />
     <logger name="com.anji.captcha" level="off" />
 
     <root level="INFO">

@@ -4,7 +4,9 @@ const api = {
   List: '/apps',
   Update: '/app',
   BatchDel: '/apps',
-  Export: '/apps/export'
+  Export: '/apps/export',
+  Disable: '/app/disable',
+  Enable: '/app/enable'
 }
 
 export function List (parameter) {
@@ -51,6 +53,28 @@ export function BatchDel (parameter) {
 export function Edit (parameter) {
   return axios({
     url: api.Update,
+    method: method.PUT,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function Disable (parameter) {
+  return axios({
+    url: api.Disable,
+    method: method.PUT,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function Enable (parameter) {
+  return axios({
+    url: api.Enable,
     method: method.PUT,
     data: parameter,
     headers: {

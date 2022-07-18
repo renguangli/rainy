@@ -24,19 +24,28 @@
           <a-input placeholder="请输入公告标题" v-decorator="['title',{rules: [{required: true, min: 1, message: '请输入公告标题！'}]}]" />
         </a-form-item>
         <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="通知人"
-        >
-          <a-input placeholder="请输入通知人" style="width: 100%" v-decorator="['userId', {rules: [{required: true, message: '请输入通知人！'}]}]" :min="1" :max="10000" />
-        </a-form-item>
-        <a-form-item
           label="公告内容"
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           has-feedback
         >
-          <WangEditor ref="editor" :value="content" @change="handleChange"></WangEditor>
+          <WangEditor ref="editor" :value="content"></WangEditor>
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="通知人"
+        >
+          <a-transfer
+            :data-source="mockData"
+            show-search
+            :filter-option="filterOption"
+            :target-keys="targetKeys"
+            :render="item => item.title"
+            @change="handleChange"
+            @search="handleSearch"
+          />
+<!--          <a-input placeholder="请输入通知人" style="width: 100%" v-decorator="['userId', {rules: [{required: true, message: '请输入通知人！'}]}]" :min="1" :max="10000" />-->
         </a-form-item>
       </a-form>
     </a-spin>
@@ -66,12 +75,14 @@
         formLoading: false,
         confirmLoading: false,
         content: '',
+        mockData: [],
+        targetKeys: [],
         form: this.$form.createForm(this),
         flag: 0
       }
     },
     mounted () {
-
+      this.getMock()
     },
     methods: {
       // 打开页面初始化
@@ -107,9 +118,6 @@
           }
         })
       },
-      handleChange (content) {
-        // this.content = content
-      },
       handleCancel () {
         this.form.resetFields()
         this.confirmLoading = false
@@ -141,6 +149,34 @@
         }).finally((res) => {
           this.confirmLoading = false
         })
+      },
+      getMock () {
+        const targetKeys = []
+        const mockData = []
+        for (let i = 0; i < 20; i++) {
+          const data = {
+            key: i.toString(),
+            title: `content${i + 1}`,
+            description: `description of content${i + 1}`,
+            chosen: Math.random() * 2 > 1
+          }
+          if (data.chosen) {
+            targetKeys.push(data.key)
+          }
+          mockData.push(data)
+        }
+        this.mockData = mockData
+        this.targetKeys = targetKeys
+      },
+      filterOption (inputValue, option) {
+        return option.description.indexOf(inputValue) > -1
+      },
+      handleChange (targetKeys, direction, moveKeys) {
+        console.log(targetKeys, direction, moveKeys)
+        this.targetKeys = targetKeys
+      },
+      handleSearch (dir, value) {
+        console.log('search:', dir, value)
       }
     }
   }

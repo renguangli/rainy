@@ -30,7 +30,8 @@ public class PowerForecast {
     @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD)
     private LocalDate date;
 
-    @JsonFormat(pattern = DateUtils.MM_DD_HH_MM)
+    @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
+    @DateTimeFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)
     private LocalDateTime datetime;
 
     private Double value;

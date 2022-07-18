@@ -35,7 +35,7 @@
         </a-form-item>
       </a-form>
     </div>
-    <v-chart ref="chart" class="chart" :option="option" />
+    <v-chart ref="chart" class="chart" :option="option" @click="singleAdjust" />
   </a-modal>
 </template>
 
@@ -45,6 +45,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
+import { Edit } from '@/api/powerForecast'
 
 use([
   CanvasRenderer,
@@ -109,19 +110,33 @@ export default {
       visible: false,
       formLoading: false,
       confirmLoading: false,
-      data: []
+      powerForecasts: []
     }
   },
   mounted () {
   },
   methods: {
     // 打开页面初始化
-    open (x, y1, y2) {
+    open (data) {
       this.visible = true
+      this.powerForecasts = data
+      const x = []
+      const y1 = []
+      const y2 = []
+      data.forEach(re => {
+        x.push(re.datetime)
+        y1.push(re.value)
+        y2.push(re.value)
+        // y2.push(re.adjustValue)
+      })
       this.option.xAxis.data = x
       this.option.series[0].data = y1
       this.option.series[1].data = y2
-      this.data = this.copyArray(this.option.series[1].data)
+    },
+    singleAdjust (param) {
+      console.log(param.value)
+      console.log(param.dataIndex)
+      console.log(param)
     },
     adjust () {
       // 判断是上调还是下调
@@ -130,7 +145,7 @@ export default {
         percentage = 1 - this.value / 100
       }
       // 调整
-      const data = this.data.slice(0)
+      const data = this.getValues()
       for (const i in data) {
         data[i] = data[i] * percentage
       }
@@ -138,18 +153,39 @@ export default {
       this.$refs.chart.setOption(this.option)
     },
     recover () {
-      this.option.series[1].data = this.data
+      this.option.series[1].data = this.getValues()
+      this.value = 0
       this.$refs.chart.setOption(this.option)
     },
-    copyArray (arr) {
-      return arr.slice(0)
+    getValues () {
+      const data = []
+      this.powerForecasts.forEach(re => {
+        data.push(re.value)
+        // y2.push(re.adjustValue)
+      })
+      return data
     },
     handleOk () {
-     this.handleCancel()
+      const data = this.option.series[1].data
+      for (let i = 0; i < data.length; i++) {
+        this.powerForecasts[i].adjustValue = data[i].toFixed(4)
+      }
+      Edit(this.powerForecasts).then(res => {
+        if (res.success) {
+          this.$message.success('调整成功')
+          this.$emit('ok')
+          this.handleCancel()
+        } else {
+          this.$message.error('调整失败：' + res.message)
+        }
+      })
     },
     handleCancel () {
       this.confirmLoading = false
       this.visible = false
+      this.data = []
+      this.powerForecasts = []
+      this.value = 0
     }
   }
 }

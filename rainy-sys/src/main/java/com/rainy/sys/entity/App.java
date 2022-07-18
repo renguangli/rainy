@@ -39,6 +39,9 @@ public class App implements Serializable {
     @ApiModelProperty("描述")
     private String description;
 
+    @ApiModelProperty("应用状态：0启用，1禁用")
+    private Integer status;
+
     @ApiModelProperty("创建时间")
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(pattern = DateUtils.YYYY_MM_DD_HH_MM_SS)

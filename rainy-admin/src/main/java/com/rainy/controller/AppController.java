@@ -6,6 +6,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.rainy.common.Result;
 import com.rainy.common.annotation.SysLog;
+import com.rainy.common.constant.DictCodeConstants;
 import com.rainy.common.dto.IdNameDto;
 import com.rainy.common.dto.IdNamesDto;
 import com.rainy.common.enums.OperationType;
@@ -94,6 +95,26 @@ public class AppController {
         ValidateUtils.isTrue(nameExists, "应用[{}}]已存在！", app.getName());
         boolean codeExists = appService.exists(app.getId(),"code", app.getCode());
         ValidateUtils.isTrue(codeExists, "应用编码[{}]已存在！", app.getCode());
+        return Result.ok(appService.updateById(app));
+    }
+
+    @ApiOperation("禁用应用")
+    @SysLog(module = "应用管理", operationTypeCode = OperationType.UPDATE, detail = "'禁用了应用[' + #dto.name + '].'")
+    @PutMapping("/app/disable")
+    public Result disable(@Valid @RequestBody IdNameDto dto){
+        App app = new App();
+        app.setId(dto.getId());
+        app.setStatus(DictCodeConstants.APP_STATUS_DISABLE);
+        return Result.ok(appService.updateById(app));
+    }
+
+    @ApiOperation("启用应用")
+    @SysLog(module = "应用管理", operationTypeCode = OperationType.UPDATE, detail = "'启用了应用[' + #dto.name + '].'")
+    @PutMapping("/app/enable")
+    public Result enable(@Valid @RequestBody IdNameDto dto){
+        App app = new App();
+        app.setId(dto.getId());
+        app.setStatus(DictCodeConstants.APP_STATUS_ENABLE);
         return Result.ok(appService.updateById(app));
     }
 

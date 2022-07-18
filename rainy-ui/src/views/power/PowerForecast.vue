@@ -25,7 +25,7 @@
                 <a-form-item>
                   <a-button @click="list" type="primary">查询</a-button>
                   <a-button @click="queryParam = {}" style="margin-left: 8px">重置</a-button>
-                  <a-button @click="$refs.editor.open(option.xAxis.data, option.series[0].data, option.series[1].data)" type="dashed" style="margin-left: 8px">手动调整</a-button>
+                  <a-button @click="$refs.editor.open(powerForecasts)" type="dashed" style="margin-left: 8px">手动调整</a-button>
                 </a-form-item>
               </a-col>
 <!--              <a-col :md="6" :sm="24">-->
@@ -84,13 +84,14 @@ export default {
   data () {
     return {
       visible: false,
-      treeData: [],
+      spinning: false,
       replaceFields: { title: 'name', key: 'id', value: 'code' },
+      treeData: [],
       queryParam: {
         date: moment().format('YYYY-MM-DD'),
         stationCode: 'dxdd01'
       },
-      spinning: false,
+      powerForecasts: [],
       option: {
         title: {
           text: ''
@@ -142,12 +143,13 @@ export default {
   },
   methods: {
     handleOk () {
-
+      this.list()
     },
     list () {
       this.spinning = true
       List(this.queryParam).then(res => {
         const data = res.data
+        this.powerForecasts = res.data
         var x = []
         var y1 = []
         var y2 = []

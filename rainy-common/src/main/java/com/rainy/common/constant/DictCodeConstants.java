@@ -21,4 +21,9 @@ public interface DictCodeConstants {
     String CONFIG_CATEGORY_SSO = "SA_SSO";
     String CONFIG_CATEGORY_FRONT = "front";
 
+    /** app应用状态，启用 */
+    int APP_STATUS_ENABLE = 0;
+    /** app应用状态，禁用 */
+    int APP_STATUS_DISABLE = 1;
+
 }

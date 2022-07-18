@@ -44,12 +44,39 @@
           @exportExcel="exportExcel"
         />
       </template>
+      <span slot="status" slot-scope="text">
+        <a-tag v-if="text == 0" color="#87d068">
+          {{ 'SYS_ENABLE_DISABLE' | dictItemValue(text) }}
+        </a-tag>
+        <a-tag v-if="text == 1" color="#f50">
+          {{ 'SYS_ENABLE_DISABLE' | dictItemValue(text) }}
+        </a-tag>
+      </span>
       <span slot="operation" slot-scope="text, record">
-        <a @click="$refs.editor.open(1, record)">编辑</a>
-        <a-divider type="vertical"/>
-        <a-popconfirm placement="topRight" :title="'确定删除应用[' + record.name + ']吗?'" @confirm="del(record)">
-          <a>删除</a>
-        </a-popconfirm>
+        <template>
+          <a-popconfirm v-if="record.status == 0" placement="topRight" :title="'确定禁用应用[' + record.name + ']吗?'" @confirm="disable(record)">
+            <a>禁用</a>
+          </a-popconfirm>
+          <a-popconfirm v-if="record.status == 1" placement="topRight" :title="'确定启用应用[' + record.name + ']吗?'" @confirm="enable(record)">
+            <a>启用</a>
+          </a-popconfirm>
+          <a-divider type="vertical"/>
+          <a-dropdown>
+            <a class="ant-dropdown-link">
+              更多 <a-icon type="down" />
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a @click="$refs.editor.open(1, record)">编辑</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a-popconfirm placement="topRight" :title="'确定删除应用[' + record.name + ']吗?'" @confirm="del(record)">
+                  <a>删除</a>
+                </a-popconfirm>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </template>
       </span>
     </s-table>
     <editor ref="editor" @ok="handleOk"></editor>
@@ -60,7 +87,7 @@
 
 import { STable, ExportExcel } from '@/components'
 import editor from './AppEdit'
-import { List, Del, BatchDel, Export } from '@/api/app'
+import { List, Del, Disable, Enable, BatchDel, Export } from '@/api/app'
 
 export default {
   name: 'App',
@@ -93,6 +120,10 @@ export default {
           title: '描述',
           dataIndex: 'description',
           ellipsis: true
+        }, {
+          title: '状态',
+          dataIndex: 'status',
+          scopedSlots: { customRender: 'status' }
         }, {
           title: '创建时间',
           dataIndex: 'createTime',
@@ -143,6 +174,34 @@ export default {
           this.handleOk()
         } else {
           this.$message.error('删除失败：' + res.message)
+        }
+      })
+    },
+    disable (record) {
+      const param = {
+        id: record.id,
+        name: record.name
+      }
+      Disable(param).then(res => {
+        if (res.success) {
+          this.$message.success('禁用成功')
+          this.handleOk()
+        } else {
+          this.$message.error('禁用失败：' + res.message)
+        }
+      })
+    },
+    enable (record) {
+      const param = {
+        id: record.id,
+        name: record.name
+      }
+      Enable(param).then(res => {
+        if (res.success) {
+          this.$message.success('启用成功')
+          this.handleOk()
+        } else {
+          this.$message.error('启用失败：' + res.message)
         }
       })
     },

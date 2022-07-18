@@ -3,15 +3,16 @@ package com.rainy.power.controller;
 import cn.hutool.core.io.FileUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rainy.common.Result;
+import com.rainy.common.annotation.SysLog;
+import com.rainy.common.enums.OperationType;
+import com.rainy.common.util.jdbc.ColumnInfo;
 import com.rainy.power.entity.PowerForecast;
+import com.rainy.power.mapper.DatabaseManager;
 import com.rainy.power.service.PowerForecastService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,10 +37,11 @@ public class PowerForecastController {
         return Result.ok(list);
     }
 
-    @PostMapping("/powerForecasts")
-    public Result savePowerForecast(String stationCode, LocalDate date){
-        FileUtil.readLines("docs/1897f0078a05fb0ccba8b9f4e7e1c054.rb", Charset.forName("GBK"));
-        List<PowerForecast> list = powerForecastService.list();
-        return Result.ok(list);
+    @SysLog(module = "功率预测", operationTypeCode = OperationType.UPDATE, detail = "调整了功率预测")
+    @PutMapping("/powerForecasts")
+    public Result updatePowerForecasts(@RequestBody List<PowerForecast> powerForecasts){
+        boolean result = powerForecastService.updateBatchById(powerForecasts);
+        return Result.ok(result);
     }
+
 }

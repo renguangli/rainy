@@ -11,9 +11,9 @@ const constantRouterComponents = {
   RouteView: RouteView,
   PageView: PageView,
   Iframe: Iframe,
-  '403': () => import(/* webpackChunkName: "error" */ '@/views/exception/403'),
-  '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404'),
-  '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500'),
+  '403': () => import(/* webpackChunkName: "error" */ '@/views/403'),
+  '404': () => import(/* webpackChunkName: "error" */ '@/views/404'),
+  '500': () => import(/* webpackChunkName: "error" */ '@/views/500'),
 
   // 你需要动态引入的页面组件
   Workplace: () => import('@/views/dashboard/Workplace'),
@@ -40,9 +40,9 @@ const constantRouterComponents = {
   ResultFail: () => import(/* webpackChunkName: "result" */ '@/views/result/Error'),
 
   // exception
-  Exception403: () => import(/* webpackChunkName: "fail" */ '@/views/exception/403'),
-  Exception404: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404'),
-  Exception500: () => import(/* webpackChunkName: "fail" */ '@/views/exception/500'),
+  Exception403: () => import(/* webpackChunkName: "fail" */ '@/views/403'),
+  Exception404: () => import(/* webpackChunkName: "fail" */ '@/views/404'),
+  Exception500: () => import(/* webpackChunkName: "fail" */ '@/views/500'),
 
   // account
   AccountCenter: () => import('@/views/account/center'),

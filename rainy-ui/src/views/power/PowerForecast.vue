@@ -1,46 +1,40 @@
 <template>
-  <a-row :gutter="48">
-    <a-col :md="24" :sm="24">
+  <a-row :gutter="24">
+    <a-col :md="5" :sm="24">
+      <a-card :bordered="false">
+        <a-tree
+          :treeData="treeData"
+          :show-line="true"
+          :replaceFields="replaceFields"
+          :expandedKeys="['shandong']"
+          :selectedKeys="[queryParam.stationCode]"
+          @select="handleTreeSelect"/>
+      </a-card>
+    </a-col>
+    <a-col :md="19" :sm="24">
       <a-card>
         <div>
           <a-form layout="inline">
-            <a-row :gutter="24">
-              <a-col :md="18" :sm="24">
-                <a-form-item
-                  label="当前场站">
-                  <a-tree-select
-                    v-model="queryParam.stationCode"
-                    style="min-width: 150px"
-                    :dropdownStyle="{ maxHeight: '300px', overflow: 'auto' }"
-                    :treeData="treeData"
-                    :replace-fields="replaceFields"
-                    placeholder="请选择场站"
-                    treeDefaultExpandAll
-                  >
-                  </a-tree-select>
-                </a-form-item>
-                <a-form-item label="预测时间">
-                  <a-date-picker valueFormat="YYYY-MM-DD" v-model="queryParam.date" @change="onChange" />
-                </a-form-item>
-                <a-form-item>
-                  <a-button @click="list" type="primary">查询</a-button>
-                  <a-button @click="queryParam = {}" style="margin-left: 8px">重置</a-button>
-                  <a-button @click="$refs.editor.open(powerForecasts)" type="dashed" style="margin-left: 8px">手动调整</a-button>
-                </a-form-item>
-              </a-col>
-<!--              <a-col :md="6" :sm="24">-->
-<!--                <a-form-item style="float: right" label="更新时间">-->
-<!--                  2022-10-01 00:00:00-->
-<!--                </a-form-item>-->
-<!--              </a-col>-->
-            </a-row>
+            <a-form-item label="预测时间">
+              <a-date-picker valueFormat="YYYY-MM-DD" v-model="queryParam.date" @change="onChange" />
+            </a-form-item>
+            <a-form-item>
+              <a-button @click="list" type="primary">查询</a-button>
+              <!-- <a-button @click="queryParam = {}" style="margin-left: 8px">重置</a-button> -->
+              <a-button @click="adjust()" style="margin-left: 8px">手动调整</a-button>
+              <a-button type="dashed" icon="download" style="margin-left: 8px">文件下载</a-button>
+            </a-form-item>
+            <a-form-item style="float: right">
+              <a-tag color="blue">更新时间</a-tag>
+              2022-10-01 00:00:00
+            </a-form-item>
           </a-form>
         </div>
         <a-spin :spinning="spinning">
           <v-chart class="chart" :option="option" :autoresize="true" />
         </a-spin>
+        <editor ref="editor" @ok="handleOk"></editor>
       </a-card>
-      <editor ref="editor" @ok="handleOk"></editor>
     </a-col>
   </a-row>
 </template>
@@ -85,7 +79,8 @@ export default {
     return {
       visible: false,
       spinning: false,
-      replaceFields: { title: 'name', key: 'id', value: 'code' },
+      replaceFields: { title: 'name', key: 'code', value: 'code' },
+      selectedKeys: [],
       treeData: [],
       queryParam: {
         date: moment().format('YYYY-MM-DD'),
@@ -99,15 +94,19 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
+        legend: {
+          left: 'right'
+        },
         grid: {
-          left: '0',
+          left: '1%',
           right: '1%',
           top: '10%',
+          bottom: '5%',
           containLabel: true
         },
         toolbox: {
           feature: {
-            saveAsImage: {}
+            // saveAsImage: {}
           }
         },
         xAxis: {
@@ -116,11 +115,14 @@ export default {
           data: []
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'MW',
+          min: 0,
+          max: 100
         },
         series: [
           {
-            name: '预测功率',
+            name: '预测功率(调整前)',
             type: 'line',
             // symbol: 'none',
             smooth: true,
@@ -154,10 +156,15 @@ export default {
         var y1 = []
         var y2 = []
         data.forEach(re => {
-          x.push(re.datetime)
+          x.push(moment(re.datetime).format('MM-DD HH:mm'))
           y1.push(re.value)
           y2.push(re.adjustValue)
         })
+        if (y1.length !== 0) {
+          this.option.yAxis.max = undefined
+        } else {
+          this.option.yAxis.max = 100
+        }
         this.option.xAxis.data = x
         this.option.series[0].data = y1
         this.option.series[1].data = y2
@@ -170,11 +177,23 @@ export default {
         this.treeData = res.data
       })
     },
+    handleTreeSelect (val) {
+      this.queryParam.stationCode = val[0]
+      this.selectedKeys = val
+      this.list()
+    },
     hide () {
       this.visible = false
     },
     onChange () {
       this.list()
+    },
+    adjust () {
+      if (this.powerForecasts.length === 0) {
+        this.$message.warning('无数据，功率预测无法调整！')
+      } else {
+        this.$refs.editor.open(this.powerForecasts)
+      }
     }
   }
 }

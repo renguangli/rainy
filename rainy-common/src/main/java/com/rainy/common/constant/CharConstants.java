@@ -11,7 +11,9 @@ public interface CharConstants {
     String EMPTY_STR = "";
     String COLON = ":";
     String NEW_LINE = "\n";
+    String TABS = "\t";
     String SLASH = "/";
+    String VERTICAL_LINE = "|";
     String comma = ",";
     String DOT = ".";
     String UNDERSCORE = "_";

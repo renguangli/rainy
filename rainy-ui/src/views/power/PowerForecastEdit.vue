@@ -46,6 +46,7 @@ import { LineChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent } from 'echarts/components'
 import VChart, { THEME_KEY } from 'vue-echarts'
 import { Edit } from '@/api/powerForecast'
+import moment from 'moment'
 
 use([
   CanvasRenderer,
@@ -76,8 +77,11 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
+        legend: {
+          left: 'right'
+        },
         grid: {
-          left: '0',
+          left: '1%',
           right: '1%',
           top: '10%',
           bottom: '0',
@@ -88,7 +92,10 @@ export default {
           data: []
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: 'MW',
+          min: 0,
+          max: 100
         },
         series: [
           {
@@ -124,16 +131,22 @@ export default {
       const y1 = []
       const y2 = []
       data.forEach(re => {
-        x.push(re.datetime)
+        x.push(moment(re.datetime).format('MM-DD HH:mm'))
         y1.push(re.value)
         y2.push(re.value)
         // y2.push(re.adjustValue)
       })
+      if (y1.length !== 0) {
+        this.option.yAxis.max = undefined
+      } else {
+        this.option.yAxis.max = 100
+      }
       this.option.xAxis.data = x
       this.option.series[0].data = y1
       this.option.series[1].data = y2
     },
     singleAdjust (param) {
+      alert(param.value)
       console.log(param.value)
       console.log(param.dataIndex)
       console.log(param)

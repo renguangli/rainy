@@ -48,7 +48,8 @@ import {
   notification,
   Tree,
   TreeSelect,
-  Transfer
+  Transfer,
+  Timeline
 } from 'ant-design-vue'
 import Viser from 'viser-vue'
 
@@ -105,6 +106,7 @@ Vue.use(Space)
 Vue.use(Tree)
 Vue.use(TreeSelect)
 Vue.use(Transfer)
+Vue.use(Timeline)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message

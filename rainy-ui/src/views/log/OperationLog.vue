@@ -3,12 +3,21 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="24">
-          <a-col :md="8" :sm="24">
+          <a-col :md="6" :sm="24">
             <a-form-item label="操作人">
               <a-input v-model="queryParam.username" placeholder="请输入操作人"/>
             </a-form-item>
           </a-col>
-          <a-col :md="8" :sm="24">
+          <a-col :md="6" :sm="24">
+            <a-form-item label="系统模块">
+              <a-select v-model="queryParam.module" placeholder="请选择系统模块" @select="$refs.table.refresh()">
+                <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_MODULE')" :value="item.value">
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="6" :sm="24">
             <a-form-item label="操作类型">
               <a-select v-model="queryParam.operationTypeCode" placeholder="请选择操作类型" @select="$refs.table.refresh()">
                 <a-select-option :key="item.value" v-for="item in $options.filters.dictItems('SYS_OPERATION_LOG_TYPE')" :value="item.value">
@@ -17,7 +26,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col v-if="!expand" :md="8" :sm="24">
+          <a-col v-if="!expand" :md="6" :sm="24">
             <span class="table-page-search-submitButtons">
               <a-button type="primary" @click="$refs.table.refresh()">查询</a-button>
               <a-button style="margin-left: 8px" @click="queryParam = {};$refs.table.refresh()">重置</a-button>

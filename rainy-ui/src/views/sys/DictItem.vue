@@ -158,7 +158,7 @@ export default {
       )
     },
     del (record) {
-      const param = { id: record.id, name: record.name }
+      const param = { id: record.id, name: record.value }
       Del(param).then(res => {
         if (res.success) {
           this.$message.success('删除成功')

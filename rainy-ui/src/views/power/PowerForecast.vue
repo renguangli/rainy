@@ -6,8 +6,9 @@
           :treeData="treeData"
           :show-line="true"
           :replaceFields="replaceFields"
-          :expandedKeys="['shandong']"
+          :expandedKeys="selectedKeys"
           :selectedKeys="[queryParam.stationCode]"
+          @expand="handleExpand"
           @select="handleTreeSelect"/>
       </a-card>
     </a-col>
@@ -84,7 +85,7 @@ export default {
       treeData: [],
       queryParam: {
         date: moment().format('YYYY-MM-DD'),
-        stationCode: 'dxdd01'
+          stationCode: 'dxdd01'
       },
       powerForecasts: [],
       option: {
@@ -175,12 +176,20 @@ export default {
     listTree () {
       ListTree().then(res => {
         this.treeData = res.data
+        this.treeData.forEach(r => {
+          this.selectedKeys.push(r.code)
+        })
       })
     },
     handleTreeSelect (val) {
-      this.queryParam.stationCode = val[0]
-      this.selectedKeys = val
+      if (val.length > 0) {
+        this.queryParam.stationCode = val[0]
+      }
       this.list()
+    },
+    handleExpand (val) {
+      this.selectedKeys = val
+      console.log(val)
     },
     hide () {
       this.visible = false
@@ -190,7 +199,7 @@ export default {
     },
     adjust () {
       if (this.powerForecasts.length === 0) {
-        this.$message.warning('无数据，功率预测无法调整！')
+        this.$message.warning('无数据')
       } else {
         this.$refs.editor.open(this.powerForecasts)
       }

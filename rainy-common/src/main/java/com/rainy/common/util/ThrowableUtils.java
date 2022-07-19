@@ -17,9 +17,9 @@ public class ThrowableUtils {
     public static String toString(Throwable e) {
         StringBuilder stackTrace = new StringBuilder();
         for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-            stackTrace.append(stackTraceElement).append(CharConstants.NEW_LINE);
+            stackTrace.append(stackTraceElement).append(CharConstants.LF);
         }
-        return e.getClass().getName() + CharConstants.COLON + e.getMessage() + CharConstants.NEW_LINE + stackTrace;
+        return e.getClass().getName() + CharConstants.COLON + e.getMessage() + CharConstants.LF + stackTrace;
     }
 
 }

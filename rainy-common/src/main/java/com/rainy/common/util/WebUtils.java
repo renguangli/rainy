@@ -1,15 +1,19 @@
 package com.rainy.common.util;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.github.xiaoymin.knife4j.core.util.StrUtil;
 import com.rainy.common.constant.CharConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -112,6 +116,15 @@ public final class WebUtils {
             throw new RuntimeException("非 web 上下文，无法获取 Request.");
         }
         return servletRequestAttributes.getRequest();
+    }
+
+    public static void download(HttpServletResponse response, String fileName, byte[] content) throws IOException {
+        String CONTENT_DISPOSITION_VALUE = "attachment;filename={}";
+        response.setContentType(ContentType.OCTET_STREAM.getValue());
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, StrUtil.format(CONTENT_DISPOSITION_VALUE, fileName));
+        try (ServletOutputStream out = response.getOutputStream()) {
+            out.write(content);
+        }
     }
 
 }

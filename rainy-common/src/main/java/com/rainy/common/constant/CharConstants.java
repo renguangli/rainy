@@ -10,7 +10,8 @@ public interface CharConstants {
 
     String EMPTY_STR = "";
     String COLON = ":";
-    String NEW_LINE = "\n";
+    String LF = "\n";
+    String CRLF = "\r\n";
     String TABS = "\t";
     String SLASH = "/";
     String VERTICAL_LINE = "|";
@@ -22,5 +23,4 @@ public interface CharConstants {
     String BRACES = "{}";
     String PARENTHESES_PREFIX = "(";
     String PARENTHESES_SUFFIX = ")";
-    String BRACKETS = "[]";
 }

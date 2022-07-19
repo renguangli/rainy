@@ -1,19 +1,19 @@
 <template>
-  <a-card>
+  <a-card :bordered="false">
     <a-row :gutter="24">
       <a-col :md="12" :sm="24">
-        <v-chart class="chart" :option="option" :autoresize="true" />
+        <v-chart class="chart-class" :option="option" :autoresize="true" />
       </a-col>
       <a-col :md="12" :sm="24">
-        <v-chart class="chart" :option="option2" :autoresize="true" />
+        <v-chart class="chart-class" :option="option2" :autoresize="true" />
       </a-col>
     </a-row>
     <a-row :gutter="24">
       <a-col :md="12" :sm="24">
-        <v-chart class="chart" :option="option3" :autoresize="true" />
+        <v-chart class="chart-class" :option="option3" :autoresize="true" />
       </a-col>
       <a-col :md="12" :sm="24">
-        <v-chart class="chart" :option="option4" :autoresize="true" />
+        <v-chart class="chart-class" :option="option4" :autoresize="true" />
       </a-col>
     </a-row>
   </a-card>
@@ -213,7 +213,7 @@ export default {
 }
 </script>
 <style>
-.chart {
+.chart-class {
   height: 250px;
 }
 </style>

@@ -22,7 +22,6 @@ public class ExcelUtils {
     private static final String EXCEL_CONTENT_TYPE = "application/vnd.ms-excel;charset=utf-8";
     private static final String CONTENT_DISPOSITION_VALUE = "attachment;filename={}";
 
-
     public static <T> void export(HttpServletResponse response, List<T> records, String fileName) throws IOException {
         response.setContentType(EXCEL_CONTENT_TYPE);
         // utf-8 编码

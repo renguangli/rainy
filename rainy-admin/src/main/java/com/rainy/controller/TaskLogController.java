@@ -26,7 +26,7 @@ import java.util.List;
  * @author renguangli
  * @date 2022/3/28 17:30
  */
-@Api(tags = "执行日志")
+@Api(tags = "定时任务执行日志")
 @RestController
 @RequiredArgsConstructor
 public class TaskLogController {
@@ -40,7 +40,7 @@ public class TaskLogController {
     })
     @ApiOperation("执行日志列表")
     @ApiOperationSupport(ignoreParameters = {"records", "orders", "total", "pages"})
-    @SysLog(module = "定时任务执行日志列表", operationTypeCode = OperationType.QUERY, detail = "'查询了定时任务执行日志列表第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
+    @SysLog(module = "定时任务", operationTypeCode = OperationType.QUERY, detail = "'查询了定时任务执行日志列表第' + #page.current + '页.每页' + #page.size + '条数据'", saved = false)
     @GetMapping("/taskLogs")
     public Result pageTaskLogs(PageInfo<TaskLog> page, String name, String group, Boolean success) {
         QueryWrapper<TaskLog> qw = new QueryWrapper<>();
@@ -55,7 +55,7 @@ public class TaskLogController {
     }
 
     @ApiOperation("定时任务执行日志列表导出")
-    @SysLog(module = "定时任务管理", operationTypeCode = OperationType.EXPORT, detail = "导出了定时任务执行日志列表", saved = false, paramSaved = false)
+    @SysLog(module = "定时任务", operationTypeCode = OperationType.EXPORT, detail = "导出了定时任务执行日志列表", saved = false, paramSaved = false)
     @GetMapping("/taskLogs/export")
     public void export(HttpServletResponse response) throws IOException {
         List<TaskLog> taskLogs = taskLogService.list();
@@ -63,20 +63,20 @@ public class TaskLogController {
     }
 
     @ApiOperation("删除执行日志")
-    @SysLog(module = "定时任务执行日志", operationTypeCode = OperationType.DELETE, detail = "'删除了定时任务执行日志[' + #id + '].'")
+    @SysLog(module = "定时任务", operationTypeCode = OperationType.DELETE, detail = "'删除了定时任务执行日志[' + #id + '].'")
     @DeleteMapping("/taskLog/{id:[0-9]+}")
     public Result removeTaskLog(@PathVariable Integer id) {
         return Result.ok(taskLogService.removeById(id));
     }
 
     @ApiOperation("批量删除执行日志")
-    @SysLog(module = "定时任务执行日志", operationTypeCode = OperationType.DELETE, detail = "'批量删除了定时任务执行日志[' + #ids + '].'")
+    @SysLog(module = "定时任务", operationTypeCode = OperationType.DELETE, detail = "'批量删除了定时任务执行日志[' + #ids + '].'")
     @DeleteMapping("/taskLogs")
     public Result batchRemoveTaskLog(@RequestBody List<Integer> ids) {
         return Result.ok(taskLogService.removeBatchByIds(ids));
     }
 
-    @ApiOperation("清空执行日志")
+    @ApiOperation("定时任务")
     @SysLog(module = "定时任务执行日志", operationTypeCode = OperationType.DELETE, detail = "清空了定时任务执行日志")
     @DeleteMapping("/taskLogs/clear")
     public Result clearTaskLog() {

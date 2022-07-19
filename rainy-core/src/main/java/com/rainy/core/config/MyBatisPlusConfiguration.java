@@ -27,7 +27,7 @@ import java.util.Random;
  * @date 2022/3/28 20:47
  */
 @Configuration
-@MapperScan(value = {"com.rainy.sys.mapper", "com.rainy.power.mapper"})
+@MapperScan(value = {"com.rainy.*.mapper"})
 public class MyBatisPlusConfiguration {
 
     private static final String CREATE_TIME_FIELD = "createTime";

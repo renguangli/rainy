@@ -19,7 +19,7 @@ public class SampleJob implements Job {
     @Override
     public void execute(JobExecutionContext jobCtx) throws JobExecutionException {
         try {
-            log.info("-------- 测试任务 --------");
+            log.debug("-------- 测试任务 --------");
             Thread.sleep(1111);
         } catch (InterruptedException e) {
             e.printStackTrace();

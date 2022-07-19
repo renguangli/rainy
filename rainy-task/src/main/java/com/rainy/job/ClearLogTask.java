@@ -34,12 +34,12 @@ public class ClearLogTask implements Job {
         int logRetentionDays = configService.getAsInt(ConfigConstants.LOG_RETENTION_DAYS);
         if (logRetentionDays > 0) {
             // 1.删除登录日志
-            log.info("-------- 删除登录日志,日志保留天数：{} --------", logRetentionDays);
+            log.debug("-------- 删除登录日志,日志保留天数：{} --------", logRetentionDays);
             QueryWrapper<LoginLog> qw = new QueryWrapper<>();
             qw.lt("datetime", LocalDateTime.now().minusDays(logRetentionDays));
             loginLogService.remove(qw);
             // 2.删除操作日志
-            log.info("-------- 删除操作日志,日志保留天数：{} --------", logRetentionDays);
+            log.debug("-------- 删除操作日志,日志保留天数：{} --------", logRetentionDays);
             QueryWrapper<OperationLog> opqw = new QueryWrapper<>();
             opqw.lt("datetime", LocalDateTime.now().minusDays(logRetentionDays));
             operationLogService.remove(opqw);

@@ -122,8 +122,7 @@ export default {
           dataIndex: 'datetime'
         }, {
           title: '下一次执行时间',
-          dataIndex: 'nextDatetime',
-          checked: false
+          dataIndex: 'nextDatetime'
         }, {
           title: '执行时长(毫秒)',
           dataIndex: 'processTime'
@@ -133,8 +132,7 @@ export default {
           scopedSlots: { customRender: 'success' }
         }, {
           title: '错误信息',
-          dataIndex: 'errorMessage',
-          checked: false
+          dataIndex: 'errorMessage'
         }, {
           title: '操作',
           scopedSlots: { customRender: 'operation' },
